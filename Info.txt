@@ -55,3 +55,5 @@ Implementacion del comando para cambiar Id de los sensores
 	Cambia ID Tolva
 	Lee ID Moduladoras
 13/1/2015
+inicializacion en el guit
+e puto tomame el cambio
