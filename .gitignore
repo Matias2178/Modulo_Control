@@ -1,0 +1,9 @@
+$cat .gitignore
+*.o
+*.lst
+*.hex
+*.cof
+*.map
+*.mcs
+*.mptags
+*.tagsrc

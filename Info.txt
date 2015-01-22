@@ -1,0 +1,57 @@
+VERSION 1r5 10/10/2014
+Versión inicial de pruebas para instalar en sembradora
+
+Version 1R6 20/10/2014
+Se modifico el check sum del modulo GPD
+Se habilito el checksum para ver si no tira velocidad en cero
+Se coloco que cada 1 segundo como minimo envie los datos de GPS
+
+Version 1R7 22/10/2014
+Se deshabilito el checksum de GPS (tiraba pocos datos)
+
+Version 1R8 23/10/2014
+Se incluyo un break para cuando termina de leer una sentencia de GPS para no pisar datos
+Se corrigio la falla en los address de la memoria I2C
+Se activo la transmicion del encabezado para pasar el nomdre del equipo
+
+Version 1R9 26/10/2014
+Cuando los sensores activos dejaron de sembrar mando los datos al tablero (antes mandaba estos datos cada 10 ciclos de lectura)
+Se incorporo para cada tipo de trama un contador distinto para los distintos case asi si entra un
+	dato anterior no cuelga el envio del dato siguiente (explicar mejor) 
+**Version para prueebas de Campo**
+Version 1R10
+Sensores.STS.B.TX_SF1 se activa despues de cada lectura (solucion de compromiso)
+la secuencia de transmicion de datos de los sensores se elimino Sensores.STS.B.TX_SF2 esta todo dentro de un solo case
+
+Version 1R11
+se elimino la sentencia 
+Proceso.B.fAdqSie1 = false;
+Proceso.B.fAdqSie2 = false;
+porque los buses de las sembradoras estan desbalanceados(32 sensores bus 1 3 ¿Sensores Bus2) y enviaban los datos cada 30 segundos
+realizando esta modificacion se envian cada 2 segundos
+
+Version 1 R12
+Se modifico la posicion del envio de datos primero se fija si no esta transmitiendo los datos de la moduladora
+sensores de rotacion, tolva y despues ejecuta la secuencia de tatos de los sensores.
+
+Version 1 R13
+Se puso en marcha el grabado de datos en la memoria I2C desde el frente
+Tambien se pueden leer los datos desde el frente
+Son 10 bancos de 512 bytes que estan a partir del 0x08000
+
+20/11/2014 - > ojo que el gps esta cambiado el puerto y la velocidad // Eliminado
+		-->Se implemento un comando nuevo para cambiar los pines del puerto del gps y la velocidad!!!!
+		
+Version 1 R14
+Se implemento comando para cambiar de pines y velocidad del puerto GPS
+La configuracion del GPS (pines y velocidad) se guarda en memoria y calga al inicio del programa
+
+Version 1 R15
+Implemento comando para el cambio de Nombre del equipo 
+Implementacion del comando para cambiar Id de los sensores
+	Cambia ID semilla / fertilizante
+	Cambia ID RPM (Rotacion)
+	Cambia ID Turbina (Velocidad Secundario)
+	Cambia ID Tolva
+	Lee ID Moduladoras
+13/1/2015
