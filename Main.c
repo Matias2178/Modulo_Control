@@ -131,7 +131,7 @@ int main (void)
 //	Configuracion del modulo GPS
 
 	EepromRDBuf(M_GPS_AUX,(unsigned char *)&MGPS,sizeof(struct _MGPS));
-	EepromRDBuf(M_INFD_SN_0,(unsigned char *)&SerialNum,sizeof(SerialNum));
+
 	if( MGPS.Puerto == 2)
 	{
 		RPINR18bits.U1RXR = RP11;	//Puerto Auxiliar
@@ -145,6 +145,8 @@ int main (void)
 			U1BRG = SCI_SetBaud(1);
 		}
 	}
+	Dly_1_MiliSec(12);
+	EepromRDBuf(M_INFD_SN_0,(unsigned char *)&SerialNum,sizeof(SerialNum));
 //-----------------------------------------------------------------------------
 //	Comienzo de la configuracion inicial del sistema
 

@@ -1655,7 +1655,9 @@ lFallaCargaNum:
 			strcpy(Nombre,"ECU5000-");
 			strcat(Nombre,Cmd);
 			EepromWRBuf(M_NOMBRE_SEMB,Nombre,20);
+			Dly_1_MiliSec(20);
 			EepromWRBuf(M_INFD_SN_0,(unsigned char *)&SN1,sizeof(SN1));
+			SerialNum = SN1;
 		}
 		EepromRDBuf(M_INFD_SN_0,(unsigned char *)&SN1,sizeof(SN1));	
 		P  = (unsigned char*) ultos10d(SN1,P);
