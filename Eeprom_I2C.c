@@ -66,12 +66,20 @@ void MemInit(void)
 {
 	int Control;
 	union _UInt32 LocUserDW00;
-
+	unsigned char Cmd[10];
 	
 	if(!EepromRDBuf(M_CHECK_FAB,(unsigned char *)&Control,sizeof(Control)))
 		return;
 	if(Control != k_MEM_CHECK)
 	{
+		memset(Cmd,0x00,10);
+		ultos(SerialNum,Cmd);
+		memset(Nombre,0x00,20);
+		strcpy(Nombre,"ECU5000-");
+		strcat(Nombre,Cmd);
+		EepromWRBuf(M_NOMBRE_SEMB,Nombre,20);
+		
+		
 		//Por defecto quedan habilitados todos los sensores
 		memset(&SenDtsHab,0xFF,sizeof(struct _SenDts));
 		LocUserDW00.BIT.B0 = EepromWRBuf(M_STS_HAB_SEN,(unsigned char *)&SenDtsHab,sizeof(struct _SenDts));

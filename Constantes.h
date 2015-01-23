@@ -26,8 +26,8 @@
 
 	#define SoftVerH	0
 	#define SoftVerL	1
-	#define Relase		15
-	#define FVerD		13
+	#define Relase		16
+	#define FVerD		23
 	#define FVerM		1	
 	#define FVerA		2015
 	
@@ -51,7 +51,7 @@
 	#define k_FinaTD	15		//Tiempo Stop deteccion (Fina / Fertilizante)
 	#define k_FinaCS	10		//Cantidad Start medicion	(Fina / Fertilizante)
 	
-	#define k_MEM_CHECK 3
+	#define k_MEM_CHECK 4
 	
 	#define Near __attribute__((near))
 	

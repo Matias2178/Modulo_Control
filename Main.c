@@ -131,6 +131,7 @@ int main (void)
 //	Configuracion del modulo GPS
 
 	EepromRDBuf(M_GPS_AUX,(unsigned char *)&MGPS,sizeof(struct _MGPS));
+	EepromRDBuf(M_INFD_SN_0,(unsigned char *)&SerialNum,sizeof(SerialNum));
 	if( MGPS.Puerto == 2)
 	{
 		RPINR18bits.U1RXR = RP11;	//Puerto Auxiliar

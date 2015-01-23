@@ -1654,6 +1654,7 @@ lFallaCargaNum:
 			memset(Nombre,0x00,20);
 			strcpy(Nombre,"ECU5000-");
 			strcat(Nombre,Cmd);
+			EepromWRBuf(M_NOMBRE_SEMB,Nombre,20);
 			EepromWRBuf(M_INFD_SN_0,(unsigned char *)&SN1,sizeof(SN1));
 		}
 		EepromRDBuf(M_INFD_SN_0,(unsigned char *)&SN1,sizeof(SN1));	
