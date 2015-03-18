@@ -186,10 +186,10 @@ int main (void)
 	SenDtsMod.FerB2 = 0x00000000;
 	
 	SenDtsHab.FerB1 = 0xFFFFFFFF;
-	
 	SenDtsHab.FerB2 = 0xFFFFFFFF;
 	SenDtsHab.SemB2 = 0xFFFFFFFF;
 	SenDtsHab.SemB1 = 0xFFFFFFFF;
+
 	CargaConfSen();	
 	CargaConfPer();
 ////-------------Lectura inicial de los sensores y perifericos--------------------

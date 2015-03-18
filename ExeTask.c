@@ -7,7 +7,7 @@
  *	DISEÑADO POR:	MNM 
  *	REVISION	:	1.00 - MAYO 2013
  *	
- *****************************************************************************/
+ re*****************************************************************************/
 
 	#include	"VarGlob.h"
 	#include 	"ES_Conf.h"
@@ -284,23 +284,27 @@ void ExeTask(void)
 		{
 			VSiembra = (unsigned int)(GPSdts.pos.vel*10);
 		}
-//		else
-//		{
-//		//Velocidad desde moduladora
-//			for(i=0;i<16;i++)
-//			{	
-//				if( Moduladora[i].Sts.B.Con && Moduladora[i].Vel)
-//				{
-//					VSiembra = Moduladora[i].Vel;
-//					break;
-//				}
-//			}	
-//		}
 		else
 		{
-			VSiembra = 80; 	//solo para probador estatico
-		//	VSiembra = 0;	//Para final
+		//Velocidad desde moduladora
+			for(i=0;i<16;i++)
+			{	
+				if( Moduladora[i].Sts.B.Con && Moduladora[i].Vel)
+				{
+					VSiembra = Moduladora[i].Vel;
+					break;
+				}
+				else 
+				{
+					VSiembra = 0;	
+				}
+			}	
 		}
+//		else
+//		{
+//		//	VSiembra = 80; 	//solo para probador estatico
+//			VSiembra = 0;	//Para final
+//		}
 //		VSiembra = (unsigned int)(GPSdts.pos.vel*10);	//solo para probador estatico
 //-----------------------------------------------------------------------------
 // Transferencia de datos para comunicacion
@@ -343,6 +347,11 @@ void ExeTask(void)
 		SW2_Tick0010();	
 		GPSdts.sys.tvid ++;	
 		GPSdts.sys.tvida = GPSdts.sys.tvid;
+//Si el tiempo de vida supera los diez segundos borro la velocidad
+		if( GPSdts.sys.tvid > 1000)
+		{
+			GPSdts.pos.vel = 0;
+		}		
 	}
 //*****************************************************************************
 //	Tareas que se ejecutan cada 100ms

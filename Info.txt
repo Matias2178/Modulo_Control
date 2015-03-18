@@ -57,3 +57,10 @@ Implementacion del comando para cambiar Id de los sensores
 13/1/2015
 inicializacion en el guit
 e puto tomame el cambio
+
+Version 1 R16
+	Correccion de respuesta del comando SAJ,CAD
+	Implementacion de comando de cambio de modo de trabajo
+Version 1 R17
+	Toma velocidad desde las moduladoras si no lee señal de GPS
+	Listo para ExpoAgro 2015

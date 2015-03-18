@@ -740,7 +740,7 @@ void TOL2DtsCom(void)
 	
 	for(i=0;i<16;i++)
 	{
-		DtsPerCom.TOL.Sts[i]= SenTol[i].Val ;
+		DtsPerCom.TOL.Sts[i]= SenTol[i].C.Val ;
 		if( SenTol[i].B.Det)
 			cont ++;
 	}

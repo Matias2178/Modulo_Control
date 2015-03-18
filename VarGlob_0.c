@@ -64,6 +64,10 @@
 	unsigned int BaudiosUART2;
 	unsigned int BaudiosUART3;
 	float Tension;
+	
+	unsigned long Aux1;
+	
+	
 //	float VelTest; //Borrar solo para pruebas
 //	char Comunic;
 	int VSiembra;

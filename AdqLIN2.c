@@ -482,7 +482,7 @@ TolLIN2:
 			for(;SenB2ID<16;)
 			{
 				Id = 0x48 + SenB2ID;
-			//Ojo que 	!Turbina[SenB1ID].Sts.B.Bus indica que esta en el bus 1
+			//Ojo que 	!Turbina[SenB2ID].Sts.B.Bus indica que esta en el bus 1
 			//Usar despues de que se configure el sensor
 				if(SenTol[SenB2ID].B.Bus)
 				{
@@ -494,7 +494,7 @@ TolLIN2:
 					}
 					else
 					{
-
+						SenTol[SenB2ID].C.Alcont = 0;
 						SenTol[SenB2ID].B.FDs = false;
 						SenTol[SenB2ID].B.SNV = false;
 					}
@@ -522,10 +522,18 @@ TolLIN2:
 				DispActLin2++;
 				if(SW2.buf[0]== 0xFF)
 				{
-					SenTol[SenB2ID].B.SNV = true;
+					if(SenTol[SenB2ID].C.Alcont < 9)
+					{
+						SenTol[SenB2ID].C.Alcont ++;
+					}
+					else
+					{
+						SenTol[SenB2ID].B.SNV = true;
+					}
 				}
 				else
 				{
+					SenTol[SenB2ID].C.Alcont = 0;
 					SenTol[SenB2ID].B.SNV = false;
 				}
 				SenTol[SenB2ID].B.FDs = false;
@@ -536,7 +544,8 @@ TolLIN2:
 				if(ErrorB2>=2)
 				{
 					DispErrLin2++;
-					ErrorB2=0;					
+					ErrorB2=0;	
+					SenTol[SenB2ID].C.Alcont = 0;				
 					SenTol[SenB2ID].B.SNV = false;
 					SenTol[SenB2ID].B.Con = false;
 					SenTol[SenB2ID].B.FDs = true;

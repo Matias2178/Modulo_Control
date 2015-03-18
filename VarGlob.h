@@ -58,6 +58,8 @@
 	extern unsigned int BaudiosUART2;
 	extern unsigned int BaudiosUART3;
 	
+	extern unsigned long Aux1;
+	
 	extern float Tension;
 //	extern float VelTest; //Borrar solo para pruebas
 	

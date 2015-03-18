@@ -331,6 +331,105 @@ unsigned char ArrtoHex(unsigned char *P)
 	}
 	return i;
 }
+
+/******************************************************************************
+*	Funcion:		ArrtoLongHex(unsigned char *P)
+*	Descricpion:	Lee 8 caracters en ASCII que corresponden a un valor en
+*					Hexa y lo devuelve en una variable tipo Long
+*
+*	Ingreso Datos:	Puntero al array donde estan los caracteres
+*	Salida Datos:	Valor long en Hexa
+******************************************************************************/	
+unsigned long ArrtoLongHex(unsigned char *P)
+{
+	unsigned char i;
+	unsigned long Dato = 0;
+	Proceso.B.fDataErr = false;
+	for(i=0;i<8;i++)
+	{
+		Dato<<=4;
+		if(*P>='A' && *P<='F')
+		{
+			Dato = Dato + (*P - 'A'+ 10);
+		}
+	
+		else if (*P>='0' && *P<='9')
+		{
+			Dato = Dato + (*P - '0');
+		}
+		else if(*P>='a' && *P<='f')
+		{
+			Dato = Dato + (*P - 'a'+ 10);
+		}
+		else
+		{
+			Proceso.B.fDataErr = true;
+			Dato= 0;
+		}
+		P++;
+	}
+	return Dato;
+}
+/******************************************************************************
+*	Funcion:		ArrtoLongHex(unsigned char *P)
+*	Descricpion:	Lee 8 caracters en ASCII que corresponden a un valor en
+*					Hexa y lo devuelve en una variable tipo Long
+*
+*	Ingreso Datos:	Puntero al array donde estan los caracteres
+*	Salida Datos:	Valor long en Hexa
+******************************************************************************/	
+unsigned int ArrtoLongHex2(unsigned char *P,unsigned char *Dato)
+{
+	unsigned char i;
+	unsigned char a;
+//	*Dato = 0;
+	Dato = Dato + 3;
+	for(i=0;i<4;i++)
+	{
+		a = 0;
+		if(*P>='A' && *P<='F')
+		{
+			a = *P - 'A'+ 10;
+		}
+		else if (*P>='0' && *P<='9')
+		{
+			a = *P - '0';
+		}
+		else if(*P>='a' && *P<='f')
+		{
+			a = *P - 'a'+ 10;
+		}
+		else
+		{
+			a= 0;
+		}
+		a<<=4;
+		P++;
+		if(*P>='A' && *P<='F')
+		{
+			a = a + (*P - 'A'+ 10);
+		}
+	
+		else if (*P>='0' && *P<='9')
+		{
+			a = a + (*P - '0');
+		}
+		else if(*P>='a' && *P<='f')
+		{
+			a = a + (*P - 'a'+ 10);
+		}
+		else
+		{
+	
+			a= 0;
+		}
+		*Dato = a;
+		Dato--;
+		P++;
+		 
+	}
+	return i;
+}
 /******************************************************************************
 *	Funcion:		HextoArr()
 *	Descricpion:	Lee dos caracters en ASCII que corresponden a un valor en
@@ -372,7 +471,7 @@ void HextoArr(unsigned char *D, unsigned char *P,unsigned int Cant)
 	}
 }
 /******************************************************************************
-*	Funcion:		HextoArr()
+*	Funcion:		InHextoArr()
 *	Descricpion:	Lee dos caracters en ASCII que corresponden a un valor en
 *					Hexa y lo devuelve en una variable tipo char
 *
@@ -386,6 +485,38 @@ unsigned char *InHextoArr(unsigned int D, unsigned char *P)
 	unsigned int a;
 	for(i=16;i;i=i-4)
 	{
+		a = i - 4;
+		Dato = D>>a;
+		Dato = Dato & 0x0F;
+		if(Dato>9)
+		{
+			Dato = Dato - 10;
+			*P = Dato + 'a';
+		}
+		else
+		{
+			*P = Dato + '0';
+		}
+		P++;
+	}
+	return (unsigned char *)P; 
+}
+/******************************************************************************
+*	Funcion:		LongHextoArr()
+*	Descricpion:	Lee dos caracters en ASCII que corresponden a un valor en
+*					Hexa y lo devuelve en una variable tipo char
+*
+*	Ingreso Datos:	Puntero al array donde estan los caracteres
+*	Salida Datos:	Valor en Hexa
+******************************************************************************/	
+unsigned char *LongHextoArr(unsigned long D, unsigned char *P)
+{
+	unsigned long Dato;
+	unsigned int i;
+	unsigned long a;
+	for(i=32;i;i=i-4)
+	{
+		Dato = 0;
 		a = i - 4;
 		Dato = D>>a;
 		Dato = Dato & 0x0F;

@@ -96,8 +96,10 @@ struct _SenRot{
 };
 
 union _SenTol{
-	
-	unsigned char Val;
+	struct{
+		unsigned char Val;
+		unsigned char Alcont;
+	}C;
 	struct{
 		BYTE Con	:1;		//El sensor esta conectado 
 		BYTE Bus	:1;		//0:Bus0  1:Bus 1
@@ -107,6 +109,8 @@ union _SenTol{
 		BYTE B5		:1;		//
 		BYTE B6		:1;		//
 		BYTE FDs	:1;		//Falla desconexion
+		BYTE 		:8;
+		
 	}B;
 };	
 

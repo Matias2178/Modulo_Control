@@ -243,6 +243,7 @@ void Comando(unsigned char *S)
 		}
 	}
 //------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //                      PARAMETROS DE AJUSTE  
 	else if(Check(Cmd,"AJ",sizeof("AJ")))
 	{
@@ -293,23 +294,30 @@ void Comando(unsigned char *S)
 		{
 			if(Com)
 			{
-				CorrAlDen.B.V[0] = (char)"A";
 				memset(Cmd,0x00,10);
 				S += Movstr(Cmd,S);
 				S++;
-				CorrAlDen.B.V[1] = (atoi((char*)Cmd));
+				CorrAlDen.B.V[0] = (char)'A';
 				memset(Cmd,0x00,10);
 				S += Movstr(Cmd,S);
 				S++;
-				CorrAlDen.B.V[2] = (atoi((char*)Cmd));
+				CorrAlDen.B.V[1] =(char) (atoi((char*)Cmd));
 				memset(Cmd,0x00,10);
 				S += Movstr(Cmd,S);
 				S++;
-				CorrAlDen.B.V[3] = (atoi((char*)Cmd));
+				CorrAlDen.B.V[2] =(char) (atoi((char*)Cmd));
+				memset(Cmd,0x00,10);
+				S += Movstr(Cmd,S);
+				S++;
+				CorrAlDen.B.V[3] = (char)(atoi((char*)Cmd));
 				EepromWRBuf(M_FAC_AJS_ALTA_DENS,(unsigned char *)&CorrAlDen,sizeof(union _UInt32));
 				
 			}
 			EepromRDBuf(M_FAC_AJS_ALTA_DENS,(unsigned char *)&CorrAlDen,sizeof(union _UInt32));
+			*P = 'A';
+			P++;
+			*P = ',';
+			P++;
 			P  =  (unsigned char*)uitos((unsigned int)CorrAlDen.B.V[1],P);
 			*P = ',';
 			P++;
@@ -989,6 +997,51 @@ void Comando(unsigned char *S)
 			P++;
 			P  = (unsigned char*)uitos(Moduladora[Sen].KD,P);	
 			P++;  	
+		}
+//-----------------------------------------------------------------------------
+//Configuracion del modo de trabajo de los sensores
+//>SAJ,MTS,SemillasBus1,SemillasBus2,FertilizanteBus1,FertilizanteBus2<
+//>SAJ,MTS,00000000,0000FFFF,00000000,0000FFFF<
+		else if(Check(Cmd,"MTS",sizeof("MTS")) )
+		{			
+			if(Com)
+			{
+				memset(Cmd,0x00,10);
+				S += Movstr(Cmd,S);
+				S++;	
+			//	SenDtsMod.SemB1 =  ArrtoLongHex(Cmd);
+				ArrtoLongHex2(Cmd,SenDtsMod.SemB1);
+				memset(Cmd,0x00,10);
+				S += Movstr(Cmd,S);
+				S++;	
+			//	SenDtsMod.SemB2 =  ArrtoLongHex(Cmd);
+				ArrtoLongHex2(Cmd,&SenDtsMod.SemB2);
+				memset(Cmd,0x00,10);
+				S += Movstr(Cmd,S);
+				S++;	
+			//	SenDtsMod.FerB1 =  ArrtoLongHex(Cmd);
+				ArrtoLongHex2(Cmd,&SenDtsMod.FerB1);
+				memset(Cmd,0x00,10);
+				S += Movstr(Cmd,S);
+				S++;	
+			//	SenDtsMod.FerB2 =  ArrtoLongHex(Cmd);
+				ArrtoLongHex2(Cmd,&SenDtsMod.FerB2);
+				CargaConfSen();
+
+			}
+			GuardaConfSen();
+			P = (unsigned char*)InHextoArr(SenDtsMod.SemB1, P);
+			*P = ',';
+			P++;
+			P = (unsigned char*)InHextoArr(SenDtsMod.SemB2, P);
+			*P = ',';
+			P++;
+			P = (unsigned char*)InHextoArr(SenDtsMod.FerB1, P);
+			*P = ',';
+			P++;
+			P = (unsigned char*)InHextoArr(SenDtsMod.FerB2, P);
+			*P = ',';
+			P++; 	
 		}
 		else
 		{

@@ -500,7 +500,7 @@ TolLIN1:
 					}
 					else
 					{
-
+						SenTol[SenB1ID].C.Alcont = 0;
 						SenTol[SenB1ID].B.FDs = false;
 						SenTol[SenB1ID].B.SNV = false;
 					}
@@ -528,10 +528,19 @@ TolLIN1:
 				DispActLin1++;
 				if(SW1.buf[0]== 0xFF)
 				{
-					SenTol[SenB1ID].B.SNV = true;
+					if(SenTol[SenB1ID].C.Alcont < 9)
+					{
+						SenTol[SenB1ID].C.Alcont ++;
+					}
+					else
+					{
+						SenTol[SenB1ID].B.SNV = true;
+					}
+					
 				}
 				else
 				{
+					SenTol[SenB1ID].C.Alcont = 0;
 					SenTol[SenB1ID].B.SNV = false;
 				}
 				SenTol[SenB1ID].B.FDs = false;
@@ -542,7 +551,8 @@ TolLIN1:
 				if(ErrorB1>=2)
 				{
 					DispErrLin1++;
-					ErrorB1=0;					
+					ErrorB1=0;	
+					SenTol[SenB1ID].C.Alcont = 0;				
 					SenTol[SenB1ID].B.SNV = false;
 					SenTol[SenB1ID].B.Con = false;
 					SenTol[SenB1ID].B.FDs = true;

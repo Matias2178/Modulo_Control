@@ -7,3 +7,4 @@ $cat .gitignore
 *.mcs
 *.mptags
 *.tagsrc
+*.zip
