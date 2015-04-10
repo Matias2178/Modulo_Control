@@ -63,9 +63,9 @@ struct _DtsSen{
 			BYTE Act	:1;		//Esta leyendo semillas
 			BYTE Hab	:1;		//Esta habilitado por sistema	
 			BYTE Det	:1;		//El sensor esta Detectado
-			BYTE AvTs	:1;		//Aviso de tubo sucio
+			BYTE AxFd	:1;		//Auxiliar Falla desconexion
 			BYTE Mod	:1;		//Modo de siembra 1 Gruesa - 0 Fina
-			BYTE B6		:1;
+			BYTE AvTs	:1;		//Aviso de tubo sucio
 			BYTE FDs	:1;		//Falla desconexion
 		}B;
 	}Sts;

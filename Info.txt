@@ -64,3 +64,7 @@ Version 1 R16
 Version 1 R17
 	Toma velocidad desde las moduladoras si no lee señal de GPS
 	Listo para ExpoAgro 2015
+Version 1 R18
+	Se agrego un bit para corregir el error de falla de lectura.
+	Se invirtio la posicion del bit de tubo sucio antes estaba en el bit 4 paso al bit 6
+	

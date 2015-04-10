@@ -80,6 +80,7 @@ SemLIN2:
 				{
 					Med_Sen_Bus2(Id,0);
 					BUS2.Sie[SenB2ID].Sts.B.FDs = false;
+					BUS2.Sie[SenB2ID].Sts.B.AxFd = false;
 				}
 				SenB2ID++;
 			}
@@ -105,6 +106,7 @@ SemLIN2:
 				Med_Sen_Bus2(Id,Medicion);
 				BUS2.Sie[SenB2ID].Sts.B.Con = true;
 				BUS2.Sie[SenB2ID].Sts.B.FDs = false;
+				BUS2.Sie[SenB2ID].Sts.B.AxFd = false;
 			}
 			else if(SW2PortSys.Sts.B.fErr && !BUS2.Sie[SenB2ID].Sts.B.FDs)
 			{
@@ -112,9 +114,16 @@ SemLIN2:
 				{
 					DispErrLin2++;
 					ErrorB2=0;
-					Med_Sen_Bus2(Id,0);
-					BUS2.Sie[SenB2ID].Sts.B.Con = false;
-					BUS2.Sie[SenB2ID].Sts.B.FDs = true;
+					if(BUS2.Sie[SenB2ID].Sts.B.AxFd)
+					{
+						Med_Sen_Bus2(Id,0);
+						BUS2.Sie[SenB2ID].Sts.B.Con = false;
+						BUS2.Sie[SenB2ID].Sts.B.FDs = true;
+					}
+					else
+					{
+						BUS2.Sie[SenB2ID].Sts.B.AxFd = true;
+					}	
 				}
 				else
 				{
@@ -156,6 +165,7 @@ FerLIN2:
 				{
 					Med_Sen_Bus2(Id,0);
 					BUS2.Fer[SenB2ID].Sts.B.FDs = false;
+					BUS2.Fer[SenB2ID].Sts.B.AxFd = false;
 				}
 				SenB2ID++;
 			}
@@ -185,16 +195,24 @@ FerLIN2:
 				Med_Sen_Bus2(Id,Medicion);
 				BUS2.Fer[SenB2ID].Sts.B.Con = true;
 				BUS2.Fer[SenB2ID].Sts.B.FDs = false;
+				BUS2.Fer[SenB2ID].Sts.B.AxFd = false;
 			}
 			else if(SW2PortSys.Sts.B.fErr && !BUS2.Fer[SenB2ID].Sts.B.FDs) 
 			{
 				if(ErrorB2>=2)
 				{
 					DispErrLin2++;
-					ErrorB2=0;					
-					Med_Sen_Bus2(Id,0);
-					BUS2.Fer[SenB2ID].Sts.B.Con = false;
-					BUS2.Fer[SenB2ID].Sts.B.FDs = true;
+					ErrorB2=0;	
+					if(BUS2.Fer[SenB2ID].Sts.B.AxFd)
+					{				
+						Med_Sen_Bus2(Id,0);
+						BUS2.Fer[SenB2ID].Sts.B.Con = false;
+						BUS2.Fer[SenB2ID].Sts.B.FDs = true;
+					}
+					else
+					{
+						BUS2.Fer[SenB2ID].Sts.B.AxFd = true;
+					}
 				}
 				else
 				{

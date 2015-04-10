@@ -8,3 +8,5 @@ $cat .gitignore
 *.mptags
 *.tagsrc
 *.zip
+*.mcw
+
