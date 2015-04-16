@@ -39,7 +39,7 @@
  extern void TOL2DtsCom(void);
  
  extern void CargaConfPer(void);
- 
+ extern void GrabaConfPer(void);
  extern void GrabaConfMod(void);
  extern void GrabaConfROT(void);
  extern void GrabaConfRPM(void);

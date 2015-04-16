@@ -74,5 +74,7 @@ Version 1 R19
 	Se agrego un bit para filtrar la falla de que dejo de sembrar el sensor 
 		(lo hace despues de dos lecturas)
 	El modulo no transmite datos hasta que realice todo el start up de los dispositivos instalados.
-	
+Version 1 R20
+	Nuevo modo de habilitacion y deshabilitacion se sentores de Semilla y Fertilizante
+	Nuevo Comando de habilitacion y deshabilitacion de moduladoras sensores de tolva turbina y rotacion	
 		

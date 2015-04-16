@@ -573,6 +573,63 @@ unsigned long Mask;
 	}
 }
 
+/******************************************************************************
+*	Funcion:		GrabaConfPer()
+*	Descricpion:	Guarda los datos de configuracion de los prerifericos 
+*					en la memoria
+*					RS232
+*	Ingreso Datos:	Ninguno
+*	Salida Datos:	Ninguno
+******************************************************************************/	
+void GrabaConfPer(void)
+{
+	int i;
+	unsigned long Mask;
+//Moduladoras
+	for(i=0;i<16;i++)
+	{
+		Mask = 1;
+		
+		HabPer.MOD |= ((Mask & Moduladora[i].Sts.B.Hab)<< i);
+		ConPer.MOD |= ((Mask & Moduladora[i].Sts.B.Det)<< i);
+		BusPer.MOD |= ((Mask & Moduladora[i].Sts.B.Bus)<< i);			
+	}
+//Rotacion
+	for(i=0;i<8;i++)
+	{
+		Mask = 1;
+		
+		HabPer.ROT |= ((Mask & Rotacion[i].Sts.B.Hab)<< i);
+		ConPer.ROT |= ((Mask & Rotacion[i].Sts.B.Det)<< i);
+		BusPer.ROT |= ((Mask & Rotacion[i].Sts.B.Bus)<< i);			
+	}
+//Turbina
+	for(i=0;i<3;i++)
+	{
+		Mask = 1;
+		
+		HabPer.TRB |= ((Mask & Turbina[i].Sts.B.Hab)<< i);
+		ConPer.TRB |= ((Mask & Turbina[i].Sts.B.Det)<< i);
+		BusPer.TRB |= ((Mask & Turbina[i].Sts.B.Bus)<< i);			
+	}
+	HabPer.TRB &= 0x07;
+	ConPer.TRB &= 0x07;
+	BusPer.TRB &= 0x07;
+//Tolva
+	for(i=0;i<16;i++)
+	{
+		Mask = 1;
+		
+		HabPer.TOL |= ((Mask & SenTol[i].B.Hab)<< i);
+		ConPer.TOL |= ((Mask & SenTol[i].B.Det)<< i);
+		BusPer.TOL |= ((Mask & SenTol[i].B.Bus)<< i);			
+	}
+	
+	EepromWRBuf(M_STS_HAB_PER,(unsigned char *)&HabPer,sizeof(struct _DtsPer));
+	EepromWRBuf(M_STS_CON_PER,(unsigned char *)&ConPer,sizeof(struct _DtsPer));
+	EepromWRBuf(M_STS_BUS_PER,(unsigned char *)&BusPer,sizeof(struct _DtsPer));	
+}
+
 
 /******************************************************************************
 *	Funcion:		GrabaConfMod()
