@@ -66,5 +66,13 @@ Version 1 R17
 	Listo para ExpoAgro 2015
 Version 1 R18
 	Se agrego un bit para corregir el error de falla de lectura.
+		(lo hace despues de dos lecturas)
 	Se invirtio la posicion del bit de tubo sucio antes estaba en el bit 4 paso al bit 6
+Version 1 R19
+	Se Agrego una estructura de bits auxiliares para filtrar las fallas	
+	Se mudo el bit de falla de lectura a la estructura
+	Se agrego un bit para filtrar la falla de que dejo de sembrar el sensor 
+		(lo hace despues de dos lecturas)
+	El modulo no transmite datos hasta que realice todo el start up de los dispositivos instalados.
 	
+		

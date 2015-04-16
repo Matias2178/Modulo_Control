@@ -10,3 +10,4 @@ $cat .gitignore
 *.zip
 *.mcw
 
+/.project

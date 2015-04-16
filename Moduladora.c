@@ -183,7 +183,7 @@ void ModStart000(void)
 	unsigned char Id;
 	unsigned char SenId;
 	
-	Proceso.B.fInicio = true;
+	Proceso.B.fConfPer = true;
 	while(SW1PortUser.Sts.B.fPend ||SW2PortUser.Sts.B.fPend) ExeTask();	
 	
 	for(SenId=0;SenId<16;SenId++)
@@ -221,7 +221,7 @@ void ModStart000(void)
 	//		Moduladora[SenId].Sts.B.Det = false;
 		}
 	}
-	Proceso.B.fInicio = false;
+	Proceso.B.fConfPer = false;
 	GrabaConfMod();
 }
 
@@ -251,7 +251,7 @@ char ModAjtSPKD0(unsigned char ID)
 	LocUserDW00.UI.V[1] = Moduladora[SenId].KD;
 	LocUserDW00.UI.V[0] = Moduladora[SenId].SP;
 	
-	Proceso.B.fInicio = true;
+	Proceso.B.fConfPer = true;
 	while(SW1PortUser.Sts.B.fPend ||SW2PortUser.Sts.B.fPend) ExeTask();
 	Error = 0;
 	do{
@@ -260,7 +260,7 @@ char ModAjtSPKD0(unsigned char ID)
 			SW1_PortUserStart(Id,0x04 | SW1_cmdWr,4);
 			SW1_PortUserWrBuf(&LocUserDW00.UL.V,sizeof(LocUserDW00.UL.V));
 			Local1 = SW1_PortUserSend(true);
-		//	Proceso.B.fInicio = false;
+		//	Proceso.B.fConfPer = false;
 		//	return Local1; 
 		}
 		else
@@ -268,7 +268,7 @@ char ModAjtSPKD0(unsigned char ID)
 			SW2_PortUserStart(Id,0x04 | SW2_cmdWr,4);
 			SW2_PortUserWrBuf(&LocUserDW00.UL.V,sizeof(LocUserDW00.UL.V));
 			Local1 = SW2_PortUserSend(true);
-		//	Proceso.B.fInicio = false;
+		//	Proceso.B.fConfPer = false;
 		//	return Local1;
 		}
 		if (Local1)
@@ -276,7 +276,7 @@ char ModAjtSPKD0(unsigned char ID)
 		else
 			Error++;
 	}while(Error < 3);
-	Proceso.B.fInicio = false;
+	Proceso.B.fConfPer = false;
 	return Local1;
 }
 
@@ -301,7 +301,7 @@ char ModLecSPKD0(unsigned char ID)
 	
 	SenId = ID;
 	Id = ModDirId(SenId);		
-	Proceso.B.fInicio = true;
+	Proceso.B.fConfPer = true;
 
 	while(SW1PortUser.Sts.B.fPend ||SW2PortUser.Sts.B.fPend) ExeTask();
 	Error = 0;
@@ -311,7 +311,7 @@ char ModLecSPKD0(unsigned char ID)
 			SW1_PortUserStart(Id,0x04 | SW1_cmdRd,4);
 			if(SW1_PortUserSend(true))
 			{
-			//	Proceso.B.fInicio = false;
+			//	Proceso.B.fConfPer = false;
 			//	return false;
 				LocUserDW00.UL.V=*(unsigned long *)SW1PortUser.Data;
 				break;
@@ -322,7 +322,7 @@ char ModLecSPKD0(unsigned char ID)
 			SW2_PortUserStart(Id,0x04 | SW2_cmdRd,4);
 			if(SW2_PortUserSend(true))
 			{
-			//	Proceso.B.fInicio = false;
+			//	Proceso.B.fConfPer = false;
 			//	return false;
 				LocUserDW00.UL.V=*(unsigned long *)SW2PortUser.Data;
 				break;
@@ -330,7 +330,7 @@ char ModLecSPKD0(unsigned char ID)
 		}
 		Error ++;
 	}while(Error<3);
-	Proceso.B.fInicio = false;
+	Proceso.B.fConfPer = false;
 	
 	if(Error >=3)
 		return false;
@@ -338,7 +338,7 @@ char ModLecSPKD0(unsigned char ID)
 	
 	Moduladora[SenId].KD = LocUserDW00.UI.V[1];
 	Moduladora[SenId].SP = LocUserDW00.UI.V[0];
-	Proceso.B.fInicio = false;
+	Proceso.B.fConfPer = false;
 	return true;
 }
 
@@ -363,7 +363,7 @@ char ModConfPul0(unsigned char ID)
 	Id = ModDirId(SenId);	
 	LocUserDW00.UL.V = Moduladora[SenId].Pul;
 	
-	Proceso.B.fInicio = true;
+	Proceso.B.fConfPer = true;
 	while(SW1PortUser.Sts.B.fPend ||SW2PortUser.Sts.B.fPend) ExeTask();
 	
 	Error = 0;
@@ -374,7 +374,7 @@ char ModConfPul0(unsigned char ID)
 			SW1_PortUserStart(Id,0x03 | SW1_cmdWr,4);
 			SW1_PortUserWrBuf(&LocUserDW00.UL.V,sizeof(LocUserDW00.UL.V));
 			Local1 = SW1_PortUserSend(true);
-		//	Proceso.B.fInicio = false;
+		//	Proceso.B.fConfPer = false;
 		//	return Local1;
 		}
 		else
@@ -382,7 +382,7 @@ char ModConfPul0(unsigned char ID)
 			SW2_PortUserStart(Id,0x03 | SW2_cmdWr,4);
 			SW2_PortUserWrBuf(&LocUserDW00.UL.V,sizeof(LocUserDW00.UL.V));
 			Local1 = SW2_PortUserSend(true);	
-		//	Proceso.B.fInicio = false;
+		//	Proceso.B.fConfPer = false;
 		//	return 	Local1;
 		}
 			if (Local1)
@@ -390,7 +390,7 @@ char ModConfPul0(unsigned char ID)
 			else
 				Error++;
 	}while(Error < 3);
-	Proceso.B.fInicio = false;
+	Proceso.B.fConfPer = false;
 	return Local1;
 }
 
@@ -408,7 +408,7 @@ char ModLectPul0(unsigned char ID)
 	
 	SenId = ID;
 	Id = ModDirId(SenId);	
-	Proceso.B.fInicio = true;
+	Proceso.B.fConfPer = true;
 	
 	while(SW1PortUser.Sts.B.fPend ||SW2PortUser.Sts.B.fPend) ExeTask();
 		
@@ -416,14 +416,14 @@ char ModLectPul0(unsigned char ID)
 	{	
 		if(!Sw1_RdPV(Id,0x02,4))
 		{
-			Proceso.B.fInicio = false;
+			Proceso.B.fConfPer = false;
 			return false;
 		}
 		Moduladora[SenId].Dis = *(unsigned long *)SW1PortUser.Data;
 		
 		if(!Sw1_RdPV(Id,0x03,4))
 		{
-			Proceso.B.fInicio = false;
+			Proceso.B.fConfPer = false;
 			return false;
 		}
 		Moduladora[SenId].Pul = *(unsigned long *)SW1PortUser.Data;
@@ -432,19 +432,19 @@ char ModLectPul0(unsigned char ID)
 	{	
 		if(!Sw2_RdPV(Id,0x02,4))
 		{
-			Proceso.B.fInicio = false;
+			Proceso.B.fConfPer = false;
 			return false;
 		}
 		Moduladora[SenId].Dis = *(unsigned long *)SW2PortUser.Data;
 		
 		if(!Sw2_RdPV(Id,0x03,4))
 		{
-			Proceso.B.fInicio = false;
+			Proceso.B.fConfPer = false;
 			return false;
 		}
 		Moduladora[SenId].Pul = *(unsigned long *)SW2PortUser.Data;	
 	}
-	Proceso.B.fInicio = false;
+	Proceso.B.fConfPer = false;
 	return true;
 }
 
@@ -469,7 +469,7 @@ char ModConfPulKm(unsigned char ID)
 	
 	SenId = ID;
 	Id = ModDirId(SenId);	
-	Proceso.B.fInicio = true;
+	Proceso.B.fConfPer = true;
 	
 	while(SW1PortUser.Sts.B.fPend ||SW2PortUser.Sts.B.fPend) ExeTask();
 	
@@ -479,13 +479,13 @@ char ModConfPulKm(unsigned char ID)
 		if(!Moduladora[SenId].Sts.B.Bus)
 		{
 			Local1 = Sw1_WrReg(Id,0x80,&LocUserDW00.UL.V);
-	//		Proceso.B.fInicio = false;
+	//		Proceso.B.fConfPer = false;
 	//		return Local1;
 		}
 		else
 		{
 			Local1 = Sw2_WrReg(Id,0x80,&LocUserDW00.UL.V);
-	//		Proceso.B.fInicio = false;
+	//		Proceso.B.fConfPer = false;
 	//		return 	Local1;	
 		}
 
@@ -494,7 +494,7 @@ char ModConfPulKm(unsigned char ID)
 		else
 			Error++;
 	}while(Error < 3);
-	Proceso.B.fInicio = false;
+	Proceso.B.fConfPer = false;
 	return Local1;	
 	}
 
@@ -518,7 +518,7 @@ char ModLectPulKm(unsigned char ID)
 	
 	SenId = ID;
 	Id = ModDirId(SenId);		
-	Proceso.B.fInicio = true;
+	Proceso.B.fConfPer = true;
 	
 	while(SW1PortUser.Sts.B.fPend ||SW2PortUser.Sts.B.fPend) ExeTask();
 	Error = 0;
@@ -527,13 +527,13 @@ char ModLectPulKm(unsigned char ID)
 		if(!Moduladora[SenId].Sts.B.Bus)
 		{
 			Local1 = Sw1_RdReg(Id,0x80,&Moduladora[SenId].PKm);
-		//	Proceso.B.fInicio = false;
+		//	Proceso.B.fConfPer = false;
 		//	return Local1;
 		}
 		else
 		{
 			Local1 = Sw2_RdReg(Id,0x80,&Moduladora[SenId].PKm);
-		//	Proceso.B.fInicio = false;
+		//	Proceso.B.fConfPer = false;
 		//	return 	Local1;
 		}
 		if (Local1)
@@ -541,7 +541,7 @@ char ModLectPulKm(unsigned char ID)
 		else
 			Error++;
 	}while(Error < 3);
-	Proceso.B.fInicio = false;
+	Proceso.B.fConfPer = false;
 	return Local1;
 	}
 
@@ -565,7 +565,7 @@ char ModConfParam(unsigned char ID)
 	
 	SenId = ID;
 	Id = ModDirId(SenId);		
-	Proceso.B.fInicio = true;
+	Proceso.B.fConfPer = true;
 	
 	while(SW1PortUser.Sts.B.fPend ||SW2PortUser.Sts.B.fPend) ExeTask();
 	
@@ -587,7 +587,7 @@ char ModConfParam(unsigned char ID)
 		else
 			Error++;
 	}while(Error < 3);
-	Proceso.B.fInicio = false;
+	Proceso.B.fConfPer = false;
 	return Local1;
 }
 
@@ -611,7 +611,7 @@ char ModLectParam(unsigned char ID)
 	
 	SenId = ID;
 	Id = ModDirId(SenId);	
-	Proceso.B.fInicio = true;
+	Proceso.B.fConfPer = true;
 	Error = 0;
 	do{
 		if(!Moduladora[SenId].Sts.B.Bus)
@@ -620,7 +620,7 @@ char ModLectParam(unsigned char ID)
 				
 			if(Sw1_RdReg(Id,0x81,&LocUserDW00.UL.V))
 			{
-			//	Proceso.B.fInicio = false;
+			//	Proceso.B.fConfPer = false;
 			//	return false;
 				break;
 			}
@@ -630,7 +630,7 @@ char ModLectParam(unsigned char ID)
 			while(SW2PortUser.Sts.B.fPend) ExeTask();
 			if(Sw2_RdReg(Id,0x81,&LocUserDW00.UL.V))
 			{
-			//	Proceso.B.fInicio = false;
+			//	Proceso.B.fConfPer = false;
 			//	return false;
 				break;
 			}		
@@ -638,7 +638,7 @@ char ModLectParam(unsigned char ID)
 
 		Error++;
 	}while(Error < 3);
-	Proceso.B.fInicio = false;
+	Proceso.B.fConfPer = false;
 	if(Error >= 3)
 		return false;
 				
@@ -656,7 +656,7 @@ char ModLectParam(unsigned char ID)
 	Moduladora[SenId].PVD = LocUserDW00.B.V[1];
 	Moduladora[SenId].RDT = LocUserDW00.UI.V[1];
 
-	Proceso.B.fInicio = false;
+	Proceso.B.fConfPer = false;
 	return true;
 }
 

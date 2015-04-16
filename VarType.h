@@ -54,19 +54,25 @@
 	};
 	
 struct _DtsSen{
-	unsigned int Med;		//Cantidad de semillas leidas	
+	unsigned int Med;	//Cantidad de semillas leidas	
 	unsigned char tMed;	//Temporizador de medicion
 	union{
 		unsigned char Val;
+		unsigned char Aux;
 		struct{
+		//Val
 			BYTE Con	:1;		//El sensor esta conectado 
 			BYTE Act	:1;		//Esta leyendo semillas
 			BYTE Hab	:1;		//Esta habilitado por sistema	
 			BYTE Det	:1;		//El sensor esta Detectado
-			BYTE AxFd	:1;		//Auxiliar Falla desconexion
+			BYTE 		:1;
 			BYTE Mod	:1;		//Modo de siembra 1 Gruesa - 0 Fina
 			BYTE AvTs	:1;		//Aviso de tubo sucio
 			BYTE FDs	:1;		//Falla desconexion
+		//Aux
+			BYTE AxDesc	:1;		//Auxiliar Falla desconexion
+			BYTE AuxTT	:1;		//Auxiliar Falla Tubo Tapado
+			BYTE 		:6;		//Auxiliar Falla Tubo Tapado		
 		}B;
 	}Sts;
 };
@@ -207,7 +213,8 @@ union _Proc{
 		BYTE fImpSw		: 1;	//Flag para  indicar como esta el implement switch
 		BYTE Puto		: 1;
 		BYTE fGrabaDts	: 1;	//Flag para enviar el cheksum del reporte de datos
-		BYTE Auxiliar	: 3;
+		BYTE fConfPer	: 1;
+		BYTE Auxiliar	: 2;
 	
 		BYTE fAdqSie1 	: 1;//Fin de la lectura de los sensores y se los carga en el buffer de transmicion
 		BYTE fAdqRot1  	: 1;

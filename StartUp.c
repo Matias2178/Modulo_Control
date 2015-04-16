@@ -268,7 +268,7 @@ void SenRedetecion(void)
 	unsigned char SInd;
 
 	if (SW1PortSys.Sts.B.fPend || SW2PortSys.Sts.B.fPend) ExeTask();
-	Proceso.B.fInicio = true;
+	Proceso.B.fConfPer = true;
 	
 	memset(&SenDtsCon,0x00,sizeof(struct _SenDts));
 	memset(&ConPer,0x00,sizeof(struct _DtsPer));
@@ -538,7 +538,7 @@ lErrorLectTolva:
 		}
 	}
 	GrabaConfTol();
-	Proceso.B.fInicio = false;
+	Proceso.B.fConfPer = false;
 }
 
 /******************************************************************************
@@ -556,7 +556,7 @@ void SenTuboSucio(void)
 	unsigned char SenId;
 	unsigned char SInd;
 
-	Proceso.B.fInicio = true;
+	Proceso.B.fConfPer = true;
 	for(SenId=0;SenId<64;SenId++)
 	{
 //		Id = SenId;
@@ -602,7 +602,7 @@ void SenTuboSucio(void)
 			}
 		}
 	}
-	Proceso.B.fInicio = false;
+	Proceso.B.fConfPer = false;
 }
 
 

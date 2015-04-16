@@ -55,7 +55,16 @@
 				BUS1.Sie[mID].tMed = tMed;
 				Sensores.STS.B.fSAct1 = true;
 			}
-			MedValue = MedValue * 100;		
+			if(!MedValue)
+			{
+				if(!BUS1.Sie[mID].Sts.B.AuxTT)
+				{
+					BUS1.Sie[mID].Sts.B.AuxTT = true;
+					return;
+				}
+			}
+			MedValue = MedValue * 100;
+		//Modo de Siembra en Gruesa		
 			if(BUS1.Sie[mID].Sts.B.Mod)
 			{
 				if(MedValue && VSiembra)
@@ -65,7 +74,8 @@
 					SemSeg = (unsigned long) MedValue / (unsigned long) k_GruesaTM;
 					SemMts = (SemSeg * 36) / (unsigned long) VSiembra;
 					BUS1.Sie[mID].Med = (int) SemMts;
-					BUS1.Sie[mID].Sts.B.Act = true; 
+					BUS1.Sie[mID].Sts.B.Act = true;
+					BUS1.Sie[mID].Sts.B.AuxTT = false; 
 				}
 				else
 				{
@@ -73,11 +83,13 @@
 					BUS1.Sie[mID].Sts.B.Act = false;
 				}
 			}
+		//Modo de siembra Fina
 			else if(VSiembra)
 			{
 				SemSeg = (unsigned long) MedValue / (unsigned long) k_FinaTM;
 				BUS1.Sie[mID].Med = (int) SemSeg;
 				BUS1.Sie[mID].Sts.B.Act = true; 
+				BUS1.Sie[mID].Sts.B.AuxTT = false;
 			}
 			else
 			{
@@ -108,6 +120,14 @@
 				BUS1.Fer[mID].tMed = tMed;
 				Sensores.STS.B.fFAct1 = true;
 			}
+			if(!MedValue)
+			{
+				if(!BUS1.Fer[mID].Sts.B.AuxTT)
+				{
+					BUS1.Fer[mID].Sts.B.AuxTT = true;
+					return;
+				}
+			}
 			MedValue = MedValue * 100;	
 			if(BUS1.Fer[mID].Sts.B.Mod)
 			{
@@ -119,6 +139,7 @@
 					SemMts = (SemSeg * 36) / (unsigned long) VSiembra;
 					BUS1.Fer[mID].Med = (int) SemMts;
 					BUS1.Fer[mID].Sts.B.Act = true; 
+					BUS1.Fer[mID].Sts.B.AuxTT = false;
 				}
 				else
 				{
@@ -131,6 +152,7 @@
 				SemSeg = (unsigned long) MedValue / (unsigned long) k_FinaTM;
 				BUS1.Fer[mID].Med = (int) SemSeg;
 				BUS1.Fer[mID].Sts.B.Act = true; 
+				BUS1.Fer[mID].Sts.B.AuxTT = false;
 			}
 			else
 			{
@@ -221,6 +243,14 @@ void Bus1aDtsCom(void)
 				BUS2.Sie[mID].tMed = tMed;
 				Sensores.STS.B.fSAct2 = true;
 			}
+			if(!MedValue)
+			{
+				if(!BUS2.Sie[mID].Sts.B.AuxTT)
+				{
+					BUS2.Sie[mID].Sts.B.AuxTT = true;
+					return;
+				}
+			}
 			MedValue = MedValue * 100;		
 			if(BUS2.Sie[mID].Sts.B.Mod)
 			{
@@ -231,7 +261,8 @@ void Bus1aDtsCom(void)
 					SemSeg = (unsigned long) MedValue / (unsigned long) k_GruesaTM;
 					SemMts = (SemSeg * 36) / (unsigned long) VSiembra;
 					BUS2.Sie[mID].Med = (int) SemMts;
-					BUS2.Sie[mID].Sts.B.Act = true; 
+					BUS2.Sie[mID].Sts.B.Act = true;
+					BUS2.Sie[mID].Sts.B.AuxTT = false;
 				}
 				else
 				{
@@ -249,6 +280,7 @@ void Bus1aDtsCom(void)
 			{
 				BUS1.Sie[mID].Med = 0;
 				BUS1.Sie[mID].Sts.B.Act = false;
+				BUS2.Sie[mID].Sts.B.AuxTT = false;
 			}
 		}
 		else
@@ -275,6 +307,15 @@ void Bus1aDtsCom(void)
 				BUS2.Fer[mID].tMed = tMed;
 				Sensores.STS.B.fFAct2 = true;
 			}
+			if(!MedValue)
+			{
+				if(!BUS2.Fer[mID].Sts.B.AuxTT)
+				{
+					BUS2.Fer[mID].Sts.B.AuxTT = true;
+					return;
+				}
+			}
+			
 			MedValue = MedValue * 100;
 			if(BUS2.Fer[mID].Sts.B.Mod)
 			{
@@ -286,6 +327,7 @@ void Bus1aDtsCom(void)
 					SemMts = (SemSeg * 36) / (unsigned long) VSiembra;
 					BUS2.Fer[mID].Med = (int) SemMts;
 					BUS2.Fer[mID].Sts.B.Act = true; 
+					BUS2.Fer[mID].Sts.B.AuxTT = false;
 				}
 				else
 				{
@@ -298,6 +340,7 @@ void Bus1aDtsCom(void)
 				SemSeg = (unsigned long) MedValue / (unsigned long) k_FinaTM;
 				BUS2.Fer[mID].Med = (int) SemSeg;
 				BUS2.Fer[mID].Sts.B.Act = true; 
+				BUS2.Fer[mID].Sts.B.AuxTT = false;
 			}
 			else
 			{

@@ -112,7 +112,7 @@ void DtoTerminal(void)
 		}
 		goto lComSinCheck;					
 	}
-	else if(Proceso.B.fInicio)
+	else if(Proceso.B.fInicio || Proceso.B.fConfPer)
 	{
 		if(Sts_Tmr.B.Pls1000)
 		{
