@@ -808,150 +808,6 @@ void Comando(unsigned char *S)
 			//	P=P+3;
 			}
 		}
-////-----------------------------------------------------------------------------
-//		//Configuro y leo el SP y el KD de todo el sistema
-//		else if(Check(Cmd,"SIST",sizeof("SIST")) )
-//		{
-//			memset(Cmd,0x00,10);
-//			S += Movstr(Cmd,S);
-//			S++;
-//			//Siembra Primaria
-//			if(Check(Cmd,"SP",sizeof("SP")) )
-//			{
-//				ModNum = 1;
-//				strcpy((char *)P,"SP");
-//				P = P + strlen("SP");
-//			}
-//			
-//			//Siembra Secundaria
-//			else if(Check(Cmd,"SS",sizeof("SS")) )
-//			{
-//				ModNum = 2;
-//				strcpy((char *)P,"SS");
-//				P = P + strlen("SS");
-//			}
-//				
-//			//Fertilizante Primario
-//			else if(Check(Cmd,"FP",sizeof("FP")) )
-//			{
-//				ModNum = 3;
-//				strcpy((char *)P,"FP");
-//				P = P + strlen("FP");
-//			}	
-//				
-//			//Fertilizante Secundario
-//			else if(Check(Cmd,"FS",sizeof("FS")) )
-//			{
-//				ModNum = 4;
-//				strcpy((char *)P,"FS");
-//				P = P + strlen("FS");
-//			}	
-//			else
-//			{
-//				P = TXTError(P);
-//				goto lFinComando;
-//			}	
-//				
-//			memset(Cmd,0x00,10);
-//			//Set Point
-//			S += Movstr(Cmd,S);
-//			S++;
-//			SPAux = atoi((char*)Cmd);
-//			//Constante KD
-//			memset(Cmd,0x00,10);
-//			S += Movstr(Cmd,S);
-//			S++;
-//			KDAux = atoi((char*)Cmd);
-//			ModNum --;
-//			if(Com)
-//			{	
-//				for(i=0;i<16;i=i+4)
-//				{
-//					Sen = i + ModNum;
-//					if(	Moduladora[Sen].Sts.B.Det)
-//					{
-//						//P--;
-//						FinCmd(P);
-//						P=P+3;
-//						//Numero de Sensor
-//						strcpy((char *)P,"MOD,");
-//						P = P + strlen("MOD,");
-//						AuxSen = Sen + 1;
-//						P  = (unsigned char*)uitos(AuxSen,P);
-//						*P = ',';
-//						P++;
-//						if(ModSistKpKd(Sen,SPAux,KDAux,true))
-//						{
-//							P  = (unsigned char*)uitos(Moduladora[Sen].SP,P);	
-//							*P = ',';
-//							P++;
-//							P  = (unsigned char*)uitos(Moduladora[Sen].KD,P);
-//					//		P++;
-//						}
-//						else
-//						{
-//							P = TXTError(P);
-//							P--;
-//						}	
-//					}
-//					else
-//					{
-//						//P--;
-//						FinCmd(P);
-//						P=P+3;
-//						strcpy((char *)P,"MOD,");
-//						P = P + strlen("MOD,");
-//						AuxSen = Sen + 1;
-//						P  = (unsigned char*)uitos(AuxSen,P);
-//						*P = ',';
-//						P++;
-//						strcpy((char *)P,"DESCONECTADA");
-//						P = P + strlen("DESCONECTADA");	
-//					}
-//				}
-//			}
-//			else
-//			{	
-//				for(i=0;i<16;i=i+4)
-//				{
-//					Sen = i + ModNum;
-//					if(	Moduladora[Sen].Sts.B.Det)
-//					{
-//					//	P--;
-//						FinCmd(P);
-//						P=P+3;
-//						//Numero de Sensor
-//						strcpy((char *)P,"MOD,");
-//						P = P + strlen("MOD,");
-//						AuxSen = Sen + 1;
-//						P  = (unsigned char*)uitos(AuxSen,P);
-//						*P = ',';
-//						P++;
-//						ModSistKpKd(Sen,SPAux,KDAux,false);
-//						P  = (unsigned char*)uitos(Moduladora[Sen].SP,P);	
-//						*P = ',';
-//						P++;
-//						P  = (unsigned char*)uitos(Moduladora[Sen].KD,P);	
-//					}
-//					else
-//					{
-//					//	P--;
-//						FinCmd(P);
-//						P=P+3;
-//						strcpy((char *)P,"MOD,");
-//						P = P + strlen("MOD,");
-//						AuxSen = Sen + 1;
-//						P  = (unsigned char*)uitos(AuxSen,P);
-//						*P = ',';
-//						P++;
-//						strcpy((char *)P,"DESCONECTADA");
-//						P = P + strlen("DESCONECTADA");
-//						
-//					}
-//				}
-//			}
-//			P++;
-//		}
 //-----------------------------------------------------------------------------			
 		//Configuro el SP y el KD para cada moduladora individualmente
 		else if(Check(Cmd,"MOD",sizeof("MOD")) )
@@ -1041,6 +897,117 @@ void Comando(unsigned char *S)
 			*P = ',';
 			P++;
 			P = (unsigned char*)InHextoArr(SenDtsMod.FerB2, P);
+			*P = ',';
+			P++; 	
+		}
+		//-----------------------------------------------------------------------------
+//Habilitacion de los Sensores de Semiila y fertilizante
+//>SAJ,HSF,SemillasBus1,SemillasBus2,FertilizanteBus1,FertilizanteBus2<
+//>SAJ,HSF,00000000,0000FFFF,00000000,0000FFFF<
+		else if(Check(Cmd,"HkkkF",sizeof("HSF")) )
+		{			
+			if(Com)
+			{
+				memset(Cmd,0x00,10);
+				S += Movstr(Cmd,S);
+				S++;	
+			//	SenDtsMod.SemB1 =  ArrtoLongHex(Cmd);
+				ArrtoLongHex2(Cmd,&SenDtsHab.SemB1);
+				memset(Cmd,0x00,10);
+				S += Movstr(Cmd,S);
+				S++;	
+			//	SenDtsMod.SemB2 =  ArrtoLongHex(Cmd);
+				ArrtoLongHex2(Cmd,&SenDtsHab.SemB2);
+				memset(Cmd,0x00,10);
+				S += Movstr(Cmd,S);
+				S++;	
+			//	SenDtsMod.FerB1 =  ArrtoLongHex(Cmd);
+				ArrtoLongHex2(Cmd,&SenDtsHab.FerB1);
+				memset(Cmd,0x00,10);
+				S += Movstr(Cmd,S);
+				S++;	
+			//	SenDtsMod.FerB2 =  ArrtoLongHex(Cmd);
+				ArrtoLongHex2(Cmd,&SenDtsHab.FerB2);
+//1				CargaConfSen();
+
+			}
+			GuardaConfSen();
+			P = LongHextoArr(SenDtsHab.SemB1, P);
+			*P = ',';
+			P++;
+			P = LongHextoArr(SenDtsHab.SemB2, P);
+			*P = ',';
+			P++;
+			P = LongHextoArr(SenDtsHab.FerB1, P);
+			*P = ',';
+			P++;
+			P = LongHextoArr(SenDtsHab.FerB2, P);
+			*P = ',';
+			P++; 	
+		}
+//-----------------------------------------------------------------------------
+//Habilitacion de los Perifericos Moduladora, Rotacion, Tolva, Turbina
+//>SAJ,HSF,Moduladora,Rotacion,Tolva,Turbina<
+//>SAJ,HSF,00000000,0000FFFF,00000000,0000FFFF<
+		else if(Check(Cmd,"HolaR",sizeof("HPR")) )
+		{			
+			if(Com)
+			{
+//Moduladora
+				memset(Cmd,0x00,10);
+				S += Movstr(Cmd,S);
+				S++;
+				LocUserDW10.L.V = 0;	
+				ArrtoLongHex2(Cmd,&LocUserDW10.L.V);
+				HabPer.MOD = LocUserDW10.UI.V[0];
+//Rotacion
+				memset(Cmd,0x00,10);
+				S += Movstr(Cmd,S);
+				S++;
+				LocUserDW10.L.V = 0;	
+				ArrtoLongHex2(Cmd,&LocUserDW10.L.V);
+				HabPer.ROT = LocUserDW10.B.V[0];
+//Tolva
+				memset(Cmd,0x00,10);
+				S += Movstr(Cmd,S);
+				S++;
+				LocUserDW10.L.V = 0;	
+				ArrtoLongHex2(Cmd,&LocUserDW10.L.V);
+				HabPer.TOL = LocUserDW10.UI.V[0];
+//Turbina
+				memset(Cmd,0x00,10);
+				S += Movstr(Cmd,S);
+				S++;
+				LocUserDW10.L.V = 0;	
+				ArrtoLongHex2(Cmd,&LocUserDW10.L.V);
+				HabPer.TRB = LocUserDW10.B.V[0];
+			
+//1				CargaConfPer();
+//1				GrabaConfPer();
+			}
+
+//Moduladora
+			LocUserDW10.L.V = 0;
+			LocUserDW10.UI.V[0] = HabPer.MOD;
+			P = LongHextoArr(LocUserDW10.L.V, P);
+			*P = ',';
+			P++;
+//Rotacion
+			LocUserDW10.L.V = 0;
+			LocUserDW10.B.V[0] = HabPer.ROT;
+			P = LongHextoArr(LocUserDW10.L.V, P);
+			*P = ',';
+			P++;
+//Tolva 
+			LocUserDW10.L.V = 0;
+			LocUserDW10.UI.V[0] = HabPer.TOL;
+			P = LongHextoArr(LocUserDW10.L.V, P);
+			*P = ',';
+			P++;
+//Turbina
+			LocUserDW10.L.V = 0;
+			LocUserDW10.B.V[0] = HabPer.TRB;
+			P = LongHextoArr(LocUserDW10.L.V, P);
 			*P = ',';
 			P++; 	
 		}
@@ -1648,117 +1615,7 @@ lFallaCargaNum:
 				goto lFinComando;
 			}	
 		}
-		//-----------------------------------------------------------------------------
-//Habilitacion de los Sensores de Semiila y fertilizante
-//>SAJ,HSF,SemillasBus1,SemillasBus2,FertilizanteBus1,FertilizanteBus2<
-//>SAJ,HSF,00000000,0000FFFF,00000000,0000FFFF<
-		else if(Check(Cmd,"HSF",sizeof("HSF")) )
-		{			
-			if(Com)
-			{
-				memset(Cmd,0x00,10);
-				S += Movstr(Cmd,S);
-				S++;	
-			//	SenDtsMod.SemB1 =  ArrtoLongHex(Cmd);
-				ArrtoLongHex2(Cmd,&SenDtsHab.SemB1);
-				memset(Cmd,0x00,10);
-				S += Movstr(Cmd,S);
-				S++;	
-			//	SenDtsMod.SemB2 =  ArrtoLongHex(Cmd);
-				ArrtoLongHex2(Cmd,&SenDtsHab.SemB2);
-				memset(Cmd,0x00,10);
-				S += Movstr(Cmd,S);
-				S++;	
-			//	SenDtsMod.FerB1 =  ArrtoLongHex(Cmd);
-				ArrtoLongHex2(Cmd,&SenDtsHab.FerB1);
-				memset(Cmd,0x00,10);
-				S += Movstr(Cmd,S);
-				S++;	
-			//	SenDtsMod.FerB2 =  ArrtoLongHex(Cmd);
-				ArrtoLongHex2(Cmd,&SenDtsHab.FerB2);
-				CargaConfSen();
 
-			}
-			GuardaConfSen();
-			P = (unsigned char*)InHextoArr(SenDtsHab.SemB1, P);
-			*P = ',';
-			P++;
-			P = (unsigned char*)InHextoArr(SenDtsHab.SemB2, P);
-			*P = ',';
-			P++;
-			P = (unsigned char*)InHextoArr(SenDtsHab.FerB1, P);
-			*P = ',';
-			P++;
-			P = (unsigned char*)InHextoArr(SenDtsHab.FerB2, P);
-			*P = ',';
-			P++; 	
-		}
-//-----------------------------------------------------------------------------
-//Habilitacion de los Perifericos Moduladora, Rotacion, Tolva, Turbina
-//>SAJ,HSF,Moduladora,Rotacion,Tolva,Turbina<
-//>SAJ,HSF,00000000,0000FFFF,00000000,0000FFFF<
-		else if(Check(Cmd,"HPR",sizeof("HPR")) )
-		{			
-			if(Com)
-			{
-//Moduladora
-				memset(Cmd,0x00,10);
-				S += Movstr(Cmd,S);
-				S++;
-				LocUserDW10.L.V = 0;	
-				ArrtoLongHex2(Cmd,&LocUserDW10.L.V);
-				HabPer.MOD = LocUserDW10.UI.V[0];
-//Rotacion
-				memset(Cmd,0x00,10);
-				S += Movstr(Cmd,S);
-				S++;
-				LocUserDW10.L.V = 0;	
-				ArrtoLongHex2(Cmd,&LocUserDW10.L.V);
-				HabPer.ROT = LocUserDW10.B.V[0];
-//Tolva
-				memset(Cmd,0x00,10);
-				S += Movstr(Cmd,S);
-				S++;
-				LocUserDW10.L.V = 0;	
-				ArrtoLongHex2(Cmd,&LocUserDW10.L.V);
-				HabPer.TOL = LocUserDW10.UI.V[0];
-//Turbina
-				memset(Cmd,0x00,10);
-				S += Movstr(Cmd,S);
-				S++;
-				LocUserDW10.L.V = 0;	
-				ArrtoLongHex2(Cmd,&LocUserDW10.L.V);
-				HabPer.TRB = LocUserDW10.B.V[0];
-			
-				CargaConfPer();
-				GrabaConfPer();
-			}
-
-//Moduladora
-			LocUserDW10.L.V = 0;
-			LocUserDW10.UI.V[0] = HabPer.MOD;
-			P = (unsigned char*)InHextoArr(LocUserDW10.L.V, P);
-			*P = ',';
-			P++;
-//Rotacion
-			LocUserDW10.L.V = 0;
-			LocUserDW10.B.V[0] = HabPer.ROT;
-			P = (unsigned char*)InHextoArr(LocUserDW10.L.V, P);
-			*P = ',';
-			P++;
-//Tolva 
-			LocUserDW10.L.V = 0;
-			LocUserDW10.UI.V[0] = HabPer.TOL;
-			P = (unsigned char*)InHextoArr(LocUserDW10.L.V, P);
-			*P = ',';
-			P++;
-//Turbina
-			LocUserDW10.L.V = 0;
-			LocUserDW10.B.V[0] = HabPer.TRB;
-			P = (unsigned char*)InHextoArr(LocUserDW10.L.V, P);
-			*P = ',';
-			P++; 	
-		}
  		
 //-----------------------------------------------------------------------------
 		else
