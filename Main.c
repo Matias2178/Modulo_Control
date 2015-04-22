@@ -272,6 +272,11 @@ int main (void)
 	//		Rx3Ind = 0;
 	//		memset(Rx3Buf,0,sizeof(Rx3Buf));
 			
+		}
+		if(Proceso.B.fConfSen)
+		{
+			SenStart000();
+			Proceso.B.fConfSen = false;
 		}	
 	}
 }

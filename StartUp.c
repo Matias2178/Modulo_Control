@@ -31,6 +31,7 @@ void SenStart000(void)
 	unsigned char TDB2;
 	unsigned char SIB2;
 	unsigned char SInd;
+Proceso.B.fConfPer = true;
 
 	for(SenId=0;SenId<64;SenId++)
 	{
@@ -244,6 +245,7 @@ void SenStart000(void)
 			DtsComBus2.Fer.Sts[SInd] = BUS2.Fer[SInd].Sts.Val;
 		}
 	}
+	Proceso.B.fConfPer = false;
 	GuardaConfSen();
 }
 

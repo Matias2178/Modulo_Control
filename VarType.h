@@ -214,7 +214,8 @@ union _Proc{
 		BYTE Puto		: 1;
 		BYTE fGrabaDts	: 1;	//Flag para enviar el cheksum del reporte de datos
 		BYTE fConfPer	: 1;
-		BYTE Auxiliar	: 2;
+		BYTE fConfSen	: 1;	//Configuracion Sensores siembra fertilizante
+		BYTE Auxiliar	: 1;
 	
 		BYTE fAdqSie1 	: 1;//Fin de la lectura de los sensores y se los carga en el buffer de transmicion
 		BYTE fAdqRot1  	: 1;

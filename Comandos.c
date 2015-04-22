@@ -884,19 +884,19 @@ void Comando(unsigned char *S)
 			//	SenDtsMod.FerB2 =  ArrtoLongHex(Cmd);
 				ArrtoLongHex2(Cmd,&SenDtsMod.FerB2);
 				CargaConfSen();
-
+				Proceso.B.fConfSen = true;
 			}
 			GuardaConfSen();
-			P = (unsigned char*)InHextoArr(SenDtsMod.SemB1, P);
+			P = LongHextoArr(SenDtsMod.SemB1, P);
 			*P = ',';
 			P++;
-			P = (unsigned char*)InHextoArr(SenDtsMod.SemB2, P);
+			P = LongHextoArr(SenDtsMod.SemB2, P);
 			*P = ',';
 			P++;
-			P = (unsigned char*)InHextoArr(SenDtsMod.FerB1, P);
+			P = LongHextoArr(SenDtsMod.FerB1, P);
 			*P = ',';
 			P++;
-			P = (unsigned char*)InHextoArr(SenDtsMod.FerB2, P);
+			P = LongHextoArr(SenDtsMod.FerB2, P);
 			*P = ',';
 			P++; 	
 		}
@@ -904,7 +904,7 @@ void Comando(unsigned char *S)
 //Habilitacion de los Sensores de Semiila y fertilizante
 //>SAJ,HSF,SemillasBus1,SemillasBus2,FertilizanteBus1,FertilizanteBus2<
 //>SAJ,HSF,00000000,0000FFFF,00000000,0000FFFF<
-		else if(Check(Cmd,"HkkkF",sizeof("HSF")) )
+		else if(Check(Cmd,"HSF",sizeof("HSF")) )
 		{			
 			if(Com)
 			{
@@ -928,7 +928,7 @@ void Comando(unsigned char *S)
 				S++;	
 			//	SenDtsMod.FerB2 =  ArrtoLongHex(Cmd);
 				ArrtoLongHex2(Cmd,&SenDtsHab.FerB2);
-//1				CargaConfSen();
+				CargaConfSen();
 
 			}
 			GuardaConfSen();
@@ -949,7 +949,7 @@ void Comando(unsigned char *S)
 //Habilitacion de los Perifericos Moduladora, Rotacion, Tolva, Turbina
 //>SAJ,HSF,Moduladora,Rotacion,Tolva,Turbina<
 //>SAJ,HSF,00000000,0000FFFF,00000000,0000FFFF<
-		else if(Check(Cmd,"HolaR",sizeof("HPR")) )
+		else if(Check(Cmd,"HPR",sizeof("HPR")) )
 		{			
 			if(Com)
 			{
@@ -981,9 +981,8 @@ void Comando(unsigned char *S)
 				LocUserDW10.L.V = 0;	
 				ArrtoLongHex2(Cmd,&LocUserDW10.L.V);
 				HabPer.TRB = LocUserDW10.B.V[0];
-			
-//1				CargaConfPer();
-//1				GrabaConfPer();
+				CargaConfPer();
+				GrabaConfPer();
 			}
 
 //Moduladora
