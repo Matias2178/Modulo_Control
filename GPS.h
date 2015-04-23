@@ -70,7 +70,7 @@ struct _GPSdts {
 		unsigned int	satview;
 		float		 	pres;	//Presicion horizontal
 		unsigned int 	t5hrz;
-		unsigned int	tGPSon;
+//		unsigned int	tGPSon;
 		unsigned char	GPSrst;
 		unsigned char	Baud;
 		}sys;

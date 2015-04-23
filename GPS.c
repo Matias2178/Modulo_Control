@@ -119,8 +119,8 @@ unsigned char GPSCheckSum(unsigned char *S)
 	unsigned char Chk;
 //	unsigned int Sat;
 	S++;
-	
-	while(*S!='*')
+	Control = 0;
+	while(*S!='*' && *S!=0x0D && *S!=0x0A && *S)
 	{
 		if((*S!='$') && (*S!='*'))
 		{
@@ -173,16 +173,13 @@ void GPSInfo(unsigned char *S)
 	int Msg,AcMsg;
 	float Velocidad;
 	
-	GPSdts.sys.tGPSon = 0;
-//	GPSsts.B.fBaud = true;
-
 	S++;
 //	memset(&Cmd,0x00,15);
 	S += (Movstr(&Cmd,S) + 1);
 	
 	if(MsgCheck(Cmd, "GPRMC"))
 	{
-
+		CGPS.GPRMC ++;
 //		GPSsts.B.fBaud = true;
 		Proceso.B.fGPSDtOk = true; // Se actualizaron los datos del GPS
 		
@@ -203,12 +200,25 @@ void GPSInfo(unsigned char *S)
 			GPSdts.sys.pres = 0;
 			
 			GPSdts.pos.lat 	= 0;
-			GPSdts.pos.NS 	= 0;
+			GPSdts.pos.NS 	= 'S';
 			GPSdts.pos.lon 	= 0;
-			GPSdts.pos.EO 	= 0;
+			GPSdts.pos.EO 	= 'W';
 			GPSdts.pos.vel 	= 0;
 			GPSdts.pos.dist = 0;
 			GPSdts.pos.rmb 	= 0;
+			for(i=0;i<=8;i++)
+			{
+				if(i!=4)
+				{
+					GPSdts.pos.latc[i]= '0';
+					GPSdts.pos.lonc[i]= '0';
+				}
+				else
+				{
+					GPSdts.pos.latc[i]= '.';
+					GPSdts.pos.lonc[i]= '.';
+				}
+			}
 			return;
 		}	
 //		if(GPSdts.sys.t5hrz > 800)
@@ -218,7 +228,7 @@ void GPSInfo(unsigned char *S)
 //		}
 //		GPSdts.sys.tvida = GPSdts.sys.tvid;
 		GPSdts.sys.tvid = 0;
-		//Fecha del GPS
+//Fecha del GPS
 		GPSdts.hora.h	= ((Cmd[0]-48)*10) + (Cmd[1]-48);
 		GPSdts.hora.m 	= ((Cmd[2]-48)*10) + (Cmd[3]-48);
 		GPSdts.hora.s 	= ((Cmd[4]-48)*10) + (Cmd[5]-48);
@@ -233,7 +243,8 @@ void GPSInfo(unsigned char *S)
 //		memset(&Cmd,0x00,15);
 		
 		//Hemisferio
-		GPSdts.pos.NS = *S;
+		if(*S=='S'||*S=='N'||*S=='s'||*S=='n')
+			GPSdts.pos.NS = *S;
 		S +=2;
 		
 		//Longitud
@@ -244,7 +255,8 @@ void GPSInfo(unsigned char *S)
 		GPSdts.pos.lon 	= artoflt((const char*)Cmd);
 		
 		//no se como se llama
-		GPSdts.pos.EO = *S;
+		if(*S=='E'||*S=='W'||*S=='e'||*S=='w')
+			GPSdts.pos.EO = *S;
 		S +=2;
 		
 		//Velocidad
@@ -299,6 +311,7 @@ void GPSInfo(unsigned char *S)
 	}
 	else if(MsgCheck(Cmd, "GPGGA"))
 	{
+		CGPS.GPGGA ++;
 		if(GPSdts.sys.act !='A')
 			return;
 		cont = 0;
@@ -319,6 +332,7 @@ void GPSInfo(unsigned char *S)
 	}
 	else if(MsgCheck(Cmd,"GPGSV"))
 	{
+		CGPS.GPGSV ++;
 		GPSdts.sys.t5hrz = 0;
 		if(GPSdts.sys.act !='A')
 			return;

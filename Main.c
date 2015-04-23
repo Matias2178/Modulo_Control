@@ -212,8 +212,13 @@ int main (void)
 
 //--------------Finaliza el proceso de inicializacion del sistema---------------
 	Proceso.B.fInicio = false;
-
 	
+	CGPS.Correctas = 0;
+	CGPS.Sentencias = 0;
+	CGPS.Fallas = 0;
+	CGPS.GPGGA = 0;
+	CGPS.GPGSV = 0;
+	CGPS.GPRMC = 0;
 
 //------------------------------------------------------------------------------
 //Loop principal

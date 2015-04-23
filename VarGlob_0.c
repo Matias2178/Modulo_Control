@@ -128,3 +128,4 @@
 	struct _SCom RS232;
 	struct _Sensores Sensores;
 	struct _MGPS MGPS;
+	struct _CGPS CGPS;

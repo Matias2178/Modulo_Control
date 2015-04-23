@@ -74,7 +74,13 @@ void ExeTask(void)
 			{
 				GPSsts.B.fLec = false;
 	//			GPSsts.B.fMsgOk = GPSCheckSum(GPSmsg);
-				GPSsts.B.fMsgOk = true;
+				CGPS.Sentencias ++;
+				if(GPSsts.B.fMsgOk = GPSCheckSum(GPSmsg))
+					CGPS.Correctas ++;
+				else
+					CGPS.Fallas ++;
+					
+		//	GPSsts.B.fMsgOk = true;
 				GPSInd = 0;
 				break;
 //				if(GPSsts.B.fMsgOk)

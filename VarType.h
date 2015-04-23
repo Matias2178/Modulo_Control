@@ -505,3 +505,13 @@ struct _MGPS
 	unsigned char Puerto;
 	unsigned char Baudrate;
 };
+
+struct _CGPS
+{
+	unsigned long Sentencias;
+	unsigned long Correctas;
+	unsigned long Fallas;
+	unsigned long GPRMC;
+	unsigned long GPGGA;
+	unsigned long GPGSV;
+};

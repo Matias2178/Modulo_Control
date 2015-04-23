@@ -26,8 +26,8 @@
 
 	#define SoftVerH	0
 	#define SoftVerL	1
-	#define Relase		21
-	#define FVerD		22
+	#define Relase		22
+	#define FVerD		23
 	#define FVerM		4	
 	#define FVerA		2015
 	

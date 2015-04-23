@@ -79,4 +79,6 @@ Version 1 R20
 	Nuevo Comando de habilitacion y deshabilitacion de moduladoras sensores de tolva turbina y rotacion	
 Version 1 R21
 	Correccion de fallas comando Configuracion de Modo de trabajos de sensores "MTS" reseteaba el micro.
-		
+Version 1 R22
+	Transimsion de datos del GPS, correccion de errores en la transmicion de datos
+	Puesta en funcionamiento Checksum GPS		

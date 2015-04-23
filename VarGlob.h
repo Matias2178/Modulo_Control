@@ -116,4 +116,5 @@
 	extern struct _SCom RS232;
 	extern struct _Sensores Sensores;
 	extern struct _MGPS MGPS;
+	extern struct _CGPS CGPS;
 	

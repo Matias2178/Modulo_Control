@@ -743,6 +743,38 @@ void Diagnostico(char *lb,unsigned char *S)
 	S++;
 //Hrs Trabajadas
 	S = ultos( DtsSiembra.tTrabTot,S);
+	*S = ',';
+	S++;
+	*S = 'G';
+	S++;
+	*S = 'P';
+	S++;
+	*S = 'S';
+	S++;
+	*S = ',';
+	S++;
+//Sentencias Recibias
+	S = ultos( CGPS.Sentencias,S);
+	*S = ',';
+	S++;
+//Sentencias Correctas
+	S = ultos( CGPS.Correctas,S);
+	*S = ',';
+	S++;
+//Sentencias Fallas
+	S = ultos( CGPS.Fallas,S);
+	*S = ',';
+	S++;
+//Sentencias GPRMC
+	S = ultos( CGPS.GPRMC,S);
+	*S = ',';
+	S++;
+//Sentencias GPGGA
+	S = ultos( CGPS.GPGGA,S);
+	*S = ',';
+	S++;
+//Sentencias GPGSV
+	S = ultos( CGPS.GPGSV,S);
 	S++;
 	CRNL(S);
 	
