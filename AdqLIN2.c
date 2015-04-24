@@ -37,16 +37,8 @@ void Adq_Proc_Lin2(void)
 	{
 		default:
 			Adq_SelTask0021=0;
-//	break;
-//Configuraciones de dispositivos
+
 		case 0:
-//Control de dispositivos en el bus lin
-			TDispLin2	=	DispLin2;
-			TDispActLin2	=DispActLin2;
-			TDispErrLin2	=DispErrLin2;			
-			DispLin2=0;
-			DispActLin2=0;
-			DispErrLin2=0;
 //Control del tiempo de vuleta del bus lin
 			TLin2.Ult[TLin2.ind] = TLin2.Timer;
 			TLin2.Timer = 0;
@@ -55,32 +47,31 @@ void Adq_Proc_Lin2(void)
 			{
 				TLin2.ind = 0;
 			}			
-			SenB2ID = 0;
-			Adq_SelTask0021=2;
-//		break;
-//		case 1:
-//		
-//		break;
+//Control de dispositivos en el bus lin
+			SenB2ID 		= 	0;
+			Adq_SelTask0021	=	2;
 		case 2:
-		//Lectura de datos sensores de semilla
+//Lectura de datos sensores de semilla
 SemLIN2:		
 //			Proceso.B.fAdqSie2 = false;
 			for(;SenB2ID<32;)
 			{
 				Id = SenB2ID;
-			//	if(BUS1.Sie[SenB2ID].Sts.B.Hab && BUS1.Sie[SenB2ID].Sts.B.Det)
-			//Usar despues de que se configure el sensor
 				if(BUS2.Sie[SenB2ID].Sts.B.Hab && BUS2.Sie[SenB2ID].Sts.B.Det )
 				{
-					DispLin2++;
 					//Sensor habilitado para lectura
 					break;
 				}
 				else
 				{
-					Med_Sen_Bus2(Id,0);
+				//	Med_Sen_Bus2(Id,0);					
+					BUS2.Sie[SenB2ID].Med = 0;
+					BUS2.Sie[SenB2ID].tMed = 0;
+					BUS2.Sie[SenB2ID].Sts.Aux = 0;
+					BUS2.Sie[SenB2ID].Sts.B.Con = false;
+					BUS2.Sie[SenB2ID].Sts.B.Act = false;
+					BUS2.Sie[SenB2ID].Sts.B.AvTs = false;
 					BUS2.Sie[SenB2ID].Sts.B.FDs = false;
-					BUS2.Sie[SenB2ID].Sts.B.AxDesc = false;
 				}
 				SenB2ID++;
 			}
@@ -101,7 +92,6 @@ SemLIN2:
 			Id = SenB2ID;
 			if (SW2PortSys.Sts.B.fOk)
 			{
-				DispActLin2++;
 				Medicion = *(unsigned int*)&SW2.buf[0];
 				Med_Sen_Bus2(Id,Medicion);
 				BUS2.Sie[SenB2ID].Sts.B.Con = true;
@@ -112,7 +102,6 @@ SemLIN2:
 			{
 				if(ErrorB2>=2)
 				{
-					DispErrLin2++;
 					ErrorB2=0;
 					if(BUS2.Sie[SenB2ID].Sts.B.AxDesc)
 					{
@@ -133,7 +122,6 @@ SemLIN2:
 					break;
 				}
 			}
-			else DispErrLin2++;
 			SenB2ID++;
 			if(SenB2ID<32)
 			{
@@ -148,24 +136,26 @@ SemLIN2:
 //				goto FerLIN2;
 			}	
 		case 4:
-			//Lectura de datos sensores de fertilizante
-			//Controlar de aca en adelante
+//Lectura de datos sensores de fertilizante
 FerLIN2:
 			for(;SenB2ID<32;)
 			{
 				Id = 0x20 + SenB2ID;
-			//Usar despues de que se configure el sensor
 				if(BUS2.Fer[SenB2ID].Sts.B.Hab && BUS2.Fer[SenB2ID].Sts.B.Det)
 				{
-					DispLin2++;
 					//Sensor habilitado para lectura
 					break;
 				}
 				else
 				{
-					Med_Sen_Bus2(Id,0);
+				//	Med_Sen_Bus2(Id,0);					
+					BUS2.Fer[SenB2ID].Med = 0;
+					BUS2.Fer[SenB2ID].tMed = 0;
+					BUS2.Fer[SenB2ID].Sts.Aux = 0;
+					BUS2.Fer[SenB2ID].Sts.B.Con = false;
+					BUS2.Fer[SenB2ID].Sts.B.Act = false;
+					BUS2.Fer[SenB2ID].Sts.B.AvTs = false;
 					BUS2.Fer[SenB2ID].Sts.B.FDs = false;
-					BUS2.Fer[SenB2ID].Sts.B.AxDesc = false;
 				}
 				SenB2ID++;
 			}
@@ -183,14 +173,11 @@ FerLIN2:
 			
 			SW2_PortSysStart(Id,0x00 | SW2_cmdRd,2);
 			SW2_PortSysSend();
-			
-		
 		break;
 		case 5:
 			Id = 0x20 + SenB2ID;
 			if (SW2PortSys.Sts.B.fOk)
 			{
-				DispActLin2++;
 				Medicion = *(unsigned int*)&SW2.buf[0];
 				Med_Sen_Bus2(Id,Medicion);
 				BUS2.Fer[SenB2ID].Sts.B.Con = true;
@@ -201,7 +188,6 @@ FerLIN2:
 			{
 				if(ErrorB2>=2)
 				{
-					DispErrLin2++;
 					ErrorB2=0;	
 					if(BUS2.Fer[SenB2ID].Sts.B.AxDesc)
 					{				
@@ -222,7 +208,6 @@ FerLIN2:
 					break;
 				}
 			}
-			else DispErrLin2++;
 			SenB2ID++;
 			if(SenB2ID<32)
 			{
@@ -238,32 +223,31 @@ FerLIN2:
 			}
 //		break;
 		case 6:
-			//Lectura de datos sensores de rotacion
-			//Controlar de aca en adelante
+//Lectura de datos sensores de rotacion
 RotLIN2:
 			Proceso.B.fAdqRot2 = false;
 			for(;SenB2ID<8;)
 			{
 				Id = 0x40 + SenB2ID;
-			//Ojo que 	!Rotacio[SenB2ID].Sts.B.Bus indica que esta en el bus 1
-			//Usar despues de que se configure el sensor
+//!Rotacio[SenB2ID].Sts.B.Bus indica que esta en el bus 1
 				if(Rotacion[SenB2ID].Sts.B.Bus)
 				{
 					if(Rotacion[SenB2ID].Sts.B.Hab && Rotacion[SenB2ID].Sts.B.Det )
 					{
-						DispLin2++;
 						//Sensor habilitado para lectura
 						break;
 					}
 					else
 					{
 						Rotacion[SenB2ID].Med = 0;
+						Rotacion[SenB2ID].Sts.B.Con = false;
+						Rotacion[SenB2ID].Sts.B.FMin = false;
+						Rotacion[SenB2ID].Sts.B.FMax = false;
 						Rotacion[SenB2ID].Sts.B.FDs = false;	
 					}
 				}
 				SenB2ID++;
 			}
-			
 			if(SenB2ID>=8)
 			{
 				SenB2ID = 0;
@@ -283,7 +267,6 @@ RotLIN2:
 			Id = 0x40 + SenB2ID;
 			if (SW2PortSys.Sts.B.fOk)
 			{
-				DispActLin2++;
 				Rotacion[SenB2ID].Med = *(unsigned int*)&SW2.buf[0];
 				Rotacion[SenB2ID].Sts.B.Con = true;
 				Rotacion[SenB2ID].Sts.B.FDs = false;
@@ -292,7 +275,6 @@ RotLIN2:
 			{
 				if(ErrorB2>=2)
 				{
-					DispErrLin2++;
 					ErrorB2=0;					
 					Rotacion[SenB2ID].Med = 0;
 					Rotacion[SenB2ID].Sts.B.Con = false;
@@ -306,7 +288,6 @@ RotLIN2:
 					break;
 				}
 			}
-			else DispErrLin2++;
 			SenB2ID++;
 			if(SenB2ID<8)
 			{
@@ -322,26 +303,26 @@ RotLIN2:
 			}
 //		break;
 		case 8:
-			//Lectura de datos sensores de rotacion
-			//Controlar de aca en adelante
+//Lectura de datos sensores de rotacion
 TRBLIN2:
 			Proceso.B.fAdqTRB2 = false;
 			for(;SenB2ID<3;)
 			{
 				Id = 0xD3 + SenB2ID;
-			//Ojo que 	!Turbina[SenB2ID].Sts.B.Bus indica que esta en el bus 1
-			//Usar despues de que se configure el sensor
+//!Turbina[SenB2ID].Sts.B.Bus indica que esta en el bus 1
 				if(Turbina[SenB2ID].Sts.B.Bus)
 				{
 					if(Turbina[SenB2ID].Sts.B.Hab && Turbina[SenB2ID].Sts.B.Det)
 					{
-						DispLin2++;
 						//Sensor habilitado para lectura
 						break;
 					}
 					else
 					{
 						Turbina[SenB2ID].Med = 0;
+						Turbina[SenB2ID].Sts.B.Con = false;
+						Turbina[SenB2ID].Sts.B.FMin = false;
+						Turbina[SenB2ID].Sts.B.FMax = false;
 						Turbina[SenB2ID].Sts.B.FDs = false;
 					}
 				}
@@ -366,7 +347,6 @@ TRBLIN2:
 			Id = 0xD3 + SenB2ID;
 			if (SW2PortSys.Sts.B.fOk)
 			{
-				DispActLin2++;
 				Turbina[SenB2ID].Med = *(unsigned int*)&SW2.buf[0];
 				Turbina[SenB2ID].Sts.B.Con = true;
 				Turbina[SenB2ID].Sts.B.FDs = false;
@@ -375,7 +355,6 @@ TRBLIN2:
 			{
 				if(ErrorB2>=2)
 				{
-					DispErrLin2++;
 					ErrorB2=0;					
 					Turbina[SenB2ID].Med = 0;
 					Turbina[SenB2ID].Sts.B.Con = false;
@@ -389,7 +368,6 @@ TRBLIN2:
 					break;
 				}
 			}
-			else DispErrLin2++;
 			SenB2ID++;
 			if(SenB2ID<8)
 			{
@@ -405,20 +383,16 @@ TRBLIN2:
 			}
 //		break;
 		case 10:
-			//Lectura de datos de la moduladora
-			//Controlar de aca en adelante
+//Lectura de datos de la moduladora
 ModLIN2:
 			Proceso.B.fAdqMod2 = false;
 			for(;SenB2ID<16;)
 			{
-				
-			//Ojo que 	Moduladora[SenB2ID].Sts.B.Bus indica que esta en el bus 2
-			//Usar despues de que se configure el sensor
+//Moduladora[SenB2ID].Sts.B.Bus indica que esta en el bus 2
 				if(Moduladora[SenB2ID].Sts.B.Bus)
 				{
 					if(Moduladora[SenB2ID].Sts.B.Hab && Moduladora[SenB2ID].Sts.B.Det)
 					{
-						DispLin2++;
 						Id = ModDirId(SenB2ID);	
 						//Sensor habilitado para lectura
 						break;
@@ -426,7 +400,10 @@ ModLIN2:
 					else 
 					{
 						Moduladora[SenB2ID].Vel = 0;
+						Moduladora[SenB2ID].Dis = 0;
+						Moduladora[SenB2ID].Pul = 0;
 						Moduladora[SenB2ID].Al.Val = 0;
+						Moduladora[SenB2ID].Sts.B.Con = false;
 						Moduladora[SenB2ID].Sts.B.FDs = false;
 					}
 				}
@@ -451,7 +428,6 @@ ModLIN2:
 			
 			if (SW2PortSys.Sts.B.fOk)
 			{
-				DispActLin2++;
 		//		Moduladora[SenB2ID].Al.Val = *(unsigned char*) &SW2.buf[0];
 				Moduladora[SenB2ID].Vel = *(unsigned int*)&SW2.buf[0];
 				Moduladora[SenB2ID].Sts.B.Con = true;
@@ -461,7 +437,6 @@ ModLIN2:
 			{
 				if(ErrorB2>=2)
 				{
-					DispErrLin2++;
 					ErrorB2=0;					
 					Moduladora[SenB2ID].Al.Val = 0;
 					Moduladora[SenB2ID].Vel = 0;
@@ -477,7 +452,6 @@ ModLIN2:
 					break;
 				}
 			}
-			else DispErrLin2++;
 			SenB2ID++;
 			if(SenB2ID<16)
 			{
@@ -493,28 +467,27 @@ ModLIN2:
 			}
 //		break;
 		case 12:
-			//Lectura de datos sensores de Nivel de tolva
-			//Controlar de aca en adelante
+//Lectura de datos sensores de Nivel de tolva
 TolLIN2:
 			Proceso.B.fAdqNTL2 = false;
 			for(;SenB2ID<16;)
 			{
 				Id = 0x48 + SenB2ID;
-			//Ojo que 	!Turbina[SenB2ID].Sts.B.Bus indica que esta en el bus 1
-			//Usar despues de que se configure el sensor
+//!Turbina[SenB2ID].Sts.B.Bus indica que esta en el bus 1
 				if(SenTol[SenB2ID].B.Bus)
 				{
 					if(SenTol[SenB2ID].B.Hab && SenTol[SenB2ID].B.Det)
 					{
-						DispLin2++;
 						//Sensor habilitado para lectura
 						break;
 					}
 					else
 					{
+						SenTol[SenB2ID].C.Val = 0;
 						SenTol[SenB2ID].C.Alcont = 0;
-						SenTol[SenB2ID].B.FDs = false;
+						SenTol[SenB2ID].B.Con = false;
 						SenTol[SenB2ID].B.SNV = false;
+						SenTol[SenB2ID].B.FDs = false;
 					}
 				}
 				SenB2ID++;
@@ -537,7 +510,6 @@ TolLIN2:
 			Id = 0x48 + SenB2ID;
 			if (SW2PortSys.Sts.B.fOk)
 			{
-				DispActLin2++;
 				if(SW2.buf[0]== 0xFF)
 				{
 					if(SenTol[SenB2ID].C.Alcont < 9)
@@ -561,7 +533,6 @@ TolLIN2:
 			{
 				if(ErrorB2>=2)
 				{
-					DispErrLin2++;
 					ErrorB2=0;	
 					SenTol[SenB2ID].C.Alcont = 0;				
 					SenTol[SenB2ID].B.SNV = false;
@@ -576,7 +547,6 @@ TolLIN2:
 					break;
 				}
 			}
-			else DispErrLin2++;
 			SenB2ID++;
 			if(SenB2ID<16)
 			{
@@ -590,7 +560,6 @@ TolLIN2:
 				Proceso.B.fAdqNTL2 = true;
 			}
 		break;
-
 	}		
 }
 

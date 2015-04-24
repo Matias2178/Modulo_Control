@@ -82,3 +82,6 @@ Version 1 R21
 Version 1 R22
 	Transimsion de datos del GPS, correccion de errores en la transmicion de datos
 	Puesta en funcionamiento Checksum GPS		
+Version 1R23
+	Funcion de manejo de led (titila segun la secuencia que se cargue)
+	Pone a cero los datos de los sensores cuando no estan habilitados

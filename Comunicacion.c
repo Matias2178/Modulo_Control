@@ -227,7 +227,6 @@ void DtoTerminal(void)
 						strcpy((char*)ComBuf,"<IMPSW>,DOWN");
 					Com_DtsTask_DIAG10 = 0;
 					Sensores.STS.B.DIAG = false;
-					LED_CAN	 = false;
 
 				break;
 //			if(!Proceso.B.fDtsSat)

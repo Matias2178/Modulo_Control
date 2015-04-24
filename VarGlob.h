@@ -14,21 +14,22 @@
 //	VARIABLES TEMPORALES PARA PRUEBAS BORRAR DESPUES DE UTILIZAR
 //	extern char ModDir;
 //	extern char ModNum;
-	extern char DispLin1;
-	extern char DispActLin1;
-	extern char DispErrLin1;
-	extern char DispLin2;
-	extern char DispActLin2;
-	extern char DispErrLin2;
-	extern char TDispLin1;
-	extern char TDispActLin1;
-	extern char TDispErrLin1;
-	extern char TDispLin2;
-	extern char TDispActLin2;
-	extern char TDispErrLin2;
+//	extern char DispLin1;
+//	extern char DispActLin1;
+//	extern char DispErrLin1;
+//	extern char DispLin2;
+//	extern char DispActLin2;
+//	extern char DispErrLin2;
+//	extern char TDispLin1;
+//	extern char TDispActLin1;
+//	extern char TDispErrLin1;
+//	extern char TDispLin2;
+//	extern char TDispActLin2;
+//	extern char TDispErrLin2;
 	extern int	tlecgpstx;
 	extern int	Medicion;
 	extern int  Checksum;
+	extern int	TMR_CAN;
 //----------------------------------------------------------------------------
 //	VARIABLES PARA LA LECTURA DE LOS PUERTOS
 //	extern unsigned int SenB1ID;

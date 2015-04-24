@@ -21,7 +21,7 @@
 	#include 	"Master3_I2C.h"
 	#include 	"ES_Conf.h"
 //	#include 	"fifoRS232.h"
-	
+	#include	"User.h"
 
 void ExeTask(void)
 {
@@ -358,6 +358,18 @@ void ExeTask(void)
 		{
 			GPSdts.pos.vel = 0;
 		}		
+		
+	//	if(!TMR_CAN)
+	//	{
+	//		TMR_CAN = 3;
+	//	}
+	//	else
+	//	{
+	//		TMR_CAN --;
+	//		LED_CAN = LED_CAN ? 0 : 1;
+	//	}
+		
+	LED_CAN = Leds(TMR_CAN,3);	
 	}
 //*****************************************************************************
 //	Tareas que se ejecutan cada 100ms
@@ -428,7 +440,6 @@ void ExeTask(void)
 		if(TLed>=5)
 		{
 			Sensores.STS.B.DIAG = true;
-			LED_CAN	 = true;
 			TLed = 0;			
 		}
 //		LED_POWER = IMPLEMENT_SW ? 1 : 0;

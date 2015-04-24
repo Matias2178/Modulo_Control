@@ -17,6 +17,7 @@
 //	#include 	"UART.h"
 //	#include 	"GPS.h"
 //	#include 	"Comandos.h"
+	#include	"Constantes.h"
 
 	#define PI 3.14159265358979323846
  
@@ -41,4 +42,26 @@ double Distance(double lat1, double lon1, double lat2, double lon2, char unit) {
         return 0;
     }
 }
- 
+ char Leds(int Sec,char Per)
+ {
+	 static char P;
+	 static int S;
+	 
+	 if (!S)
+	 {
+	 	S = 1;
+	 	P = Per;
+	 }
+	 if(!P)
+	 {
+		 P = Per;
+		 S= S<<1;
+	 }
+	 else
+	 	P--;
+	 	
+	 if(Sec & S)
+		 return true;
+	
+	 return false;
+ }

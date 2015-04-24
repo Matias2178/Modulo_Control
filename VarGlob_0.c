@@ -42,18 +42,19 @@
 
 
 //Control de dispositivos conectados Lin
-	char DispLin1;
-	char DispActLin1;
-	char DispErrLin1;
-	char DispLin2;
-	char DispActLin2;
-	char DispErrLin2;
-	char TDispLin1;
-	char TDispActLin1;
-	char TDispErrLin1;
-	char TDispLin2;
-	char TDispActLin2;
-	char TDispErrLin2;
+//	char DispLin1;
+//	char DispActLin1;
+//	char DispErrLin1;
+//	char DispLin2;
+//	char DispActLin2;
+//	char DispErrLin2;
+//	char TDispLin1;
+//	char TDispActLin1;
+//	char TDispErrLin1;
+//	char TDispLin2;
+//	char TDispActLin2;
+//	char TDispErrLin2;
+	int TMR_CAN;
 	int	tlecgpstx;
 	int TimeZone;
 	unsigned int MemAddr;

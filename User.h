@@ -10,3 +10,4 @@
  *****************************************************************************/
  
  extern void LedBlink();
+ extern char Leds(int Sec,char Per);
