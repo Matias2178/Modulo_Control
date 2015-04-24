@@ -118,4 +118,5 @@
 	extern struct _Sensores Sensores;
 	extern struct _MGPS MGPS;
 	extern struct _CGPS CGPS;
+	extern struct _Dest DestWf;
 	

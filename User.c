@@ -42,23 +42,23 @@ double Distance(double lat1, double lon1, double lat2, double lon2, char unit) {
         return 0;
     }
 }
- char Leds(int Sec,char Per)
+ char Destello(int Sec,char Duty)
  {
-	 static char P;
+	 static char Dty;
 	 static int S;
 	 
 	 if (!S)
 	 {
 	 	S = 1;
-	 	P = Per;
+	 	Dty = Duty;
 	 }
-	 if(!P)
+	 if(!Dty)
 	 {
-		 P = Per;
+		 Dty = Duty;
 		 S= S<<1;
 	 }
 	 else
-	 	P--;
+	 	Dty--;
 	 	
 	 if(Sec & S)
 		 return true;

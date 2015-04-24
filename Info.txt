@@ -85,3 +85,5 @@ Version 1 R22
 Version 1R23
 	Funcion de manejo de led (titila segun la secuencia que se cargue)
 	Pone a cero los datos de los sensores cuando no estan habilitados
+Version 1R24
+	Manejo de los LED de Wifi

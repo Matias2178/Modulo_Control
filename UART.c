@@ -425,18 +425,6 @@ void __attribute__ ((interrupt, no_auto_psv)) _U3RXInterrupt(void) {
 ******************************************************************************/	
 void __attribute__ ((interrupt, no_auto_psv)) _U3TXInterrupt(void) {
 	IFS5bits.U3TXIF = 0;
-	
-	if((U3TxBuf[U3TxInd] == 0x0A) ||(U3TxBuf[U3TxInd] == 0x0D)|| !U3TxBuf[U3TxInd])
-	{
-		LED_WIFI = 0;
-		LED_WIFI_E = 0;
-	}
-	else
-	{	
-		LED_WIFI = LED_WIFI ? 0 : 1;
-		LED_WIFI_E = LED_WIFI ? 0 : 1;
-	}
-	
 	if((!Proceso.B.fGPSLec && !Proceso.B.fWifiConf))
 	{
 		U3TxInd++;

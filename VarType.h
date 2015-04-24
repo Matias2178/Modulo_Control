@@ -457,7 +457,8 @@ struct _SCom
 	unsigned char IniDato:1;	//Dato Falla
 	unsigned char EscDato:1;
 	unsigned char LeeDato:1;	//Carga dato en memoria
-	unsigned char f2	:8;
+	unsigned char fConectado:1;
+	unsigned char f2	:7;
 	
 };
 
@@ -514,4 +515,10 @@ struct _CGPS
 	unsigned long GPRMC;
 	unsigned long GPGGA;
 	unsigned long GPGSV;
+};
+
+struct _Dest
+{
+	unsigned int Sec;
+	unsigned char Duty;
 };

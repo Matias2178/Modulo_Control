@@ -8,6 +8,5 @@
  *	REVISION	:	1.00 - 2013
  *	
  *****************************************************************************/
- 
- extern void LedBlink();
- extern char Leds(int Sec,char Per);
+
+ extern char Destello(int Sec,char Duty);
