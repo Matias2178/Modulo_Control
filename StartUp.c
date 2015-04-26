@@ -236,13 +236,13 @@ Proceso.B.fConfPer = true;
 		
 		if(SenId <= 0x1F)
 		{
-			DtsComBus1.Sie.Sts[SInd] = BUS1.Sie[SInd].Sts.Val;
-			DtsComBus2.Sie.Sts[SInd] = BUS2.Sie[SInd].Sts.Val;
+			DtsComBus1.Sie.Sts[SInd] = BUS1.Sie[SInd].Sts.C.Val;
+			DtsComBus2.Sie.Sts[SInd] = BUS2.Sie[SInd].Sts.C.Val;
 		}
 		else
 		{
-			DtsComBus1.Fer.Sts[SInd] = BUS1.Fer[SInd].Sts.Val;
-			DtsComBus2.Fer.Sts[SInd] = BUS2.Fer[SInd].Sts.Val;
+			DtsComBus1.Fer.Sts[SInd] = BUS1.Fer[SInd].Sts.C.Val;
+			DtsComBus2.Fer.Sts[SInd] = BUS2.Fer[SInd].Sts.C.Val;
 		}
 	}
 	Proceso.B.fConfPer = false;

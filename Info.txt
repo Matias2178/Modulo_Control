@@ -87,3 +87,8 @@ Version 1R23
 	Pone a cero los datos de los sensores cuando no estan habilitados
 Version 1R24
 	Manejo de los LED de Wifi
+Version 1R25
+	Correccion de falla datos sensores deshabilitados. (borraba todos los datos)
+	Modificacion de la estructura de datos de los sensores
+	
+	

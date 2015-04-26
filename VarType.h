@@ -57,8 +57,10 @@ struct _DtsSen{
 	unsigned int Med;	//Cantidad de semillas leidas	
 	unsigned char tMed;	//Temporizador de medicion
 	union{
-		unsigned char Val;
-		unsigned char Aux;
+		struct{
+			unsigned char Val;
+			unsigned char Aux;
+		}C;
 		struct{
 		//Val
 			BYTE Con	:1;		//El sensor esta conectado 

@@ -183,7 +183,7 @@ void Bus1aDtsCom(void)
 	{
 		//SENSORES DE SIEMBRA
 		DtsComBus1.Sie.Med[i] = BUS1.Sie[i].Med;
-		DtsComBus1.Sie.Sts[i] = BUS1.Sie[i].Sts.Val;
+		DtsComBus1.Sie.Sts[i] = BUS1.Sie[i].Sts.C.Val;
 		
 		if(BUS1.Sie[i].Sts.B.Con && BUS1.Sie[i].Med)
 		{
@@ -192,7 +192,7 @@ void Bus1aDtsCom(void)
 		
 		//SENSORES DE FERTILIZANTE
 		DtsComBus1.Fer.Med[i] = BUS1.Fer[i].Med;
-		DtsComBus1.Fer.Sts[i] = BUS1.Fer[i].Sts.Val;
+		DtsComBus1.Fer.Sts[i] = BUS1.Fer[i].Sts.C.Val;
 		
 		if(BUS1.Fer[i].Sts.B.Con && BUS1.Fer[i].Med)
 		{
@@ -374,7 +374,7 @@ void Bus2aDtsCom(void)
 	{
 		//SENSORES DE SIEMBRA
 		DtsComBus2.Sie.Med[i] = BUS2.Sie[i].Med;
-		DtsComBus2.Sie.Sts[i] = BUS2.Sie[i].Sts.Val;
+		DtsComBus2.Sie.Sts[i] = BUS2.Sie[i].Sts.C.Val;
 		
 		if(BUS2.Sie[i].Sts.B.Con && BUS2.Sie[i].Med)
 		{
@@ -383,7 +383,7 @@ void Bus2aDtsCom(void)
 		
 		//SENSORES DE FERTILIZANTE
 		DtsComBus2.Fer.Med[i] = BUS2.Fer[i].Med;
-		DtsComBus2.Fer.Sts[i] = BUS2.Fer[i].Sts.Val;
+		DtsComBus2.Fer.Sts[i] = BUS2.Fer[i].Sts.C.Val;
 		
 		if(BUS2.Fer[i].Sts.B.Con && BUS2.Fer[i].Med)
 		{

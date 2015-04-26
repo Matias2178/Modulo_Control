@@ -68,7 +68,7 @@ SemLIN1:
 				//	Med_Sen_Bus1(Id,0);
 					BUS1.Sie[SenB1ID].Med = 0;
 					BUS1.Sie[SenB1ID].tMed = 0;
-					BUS1.Sie[SenB1ID].Sts.Aux = 0;
+			//		BUS1.Sie[SenB1ID].Sts.C.Aux = 0;
 					BUS1.Sie[SenB1ID].Sts.B.Con = false;
 					BUS1.Sie[SenB1ID].Sts.B.Act = false;
 					BUS1.Sie[SenB1ID].Sts.B.AvTs = false;
@@ -153,7 +153,7 @@ FerLIN1:
 					Med_Sen_Bus1(Id,0);
 					BUS1.Fer[SenB1ID].Med = 0;
 					BUS1.Fer[SenB1ID].tMed = 0;
-					BUS1.Fer[SenB1ID].Sts.Aux = 0;
+			//		BUS1.Fer[SenB1ID].Sts.C.Aux = 0;
 					BUS1.Fer[SenB1ID].Sts.B.Con = false;
 					BUS1.Fer[SenB1ID].Sts.B.Act = false;
 					BUS1.Fer[SenB1ID].Sts.B.AvTs = false;
@@ -210,7 +210,7 @@ FerLIN1:
 					break;
 				}
 			}
-			DtsComBus1.Fer.Sts[SenB1ID] = BUS1.Fer[SenB1ID].Sts.Val;
+			DtsComBus1.Fer.Sts[SenB1ID] = BUS1.Fer[SenB1ID].Sts.C.Val;
 			SenB1ID++;
 			if(SenB1ID<32)
 			{

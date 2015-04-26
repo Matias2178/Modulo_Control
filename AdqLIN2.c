@@ -67,7 +67,7 @@ SemLIN2:
 				//	Med_Sen_Bus2(Id,0);					
 					BUS2.Sie[SenB2ID].Med = 0;
 					BUS2.Sie[SenB2ID].tMed = 0;
-					BUS2.Sie[SenB2ID].Sts.Aux = 0;
+//					BUS2.Sie[SenB2ID].Sts.C.Aux = 0;
 					BUS2.Sie[SenB2ID].Sts.B.Con = false;
 					BUS2.Sie[SenB2ID].Sts.B.Act = false;
 					BUS2.Sie[SenB2ID].Sts.B.AvTs = false;
@@ -151,7 +151,7 @@ FerLIN2:
 				//	Med_Sen_Bus2(Id,0);					
 					BUS2.Fer[SenB2ID].Med = 0;
 					BUS2.Fer[SenB2ID].tMed = 0;
-					BUS2.Fer[SenB2ID].Sts.Aux = 0;
+				//	BUS2.Fer[SenB2ID].Sts.C.Aux = 0;
 					BUS2.Fer[SenB2ID].Sts.B.Con = false;
 					BUS2.Fer[SenB2ID].Sts.B.Act = false;
 					BUS2.Fer[SenB2ID].Sts.B.AvTs = false;

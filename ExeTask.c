@@ -214,11 +214,14 @@ void ExeTask(void)
 		}	
 		else
 		{
+			
 			while(!WifiFIFOEmptyRX() && !Wifi.fCom)
 			{				
 				Dato = WifiFIFOReadRX();
 //				U4FIFOWRITETX(Dato);
-
+//-----------------------------------------------------------------------------
+// 	Comandos del modulo Wifi
+//-----------------------------------------------------------------------------
 				if (Dato =='*')
 				{
 					if (Wifi.lMod)
@@ -253,18 +256,18 @@ void ExeTask(void)
 					WFcmd[WFind] = Dato;
 					WFind++;
 				}
-	
-	//			if(Proceso.B.fWifiConf)
-	//			{
-	//				U2TXREG = Registro;	//lo use para ver el modulo wifi
-	//			}
+//-----------------------------------------------------------------------------
+// 	Comandos desde el Tablero
+//-----------------------------------------------------------------------------
 				else
-				{
-						
+				{	
+//-----------------------------------------------------------------------------
+// 	Inicio del comando
+//-----------------------------------------------------------------------------	
 					if((Dato == '>')||(Rx3Ind >=256))
 					{
 						Rx3Ind = 0;
-						Wifi.lCom = true;
+						Wifi.lCom = true;		
 					}
 					if(Wifi.lCom)
 					{
@@ -525,7 +528,7 @@ void ExeTask(void)
 				DestWf.Sec = 0xAAAA;
 			}			
 			Sts_Tmr.CntWifi++;
-			if(Sts_Tmr.CntWifi > 20)
+			if(Sts_Tmr.CntWifi > 60)
 			{
 				Sts_Tmr.CntWifi = 0;
 				Pwr_Wifi 	= false;		//Alimentacion 3v3 Modulo WiFi
