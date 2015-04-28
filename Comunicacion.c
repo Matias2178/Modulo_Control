@@ -134,9 +134,9 @@ void DtoTerminal(void)
 	}
 	else if(U2STAbits.TRMT && U3STAbits.TRMT)
 	{
-		if(Proceso.B.fImpSw ^ IMPLEMENT_SW)
+		if(Proceso.B.fImpSw ^ Sts_Tmr.B.ImpSw)
 		{
-			Proceso.B.fImpSw = IMPLEMENT_SW;
+			Proceso.B.fImpSw = Sts_Tmr.B.ImpSw;
 			if(Proceso.B.fImpSw)
 			{		
 				strcpy((char*)ComBuf,"<IMPSW>,UP");

@@ -131,3 +131,4 @@
 	struct _MGPS MGPS;
 	struct _CGPS CGPS;
 	struct _Dest DestWf;
+	struct _ModWf ModuloWf;

@@ -90,5 +90,7 @@ Version 1R24
 Version 1R25
 	Correccion de falla datos sensores deshabilitados. (borraba todos los datos)
 	Modificacion de la estructura de datos de los sensores
-	
+Version 1R26
+	Se implemento un filtro para el implement Switch para que realice el cambia cada 300 mili segundos
+	Implementacion funcion de lectura de Comando de vida independiente de la funcion de comandos.	
 	

@@ -35,7 +35,7 @@
 			BYTE ADCInit	:1;
 			BYTE LecId		:1;	//Pulso para leer Id sensores
 			BYTE SetID0500	:1; //Pulso cada 500 mseg para envio de mensaje del seteo de ID
-			BYTE B8:1;
+			BYTE ImpSw		:1;	//Auxiliar de tiempo para activacion implement switch
 			BYTE B9:1;
 			BYTE B10:1;
 			BYTE B11:1;
@@ -49,8 +49,8 @@
 		BYTE 	Cnt1000;
 		BYTE 	Cnt0500;
 		BYTE	CntGPS5;
-		BYTE	CntWifi;
-		
+		WORD	CntWifi;
+		WORD	TMRImpSw;
 	};
 	
 struct _DtsSen{
@@ -523,4 +523,35 @@ struct _Dest
 {
 	unsigned int Sec;
 	unsigned char Duty;
+};
+
+
+struct _ModWf
+{
+	unsigned char tex[20];
+	unsigned char ind;
+	union
+	{
+		struct
+		{
+			BYTE enc  	:1;	//Encendido
+			BYTE open 	:1;	//Puero abierto
+			BYTE conec	:1;	//Dispositivo conectado
+			BYTE fDato	:1;	//Inicio datos
+			BYTE fCom	:1;	//Inicio datos	
+			BYTE z6		:1;
+			BYTE z7		:1;
+			BYTE z8		:1;
+			BYTE z9		:1;
+			BYTE z10	:1;
+			BYTE z11	:1;
+			BYTE z12	:1;
+			BYTE z13	:1;
+			BYTE z14	:1;
+			BYTE z15	:1;
+			BYTE z16	:1;
+			
+		}B;
+		unsigned int Val;
+	}Sts;
 };

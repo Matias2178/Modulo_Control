@@ -16,6 +16,7 @@
 #define buffer WifiFIFOBufferRX
 #define cursor WifiFIFOCursorRX
 #define pos    WifiFIFOPosRX
+#define IndMod WifiFIFOIndModRX
 #define flags  WifiFIFOFlagsRX
 #define FIFOInit  WifiFIFOInitRX
 #define FIFOISR   WifiFIFOISRRX
@@ -24,7 +25,7 @@
 #define FIFOFull  WifiFIFOFullRX
 #define FIFOOverflow  WifiFIFOOverflowRX
 #define FIFOClearOverflow  WifiFIFOClearOverflowRX
-
+#define FIFOModulo WifiFIFOModulo
 /* Prototipos */
 void WifiFIFOInitRX (void);
 int WifiFIFOISRRX(void);
@@ -32,6 +33,7 @@ unsigned char WifiFIFOReadRX(void);
 unsigned char WifiFIFOEmptyRX(void);
 unsigned char WifiFIFOFullRX(void);
 unsigned char WifiFIFOOverflowRX(void);
+unsigned char WifiFIFOModulo(void);
 void WifiFIFOClearOverflowRX(void);
 
 #ifndef BUFFER_SIZE
@@ -78,6 +80,7 @@ void WifiFIFOClearOverflowRX(void);
 unsigned char  buffer[BUFFER_SIZE]__attribute__ ((far));
 unsigned int cursor;
 unsigned int pos;
+unsigned int IndMod;
 union {
     struct {
         unsigned empty:1;
@@ -164,3 +167,15 @@ void FIFOClearOverflow(void){
     flags.bits.overflow = 0;
 }
 
+unsigned char FIFOModulo(void){
+    unsigned char val;
+
+    if (cursor == IndMod)
+        return 0;
+    val = buffer[IndMod++];
+    
+//	fifoADDR1 = con;
+    if (IndMod == BUFFER_SIZE)
+        IndMod = 0;
+    return val;
+}

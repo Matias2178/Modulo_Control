@@ -103,7 +103,7 @@
 	extern struct _DtsPer BusPer;
 	extern struct _DtsSiembra DtsSiembra;
 	extern struct _SenRot	Rotacion[8];
-	extern struct _SenRot	Turbina[3];
+ 	extern struct _SenRot	Turbina[3];
 	extern struct _Mod		Moduladora[16];
 	extern union  _SenTol	SenTol[16];	
 	extern struct _LIN232 LIN1_232;	
@@ -119,4 +119,4 @@
 	extern struct _MGPS MGPS;
 	extern struct _CGPS CGPS;
 	extern struct _Dest DestWf;
-	
+	extern struct _ModWf ModuloWf;

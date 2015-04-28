@@ -90,6 +90,22 @@ void ExeTask(void)
 			}
 		}
 //-----------------------------------------------------------------------------
+//	Control del implement Switch
+//-----------------------------------------------------------------------------
+
+		if( Sts_Tmr.B.ImpSw ^ IMPLEMENT_SW)
+		{
+			Sts_Tmr.TMRImpSw ++;
+			if( Sts_Tmr.TMRImpSw > 30)
+			{
+				Sts_Tmr.B.ImpSw = IMPLEMENT_SW;
+			}
+		}
+		else
+		{
+			Sts_Tmr.TMRImpSw = 0;
+		}
+//-----------------------------------------------------------------------------
 //Proceso los datos que llegan del modulo GPS
 		if(GPSsts.B.fMsgOk)
 		{
@@ -123,9 +139,12 @@ void ExeTask(void)
 				break;		
 			}
 		}
-		
+//-----------------------------------------------------------------------------
+// Escritura de datos desde el modulo a la pantalla
+//-----------------------------------------------------------------------------		
 		if(Wifi.EscDato)
 		{
+			Sts_Tmr.CntWifi = 0;
 			if(!Wifi.IniDato)
 			{
 				Wifi.IniDato = true;
@@ -211,7 +230,10 @@ void ExeTask(void)
 				Wifi.EscDato = false;
 				Proceso.B.fGrabaDts = true;
 			}	
-		}	
+		}
+//-----------------------------------------------------------------------------
+// 	Comandos que llegan desde la Pantalla (modulo Wifi)
+//-----------------------------------------------------------------------------	
 		else
 		{
 			
@@ -283,9 +305,38 @@ void ExeTask(void)
 					}
 				}
 			}		
-		}	
-		
-
+		}
+//-----------------------------------------------------------------------------
+//	Control de datos del modulo
+//-----------------------------------------------------------------------------	
+		if(Dato = WifiFIFOModulo())
+		{
+			if(Dato == '>')
+			{
+				ModuloWf.Sts.B.fCom = true;
+				ModuloWf.ind = 0;
+			}
+			else if(ModuloWf.Sts.B.fCom)
+			{
+				if(Dato == 'K' || Dato == 'A' || Dato == 'V')
+				{
+					ModuloWf.tex[ModuloWf.ind] = Dato;
+					ModuloWf.ind++;
+				}
+				else if (Dato == '<')
+				{
+					ModuloWf.Sts.B.fCom = false;
+					ModuloWf.ind = 0;
+					Sts_Tmr.CntWifi = 0;
+				}
+				else 
+				{
+					ModuloWf.Sts.B.fCom = false;
+					ModuloWf.ind = 0;
+				}
+				
+			}
+		}
 
 
 		
@@ -424,7 +475,58 @@ void ExeTask(void)
 //			}
 //		}
 //-----------------------------------------------------------------------------	
-	
+//		Manejo del reset del Modulo WiFi
+//		El tiempo se maneja en decimas de segundo
+//-----------------------------------------------------------------------------
+//El modulo esta apagado
+		if(!Pwr_Wifi)
+		{
+			DestWf.Duty = 5;
+			DestWf.Sec = 0x0000;
+			
+			Wifi.fConectado = false;	
+			Sts_Tmr.CntWifi++;
+			if(Sts_Tmr.CntWifi > 100)
+			{
+				Sts_Tmr.CntWifi = 0;
+				Pwr_Wifi 	= true;		//Alimentacion 3v3 Modulo WiFi			
+			}
+		}
+		else if (Wifi.fMod)
+		{
+//Se abrio el puerto esta transmitiendo datos	
+			if(Wifi.fConectado)
+			{
+				DestWf.Duty = 25;
+				DestWf.Sec = 0x00AA;
+			}
+//No recibe el KAV	
+			else if (Sts_Tmr.CntWifi >40)
+			{
+				DestWf.Duty = 6;
+				DestWf.Sec = 0x0033;
+			}
+//Se abrio el puerto esta transmitiendo datos
+			else
+			{
+				DestWf.Duty = 3;
+				DestWf.Sec = 0xAAAA;
+			}			
+			Sts_Tmr.CntWifi++;
+			if(Sts_Tmr.CntWifi > 900)
+			{
+				Sts_Tmr.CntWifi = 0;
+				Pwr_Wifi 	= false;		//Alimentacion 3v3 Modulo WiFi
+				Wifi.fMod = false;
+				Wifi.lMod = false;		
+			}
+		}
+//El modulo esta encendido pero el puerto no esta abierto
+		else 
+		{
+			DestWf.Duty = 25;
+			DestWf.Sec = 0x0F0F;
+		}	
 	}
 
 //*****************************************************************************
@@ -504,58 +606,7 @@ void ExeTask(void)
 //			GPSsts.B.fLec5hz = false;
 //			GPS5hrz();
 //		}
-//-----------------------------------------------------------------------------
-//Manejo del reset del Modulo WiFi
 
-		if (Wifi.fMod)
-		{
-//Se abrio el puerto esta transmitiendo datos	
-			if(Wifi.fConectado)
-			{
-				DestWf.Duty = 25;
-				DestWf.Sec = 0x00AA;
-			}
-//No recibe el KAV	
-			else if (Sts_Tmr.CntWifi >3)
-			{
-				DestWf.Duty = 6;
-				DestWf.Sec = 0x0033;
-			}
-//Se abrio el puerto esta transmitiendo datos
-			else
-			{
-				DestWf.Duty = 3;
-				DestWf.Sec = 0xAAAA;
-			}			
-			Sts_Tmr.CntWifi++;
-			if(Sts_Tmr.CntWifi > 60)
-			{
-				Sts_Tmr.CntWifi = 0;
-				Pwr_Wifi 	= false;		//Alimentacion 3v3 Modulo WiFi
-				Wifi.fMod = false;
-				Wifi.lMod = false;		
-			}
-		}
-//El modulo esta apagado
-		else if(!Pwr_Wifi)
-		{
-			DestWf.Duty = 5;
-			DestWf.Sec = 0x0000;
-			
-			Wifi.fConectado = false;	
-			Sts_Tmr.CntWifi++;
-			if(Sts_Tmr.CntWifi > 10)
-			{
-				Sts_Tmr.CntWifi = 0;
-				Pwr_Wifi 	= true;		//Alimentacion 3v3 Modulo WiFi			
-			}
-		}
-//El modulo esta encendido pero el puerto no esta abierto
-		else 
-		{
-			DestWf.Duty = 25;
-			DestWf.Sec = 0x0F0F;
-		}
 	}	
 }
 
