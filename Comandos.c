@@ -867,7 +867,7 @@ void Comando(unsigned char *S)
 				S += Movstr(Cmd,S);
 				S++;	
 			//	SenDtsMod.SemB1 =  ArrtoLongHex(Cmd);
-				ArrtoLongHex2(Cmd,SenDtsMod.SemB1);
+				ArrtoLongHex2(Cmd,&SenDtsMod.SemB1);
 				memset(Cmd,0x00,10);
 				S += Movstr(Cmd,S);
 				S++;	

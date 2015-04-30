@@ -397,7 +397,7 @@ void ExeTask(void)
 			CargaId();
 		}
 		//Lectura de los datos de los sensores
-		else if(!Proceso.B.fInicio || !Proceso.B.fConfPer)
+		else if(!Proceso.B.fInicio && !Proceso.B.fConfPer)
 		{
 			Adq_Proc_Lin1(); 
 			Adq_Proc_Lin2();

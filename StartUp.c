@@ -1,6 +1,3 @@
-
-
-
   	#include	"VarGlob.h"
   	#include	"Constantes.h"
   	#include 	"sw1master.h"
@@ -266,7 +263,8 @@ void SenRedetecion(void)
 	unsigned char Id;
 	unsigned char SenId;
 	unsigned char Num;
-	unsigned char Error;
+	unsigned char Error1;
+	unsigned char Error2;
 	unsigned char SInd;
 
 	if (SW1PortSys.Sts.B.fPend || SW2PortSys.Sts.B.fPend) ExeTask();
@@ -279,7 +277,8 @@ void SenRedetecion(void)
 	for(SenId=0;SenId<64;SenId++)
 	{
 		SInd = SenId & 0x1F;
-		Error = 0;
+		Error1 = 0;
+		Error2 = 0;
 //---------------------------------------------------------------------------
 //	Redeteccion de los sensores de semillas
 lRelectura:
@@ -308,8 +307,8 @@ lRelectura:
 		}
 		else
 		{
-			Error ++;
-			if(Error < 3)
+			Error1 ++;
+			if(Error1 < 3)
 				goto lRelectura;
 			if(SenId<0x20)
 			{
@@ -342,8 +341,8 @@ lRelectura:
 		}
 		else
 		{	
-			Error ++;
-			if(Error < 3)
+			Error2 ++;
+			if(Error2 < 3)
 				goto lRelectura;
 			if(SenId<0x20)
 			{
@@ -365,7 +364,8 @@ lRelectura:
 //	Redeteccion Moduladoras
 	for(SenId=0;SenId<16;SenId++)
 	{
-		Error = 0;
+		Error1 = 0;
+		Error2 = 0;
 lErrorLectMod:	
 		Id = ModDirId(SenId);
 		SInd =SenId;
@@ -393,8 +393,8 @@ lErrorLectMod:
 		}
 		else
 		{
-			Error ++;
-			if(Error < 3)
+			Error1 ++;
+			if(Error1 < 3)
 				goto lErrorLectMod;
 				
 			Moduladora[SInd].Sts.B.Con = false;
@@ -408,7 +408,7 @@ lErrorLectMod:
 //	Redeteccion Sensores Rotacion
 	for(SenId=0;SenId<8;SenId++)
 	{
-		Error = 0;
+		Error1 = 0;
 lErrorLectRot:
 		Id = 0x40 + SenId;
 		SInd = SenId;
@@ -437,8 +437,8 @@ lErrorLectRot:
 		}
 		else
 		{
-			Error ++;
-			if(Error < 3)
+			Error1 ++;
+			if(Error1 < 3)
 				goto lErrorLectRot;
 			Rotacion[SInd].Sts.B.Con = false;
 			Rotacion[SInd].Sts.B.Bus = false;
@@ -451,8 +451,7 @@ lErrorLectRot:
 //	Redeteccion sensores de RPM secumdarios	
 	for(SenId=0;SenId<3;SenId++)
 	{
-
-		Error = 0;
+		Error1 = 0;
 lErrorLectTRB:
 
 		Id = 0xD3 + SenId;
@@ -485,8 +484,8 @@ lErrorLectTRB:
 		}
 		else
 		{
-			Error ++;
-			if(Error < 3)
+			Error1 ++;
+			if(Error1 < 3)
 				goto lErrorLectTRB;
 			
 			Turbina[SInd].Sts.B.Con = false;
@@ -500,7 +499,7 @@ lErrorLectTRB:
 //	Redeteccion Sensores de Tolva
 	for(SenId=0;SenId<16;SenId++)
 	{
-		Error = 0;
+		Error1 = 0;
 
 lErrorLectTolva:
 		Id = 0x48 + SenId;
@@ -529,8 +528,8 @@ lErrorLectTolva:
 		}
 		else
 		{
-			Error ++;
-			if(Error < 3)
+			Error1 ++;
+			if(Error1 < 3)
 				goto lErrorLectTolva;
 				
 			SenTol[SInd].B.Con = false;

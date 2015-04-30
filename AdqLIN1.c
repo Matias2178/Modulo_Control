@@ -485,7 +485,6 @@ TolLIN1:
 					}
 					else
 					{
-						SenTol[SenB1ID].C.Val = 0;
 						SenTol[SenB1ID].C.Alcont = 0;
 						SenTol[SenB1ID].B.Con = false;
 						SenTol[SenB1ID].B.SNV = false;
