@@ -193,8 +193,8 @@ int main (void)
 	CargaConfSen();	
 	CargaConfPer();
 ////-------------Lectura inicial de los sensores y perifericos--------------------
-	SenRedetecion();
 	Proceso.B.fInicio = true;
+	SenRedetecion();
 	SenStart000();	//Lectura inicial de los sensores de semilla y fertilizante
 	ModStart000();	//Lectura inicial de las Moduladoras
 	TRBStart000();	//Lectura inicial de los sensores de RPM

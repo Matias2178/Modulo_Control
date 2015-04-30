@@ -265,6 +265,7 @@ void SenRedetecion(void)
 	unsigned char Num;
 	unsigned char Error1;
 	unsigned char Error2;
+	unsigned char Falla;
 	unsigned char SInd;
 
 	if (SW1PortSys.Sts.B.fPend || SW2PortSys.Sts.B.fPend) ExeTask();
@@ -279,19 +280,22 @@ void SenRedetecion(void)
 		SInd = SenId & 0x1F;
 		Error1 = 0;
 		Error2 = 0;
+		Falla = 0;
 //---------------------------------------------------------------------------
 //	Redeteccion de los sensores de semillas
-lRelectura:
+		
 		SW1_PortUserStart(SenId,0x07 | SW1_cmdRd,1);
 		SW2_PortUserStart(SenId,0x07 | SW2_cmdRd,1);
 		
 		SW1PortUser.Sts.B.fPend=true;
 		SW2PortUser.Sts.B.fPend=true;
-
+		
+lRelectura:
 		while(SW1PortUser.Sts.B.fPend ||SW2PortUser.Sts.B.fPend) ExeTask();
 		
 		if (SW1PortUser.Sts.B.fOk)
 		{
+			SW1PortUser.Sts.B.fOk = false;
 			if(SenId<0x20)
 			{
 				BUS1.Sie[SInd].Sts.B.Con = true;
@@ -309,7 +313,12 @@ lRelectura:
 		{
 			Error1 ++;
 			if(Error1 < 3)
-				goto lRelectura;
+			{
+				SW1_PortUserStart(SenId,0x07 | SW1_cmdRd,1);
+				SW1PortUser.Sts.B.fPend=true;
+				Falla = 1;
+				
+			}	
 			if(SenId<0x20)
 			{
 				BUS1.Sie[SInd].Sts.B.Con = false;
@@ -326,6 +335,7 @@ lRelectura:
 ///**********************************************************		
 		if (SW2PortUser.Sts.B.fOk)
 		{
+			SW2PortUser.Sts.B.fOk = false;
 			if(SenId<0x20)
 			{
 				BUS2.Sie[SInd].Sts.B.Con = true;
@@ -343,7 +353,12 @@ lRelectura:
 		{	
 			Error2 ++;
 			if(Error2 < 3)
-				goto lRelectura;
+			{
+				SW2_PortUserStart(SenId,0x07 | SW2_cmdRd,1);
+				SW2PortUser.Sts.B.fPend=true;
+				Falla = 1;
+			}
+				
 			if(SenId<0x20)
 			{
 				BUS2.Sie[SInd].Sts.B.Con = false;
@@ -356,6 +371,11 @@ lRelectura:
 				BUS2.Fer[SInd].Sts.B.Det = false;
 				BUS2.Fer[SInd].Sts.B.FDs = false;
 			}
+		}
+		if(Falla)
+		{
+			Falla = 0;
+			goto lRelectura;
 		}			
 	}
 

@@ -98,4 +98,6 @@ Version 1R27
 	Correccion modo de siembra cargado con error
 	Falla en lectura de tolva
 	Correccion Habilitacion perifericos? -> habia falla en la tablet
-	Correccion sensores fantasmas??? solucion uno exeTask	
+	Correccion sensores fantasmas??? solucion uno exeTask
+Version 1R28
+	Cambios en la configuracion de sensores, solamente en la redeteccion habilita el sensor de Detectado

@@ -26,7 +26,6 @@ unsigned char * EstadosCN(char *lb,unsigned char *S);
 void Comando(unsigned char *S)
 {
 	unsigned char *P;
-
 	unsigned char Cmd[10];
 	unsigned char i = (unsigned char) 0;
 	unsigned char a;
@@ -887,16 +886,16 @@ void Comando(unsigned char *S)
 				Proceso.B.fConfSen = true;
 			}
 			GuardaConfSen();
-			P = LongHextoArr(SenDtsMod.SemB1, P);
+			P = LongHextoArr(SenDtsMod.SemB1,P);
 			*P = ',';
 			P++;
-			P = LongHextoArr(SenDtsMod.SemB2, P);
+			P = LongHextoArr(SenDtsMod.SemB2,P);
 			*P = ',';
 			P++;
-			P = LongHextoArr(SenDtsMod.FerB1, P);
+			P = LongHextoArr(SenDtsMod.FerB1,P);
 			*P = ',';
 			P++;
-			P = LongHextoArr(SenDtsMod.FerB2, P);
+			P = LongHextoArr(SenDtsMod.FerB2,P);
 			*P = ',';
 			P++; 	
 		}
