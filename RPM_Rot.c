@@ -43,14 +43,14 @@ void RotStart000(void)
 			Rotacion[SenId].FK	=*(unsigned long *)SW1PortUser.Data;
 			Rotacion[SenId].Sts.B.Con = true;
 			Rotacion[SenId].Sts.B.Bus = false;
-			Rotacion[SenId].Sts.B.Det = true;
+//			Rotacion[SenId].Sts.B.Det = true;
 		}
 		else if (SW2PortUser.Sts.B.fOk)
 		{
 			Rotacion[SenId].FK	=*(unsigned long *)SW2PortUser.Data;
 			Rotacion[SenId].Sts.B.Con = true;
 			Rotacion[SenId].Sts.B.Bus = true;
-			Rotacion[SenId].Sts.B.Det = true;
+//			Rotacion[SenId].Sts.B.Det = true;
 		}
 		else
 		{
@@ -191,7 +191,7 @@ void TRBStart000(void)
 			Turbina[SenId].FK = *(unsigned long *)SW1PortUser.Data;
 			Turbina[SenId].Sts.B.Con = true;
 			Turbina[SenId].Sts.B.Bus = false;
-			Turbina[SenId].Sts.B.Det = true;
+//			Turbina[SenId].Sts.B.Det = true;
 			
 			Sw1_RdReg(Id,0x06,&Turbina[SenId].AlMin);
 			
@@ -202,7 +202,7 @@ void TRBStart000(void)
 			Turbina[SenId].FK = *(unsigned long *)SW2PortUser.Data;
 			Turbina[SenId].Sts.B.Con = true;
 			Turbina[SenId].Sts.B.Bus = true;
-			Turbina[SenId].Sts.B.Det = true;
+//			Turbina[SenId].Sts.B.Det = true;
 			
 			Sw2_RdReg(Id,0x06,&Turbina[SenId].AlMin);
 			
@@ -569,20 +569,20 @@ void TOLStart000(void)
 		
 		if (SW1PortUser.Sts.B.fOk)
 		{
-			SenTol[SenId].B.Con = true;
-			SenTol[SenId].B.Bus = false;
-			SenTol[SenId].B.Det = true;
+			Tolva[SenId].Sts.B.Con = true;
+			Tolva[SenId].Sts.B.Bus = false;
+//			Tolva[SenId].Sts.B.Det = true;
 			
 		}
 		else if (SW2PortUser.Sts.B.fOk)
 		{
-			SenTol[SenId].B.Con = true;
-			SenTol[SenId].B.Bus = true;
-			SenTol[SenId].B.Det = true;			
+			Tolva[SenId].Sts.B.Con = true;
+			Tolva[SenId].Sts.B.Bus = true;
+//			Tolva[SenId].Sts.B.Det = true;			
 		}
 		else
 		{
-			SenTol[SenId].B.Con = false;
+			Tolva[SenId].Sts.B.Con = false;
 		//	Turbina[SenId].Sts.B.Bus = false;
 		//	Turbina[SenId].Sts.B.Det = false;
 		}

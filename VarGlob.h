@@ -105,7 +105,7 @@
 	extern struct _SenRot	Rotacion[8];
  	extern struct _SenRot	Turbina[3];
 	extern struct _Mod		Moduladora[16];
-	extern union  _SenTol	SenTol[16];	
+	extern struct _SenTol	Tolva[16];	
 	extern struct _LIN232 LIN1_232;	
 	extern struct _LIN232 LIN2_232;	
 	

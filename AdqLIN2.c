@@ -474,19 +474,19 @@ TolLIN2:
 			{
 				Id = 0x48 + SenB2ID;
 //!Turbina[SenB2ID].Sts.B.Bus indica que esta en el bus 1
-				if(SenTol[SenB2ID].B.Bus)
+				if(Tolva[SenB2ID].Sts.B.Bus)
 				{
-					if(SenTol[SenB2ID].B.Hab && SenTol[SenB2ID].B.Det)
+					if(Tolva[SenB2ID].Sts.B.Hab && Tolva[SenB2ID].Sts.B.Det)
 					{
 						//Sensor habilitado para lectura
 						break;
 					}
 					else
 					{
-						SenTol[SenB2ID].C.Alcont = 0;
-						SenTol[SenB2ID].B.Con = false;
-						SenTol[SenB2ID].B.SNV = false;
-						SenTol[SenB2ID].B.FDs = false;
+						Tolva[SenB2ID].Alcont = 0;
+						Tolva[SenB2ID].Sts.B.Con = false;
+						Tolva[SenB2ID].Sts.B.SNV = false;
+						Tolva[SenB2ID].Sts.B.FDs = false;
 					}
 				}
 				SenB2ID++;
@@ -511,32 +511,32 @@ TolLIN2:
 			{
 				if(SW2.buf[0]== 0xFF)
 				{
-					if(SenTol[SenB2ID].C.Alcont < 9)
+					if(Tolva[SenB2ID].Alcont < 9)
 					{
-						SenTol[SenB2ID].C.Alcont ++;
+						Tolva[SenB2ID].Alcont ++;
 					}
 					else
 					{
-						SenTol[SenB2ID].B.SNV = true;
+						Tolva[SenB2ID].Sts.B.SNV = true;
 					}
 				}
 				else
 				{
-					SenTol[SenB2ID].C.Alcont = 0;
-					SenTol[SenB2ID].B.SNV = false;
+					Tolva[SenB2ID].Alcont = 0;
+					Tolva[SenB2ID].Sts.B.SNV = false;
 				}
-				SenTol[SenB2ID].B.FDs = false;
-				SenTol[SenB2ID].B.Con = true;
+				Tolva[SenB2ID].Sts.B.FDs = false;
+				Tolva[SenB2ID].Sts.B.Con = true;
 			}
-			else if(SW2PortSys.Sts.B.fErr && !SenTol[SenB2ID].B.FDs)
+			else if(SW2PortSys.Sts.B.fErr && !Tolva[SenB2ID].Sts.B.FDs)
 			{
 				if(ErrorB2>=2)
 				{
 					ErrorB2=0;	
-					SenTol[SenB2ID].C.Alcont = 0;				
-					SenTol[SenB2ID].B.SNV = false;
-					SenTol[SenB2ID].B.Con = false;
-					SenTol[SenB2ID].B.FDs = true;
+					Tolva[SenB2ID].Alcont = 0;				
+					Tolva[SenB2ID].Sts.B.SNV = false;
+					Tolva[SenB2ID].Sts.B.Con = false;
+					Tolva[SenB2ID].Sts.B.FDs = true;
 				}
 				else
 				{

@@ -119,7 +119,7 @@
 	struct _SenRot	Rotacion[8];
 	struct _SenRot	Turbina[3];
 	struct _Mod		Moduladora[16];	
-	union  _SenTol	SenTol[16];
+	struct _SenTol	Tolva[16];
 	
 	union _UInt32 CorrAlDen;
 

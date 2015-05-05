@@ -101,3 +101,10 @@ Version 1R27
 	Correccion sensores fantasmas??? solucion uno exeTask
 Version 1R28
 	Cambios en la configuracion de sensores, solamente en la redeteccion habilita el sensor de Detectado
+Version 1R29
+	Modificación en el metodo de la transmicion de datos la Pantalla
+	Borrado del seteo/reseteo del bit "Det" solamente en la funcion de la redeteccion, para todos los perifericos 
+		(eliminación de sensores fantasmas??)
+	Creacion funcion de carga de datos de sensores de semillas y fertilizante según el modo de funcionamiento.
+	Modificacion estructura Tolva y del nombre de la variable (antes SenTol -> ahora Tovla)
+	

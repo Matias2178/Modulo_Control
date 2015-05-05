@@ -372,21 +372,21 @@ void ExeTask(void)
 //-----------------------------------------------------------------------------
 // Transferencia de datos para comunicacion
 //-----------------------------------------------------------------------------		
-		if(Proceso.B.fAdqSie1 && Proceso.B.fAdqSie2 && !Sensores.STS.B.TX_SF1 && !Sensores.STS.B.TX_SF2)
+		if(Proceso.B.fAdqSie1 && Proceso.B.fAdqSie2)// && !Sensores.STS.B.TX_SF1 && !Sensores.STS.B.TX_SF2)
 		{	
 			Medicion = 0;
 			Bus1aDtsCom();	
 			Bus2aDtsCom();
-			Sensores.tSIE ++;
-			if(Sensores.STS.B.fSAct1 || Sensores.STS.B.fFAct1 || Sensores.STS.B.fSAct2 || Sensores.STS.B.fFAct2 || !Medicion || (Sensores.tSIE >= kMaxEscan))
-			{		
+//			Sensores.tSIE ++;
+//			if(Sensores.STS.B.fSAct1 || Sensores.STS.B.fFAct1 || Sensores.STS.B.fSAct2 || Sensores.STS.B.fFAct2 || !Medicion || (Sensores.tSIE >= kMaxEscan))
+//			{		
 				Sensores.STS.B.TX_SF1 = true;
-				Sensores.STS.B.fSAct1 = false;
-				Sensores.STS.B.fFAct1 = false;
-				Sensores.STS.B.fSAct2 = false;
-				Sensores.STS.B.fFAct2 = false;
-				Sensores.tSIE = 0;
-			}
+//				Sensores.STS.B.fSAct1 = false;
+//				Sensores.STS.B.fFAct1 = false;
+//				Sensores.STS.B.fSAct2 = false;
+//				Sensores.STS.B.fFAct2 = false;
+//				Sensores.tSIE = 0;
+//			}
 //			Sensores.STS.B.TX_SF1 = true;
 			Proceso.B.fAdqSie2 = false;
 			Proceso.B.fAdqSie1 = false;		

@@ -195,7 +195,8 @@ int main (void)
 ////-------------Lectura inicial de los sensores y perifericos--------------------
 	Proceso.B.fInicio = true;
 	SenRedetecion();
-	SenStart000();	//Lectura inicial de los sensores de semilla y fertilizante
+//	SenStart000();	//Lectura inicial de los sensores de semilla y fertilizante
+	SenConfig00();	//Control de los parametros de los sensores de semillas
 	ModStart000();	//Lectura inicial de las Moduladoras
 	TRBStart000();	//Lectura inicial de los sensores de RPM
 	RotStart000();	//Lectura inicial de los sensores de Rotacion
@@ -271,7 +272,7 @@ int main (void)
 			Proceso.B.fRxCom = false;
 			Wifi.fCom = false;
 			RS232.fCom = false;
-			//Reseteo el buffer de recepcion para que no me joda
+//Reseteo el buffer de recepcion para que no me joda
 	//		Rx232Ind = 0;
 	//		memset(Rx232Buf,0,sizeof(Rx232Buf));
 	//		Rx3Ind = 0;
@@ -280,7 +281,8 @@ int main (void)
 		}
 		if(Proceso.B.fConfSen)
 		{
-			SenStart000();
+			//SenStart000();
+			SenConfig00();
 			Proceso.B.fConfSen = false;
 		}	
 	}

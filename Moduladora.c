@@ -204,7 +204,7 @@ void ModStart000(void)
 
 			Moduladora[SenId].Sts.B.Con = true;
 			Moduladora[SenId].Sts.B.Bus = false;
-			Moduladora[SenId].Sts.B.Det = true;
+//			Moduladora[SenId].Sts.B.Det = true;
 		}
 		else if (SW2PortUser.Sts.B.fOk)
 		{
@@ -212,7 +212,7 @@ void ModStart000(void)
 			Moduladora[SenId].KD = *(unsigned int*)&SW2PortUser.Data[2];
 			Moduladora[SenId].Sts.B.Con = true;
 			Moduladora[SenId].Sts.B.Bus = true;
-			Moduladora[SenId].Sts.B.Det = true;
+//			Moduladora[SenId].Sts.B.Det = true;
 		}
 		else
 		{

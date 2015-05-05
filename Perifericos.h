@@ -52,6 +52,7 @@
  extern void SenStart000(void);
  extern void SenTuboSucio(void);
  extern void SenRedetecion(void);
+ extern void SenConfig00(void);
   
 //----------------------------------------------------------------------------
 //	RPM_Rot.c

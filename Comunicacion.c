@@ -145,22 +145,28 @@ void DtoTerminal(void)
 			{
 				strcpy((char*)ComBuf,"<IMPSW>,DOWN");
 			}
+		}
+		else if (Proceso.B.fGrabaDts)
+		{
+			Proceso.B.fGrabaDts = false;
+			CheckGrabaMem(">RMEM",Checksum,ComBuf);
+			goto lComSinCheck;
 		}	
 		else if(Proceso.B.fGPSDtOk | Proceso.B.Puto)
-//		else if(Proceso.B.fGPSDtOk)
 		{
 			tlecgpstx = 0;
 			Proceso.B.fGPSDtOk = false;
 			GPSDatos("<GPSDT>",ComBuf);
 			Proceso.B.Puto = false;
 		}
-		else if (Sensores.STS.B.TX_MOD)
+		else if (Sensores.STS.B.TX_MOD && !Sensores.STS.B.MOD_Ax)
 		{
 			Sensores.STS.B.TX_MOD = false;
+			Sensores.STS.B.MOD_Ax = true;
 			//MedPerifericos ("<ALMOD>",DtsPerCom,ComBuf,1);
 			StsPerifericos ("<SPMOD>",DtsPerCom,ComBuf,1);
 		}
-		else if (Sensores.STS.B.TX_TRB)
+		else if (Sensores.STS.B.TX_TRB && !Sensores.STS.B.TRB_Ax)
 		{
 			switch(Com_DtsTask_TRB010)
 			{	
@@ -174,10 +180,11 @@ void DtoTerminal(void)
 				StsPerifericos ("<SPTRB>",DtsPerCom,ComBuf,3);
 				Sensores.STS.B.TX_TRB = false;
 				Com_DtsTask_TRB010 = 0;
+				Sensores.STS.B.TRB_Ax = true;
 			break;
 			}			
 		}
-		else if (Sensores.STS.B.TX_ROT)
+		else if (Sensores.STS.B.TX_ROT && !Sensores.STS.B.ROT_Ax)
 		{
 			switch(Com_DtsTask_ROT010)
 			{
@@ -191,22 +198,18 @@ void DtoTerminal(void)
 				StsPerifericos ("<SPROT>",DtsPerCom,ComBuf,2);
 				Sensores.STS.B.TX_ROT = false;
 				Com_DtsTask_ROT010 = 0;
+				Sensores.STS.B.ROT_Ax = true;
 			break;
 			}	
 		}
-		else if(Sensores.STS.B.TX_TOL)
+		else if(Sensores.STS.B.TX_TOL && !Sensores.STS.B.TOL_Ax)
 		{
 			Sensores.STS.B.TX_TOL = false;
 			StsPerifericos ("<SNTOL>",DtsPerCom,ComBuf,4);
+			Sensores.STS.B.TOL_Ax = true;
 		}
-		else if (Proceso.B.fGrabaDts)
-		{
-			Proceso.B.fGrabaDts = false;
-			CheckGrabaMem(">RMEM",Checksum,ComBuf);
-			goto lComSinCheck;
-		}
-		
-		else if(Sensores.STS.B.DIAG)
+
+		else if(Sensores.STS.B.DIAG && !Sensores.STS.B.DIAG_Ax)
 		{
 			switch(Com_DtsTask_DIAG10)
 			{	
@@ -227,7 +230,7 @@ void DtoTerminal(void)
 						strcpy((char*)ComBuf,"<IMPSW>,DOWN");
 					Com_DtsTask_DIAG10 = 0;
 					Sensores.STS.B.DIAG = false;
-
+					Sensores.STS.B.DIAG_Ax = true;
 				break;
 //			if(!Proceso.B.fDtsSat)
 //				{
@@ -235,7 +238,7 @@ void DtoTerminal(void)
 //				}
 			}
 		} 
-		else if (Sensores.STS.B.TX_SF1)
+		else if (Sensores.STS.B.TX_SF1 && !Sensores.STS.B.SSF_Ax)
 		{
 			switch(Com_DtsTask_Sen010)
 			{	
@@ -257,15 +260,7 @@ void DtoTerminal(void)
 				StsSensores ("<SSFB1>",DtsComBus1,ComBuf,2);
 				Com_DtsTask_Sen010++;
 				
-			break;
-//			}
-//		}
-//		else if (Sensores.STS.B.TX_SF2)
-//		{
-//			switch(Com_DtsTask_Sen010 )
-//			{	
-//			default:
-//				Com_DtsTask_Sen010= 0;		
+			break;	
 			case 4:
 				MedSensores ("<MSSB2>",DtsComBus2,ComBuf,1);
 				Com_DtsTask_Sen010++;
@@ -283,12 +278,19 @@ void DtoTerminal(void)
 				Com_DtsTask_Sen010= 0;
 				Sensores.STS.B.TX_SF1 = false;
 		//		Sensores.STS.B.TX_SF2 = true;
-				Sensores.STS.B.TX_SF2 = false;
+//				Sensores.STS.B.TX_SF2 = false;
+				Sensores.STS.B.SSF_Ax = true;
 			break;
 			}	
 		}
 		else
+		{
+			Sensores.STS.C.Aux = 0;
 			return;
+		}
+			
+			
+//--------------------------------------------------------------------------------------
 		//		Encabezado("<ENCAB>",ComBuf);
 //			case 16:
 //				TmrBusLin("<TLIN1>",TLin1,ComBuf,TDispLin1,TDispActLin1,TDispErrLin1);
@@ -298,6 +300,7 @@ void DtoTerminal(void)
 //				TmrBusLin("<TLIN2>",TLin2,ComBuf,TDispLin2,TDispActLin2,TDispErrLin2);
 //				Com_DtsTask010 ++;		
 //			break;			
+//---------------------------------------------------------------------------------------
 	}
 	else
 		return;

@@ -53,7 +53,7 @@
 			if(BUS1.Sie[mID].tMed != tMed)
 			{
 				BUS1.Sie[mID].tMed = tMed;
-				Sensores.STS.B.fSAct1 = true;
+//				Sensores.STS.B.fSAct1 = true;
 			}
 			if(!MedValue)
 			{
@@ -118,7 +118,7 @@
 			if(BUS1.Fer[mID].tMed != tMed)
 			{
 				BUS1.Fer[mID].tMed = tMed;
-				Sensores.STS.B.fFAct1 = true;
+//				Sensores.STS.B.fFAct1 = true;
 			}
 			if(!MedValue)
 			{
@@ -241,7 +241,7 @@ void Bus1aDtsCom(void)
 			if(BUS2.Sie[mID].tMed != tMed)
 			{
 				BUS2.Sie[mID].tMed = tMed;
-				Sensores.STS.B.fSAct2 = true;
+//				Sensores.STS.B.fSAct2 = true;
 			}
 			if(!MedValue)
 			{
@@ -305,7 +305,7 @@ void Bus1aDtsCom(void)
 			if(BUS2.Fer[mID].tMed != tMed)
 			{
 				BUS2.Fer[mID].tMed = tMed;
-				Sensores.STS.B.fFAct2 = true;
+//				Sensores.STS.B.fFAct2 = true;
 			}
 			if(!MedValue)
 			{
@@ -567,9 +567,9 @@ unsigned long Mask;
 		Mask = 1;
 		Mask = Mask << i;
 		
-		SenTol[i].B.Hab = (Mask & HabPer.TOL)>>i;
-		SenTol[i].B.Det = (Mask & ConPer.TOL)>>i;		
-		SenTol[i].B.Bus = (Mask & BusPer.TOL)>>i;		
+		Tolva[i].Sts.B.Hab = (Mask & HabPer.TOL)>>i;
+		Tolva[i].Sts.B.Det = (Mask & ConPer.TOL)>>i;		
+		Tolva[i].Sts.B.Bus = (Mask & BusPer.TOL)>>i;		
 	}
 }
 
@@ -620,11 +620,11 @@ void GrabaConfPer(void)
 	{
 		Mask = 1;
 		
-		HabPer.TOL |= ((Mask & SenTol[i].B.Hab)<< i);
-		ConPer.TOL |= ((Mask & SenTol[i].B.Det)<< i);
-		BusPer.TOL |= ((Mask & SenTol[i].B.Bus)<< i);			
+		HabPer.TOL |= ((Mask & Tolva[i].Sts.B.Hab)<< i);
+		ConPer.TOL |= ((Mask & Tolva[i].Sts.B.Det)<< i);
+		BusPer.TOL |= ((Mask & Tolva[i].Sts.B.Bus)<< i);			
 	}
-	
+
 	EepromWRBuf(M_STS_HAB_PER,(unsigned char *)&HabPer,sizeof(struct _DtsPer));
 	EepromWRBuf(M_STS_CON_PER,(unsigned char *)&ConPer,sizeof(struct _DtsPer));
 	EepromWRBuf(M_STS_BUS_PER,(unsigned char *)&BusPer,sizeof(struct _DtsPer));	
@@ -720,9 +720,9 @@ void GrabaConfTol(void)
 	{
 		Mask = 1;
 		
-		HabPer.TOL |= ((Mask & SenTol[i].B.Hab)<< i);
-		ConPer.TOL |= ((Mask & SenTol[i].B.Det)<< i);
-		BusPer.TOL |= ((Mask & SenTol[i].B.Bus)<< i);			
+		HabPer.TOL |= ((Mask & Tolva[i].Sts.B.Hab)<< i);
+		ConPer.TOL |= ((Mask & Tolva[i].Sts.B.Det)<< i);
+		BusPer.TOL |= ((Mask & Tolva[i].Sts.B.Bus)<< i);			
 	}
 }
 
@@ -840,8 +840,8 @@ void TOL2DtsCom(void)
 	
 	for(i=0;i<16;i++)
 	{
-		DtsPerCom.TOL.Sts[i]= SenTol[i].C.Val ;
-		if( SenTol[i].B.Det)
+		DtsPerCom.TOL.Sts[i]= Tolva[i].Sts.Val;
+		if( Tolva[i].Sts.B.Det)
 			cont ++;
 	}
 	if(cont)

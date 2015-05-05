@@ -103,24 +103,22 @@ struct _SenRot{
 	}Sts;
 };
 
-union _SenTol{
-	struct{
+struct _SenTol{
+	union{
+		struct{
+			BYTE Con	:1;		//El sensor esta conectado 
+			BYTE Bus	:1;		//0:Bus0  1:Bus 1
+			BYTE Hab	:1;		//Esta habilitado por sistema	
+			BYTE Det	:1;		//El sensor esta Detectado
+			BYTE SNV	:1;		//0:Desactivado	1: Activado (Detecta semilla)
+			BYTE B5		:1;		//
+			BYTE B6		:1;		//
+			BYTE FDs	:1;		//Falla desconexion		
+		}B;
 		unsigned char Val;
-		unsigned char Alcont;
-	}C;
-	struct{
-		BYTE Con	:1;		//El sensor esta conectado 
-		BYTE Bus	:1;		//0:Bus0  1:Bus 1
-		BYTE Hab	:1;		//Esta habilitado por sistema	
-		BYTE Det	:1;		//El sensor esta Detectado
-		BYTE SNV	:1;		//0:Desactivado	1: Activado (Detecta semilla)
-		BYTE B5		:1;		//
-		BYTE B6		:1;		//
-		BYTE FDs	:1;		//Falla desconexion
-		BYTE 		:8;
-		
-	}B;
-};	
+	}Sts;
+	unsigned char Alcont;
+};		
 
 struct _Mod{
 	unsigned int	Vel;	//Velocidad
@@ -468,32 +466,49 @@ struct _Sensores{
 	union 
 	{
 		struct {
-			BYTE TX_SF1:1;
-			BYTE TX_SF2:1;
-			BYTE TX_ROT:1;
-			BYTE TX_MOD:1;
-			BYTE TX_TRB:1;
-			BYTE TX_TOL:1;
-			BYTE TX_B6:1;
-			BYTE TX_B7:1;
+			BYTE TX_SF1	:1;	//Lectura Siembra Fertilizante Listo
+			BYTE TX_ROT	:1;	//Lectura Rotacion Listo
+			BYTE TX_MOD	:1;	//Lectura Moduladoras Listo
+			BYTE TX_TRB	:1;	//Lectura Turbina Listo
+			BYTE TX_TOL	:1;	//Lectura Tovla Listo
+			BYTE TX_B5	:1;
+			BYTE TX_B6	:1;
+			BYTE DIAG	:1;
 			
-			BYTE RX_SF1:1;
-			BYTE RX_SF2:1;
-			BYTE RX_ROT:1;
-			BYTE RX_MOD:1;
-			BYTE RX_TRB:1;
-			BYTE RX_TOL:1;
-			BYTE RX_B6:1;
-			BYTE DIAG:1;
+			BYTE RX_SF1	:1;
+			BYTE RX_SF2	:1;
+			BYTE RX_ROT	:1;
+			BYTE RX_MOD	:1;
+			BYTE RX_TRB	:1;
+			BYTE RX_TOL	:1;
+			BYTE RX_B6	:1;
+			BYTE RX_B7	:1;
 			
-			BYTE fSAct1:1;
-			BYTE fFAct1:1;
-			BYTE fSAct2:1;
-			BYTE fFAct2:1;
-			BYTE zzz:1;
-
+			BYTE fSAct0	:1;//Libre
+			BYTE fFAct1	:1;//Libre
+			BYTE fSAct2	:1;//Libre
+			BYTE fFAct3	:1;//Libre
+			BYTE SAct4	:1;//Libre
+			BYTE SAct5	:1;//Libre
+			BYTE SAct6	:1;//Libre
+			BYTE SAct7	:1;//Libre
+			
+			BYTE SSF_Ax	:1;//Libre
+			BYTE ROT_Ax	:1;//Libre
+			BYTE MOD_Ax	:1;//Libre
+			BYTE TRB_Ax	:1;//Libre
+			BYTE TOL_Ax	:1;//Libre
+			BYTE Ax5	:1;//Libre
+			BYTE Ax6	:1;//Libre
+			BYTE DIAG_Ax:1;//Libre
 			
 		}B;
+		struct{
+			unsigned char PerTx;
+			unsigned char AuxTx;
+			unsigned char SActiv;
+			unsigned char Aux;		
+		}C;
 		unsigned long Val;
 	}STS;
 	BYTE tSIE;
