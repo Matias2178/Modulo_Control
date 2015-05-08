@@ -107,4 +107,9 @@ Version 1R29
 		(eliminación de sensores fantasmas??)
 	Creacion funcion de carga de datos de sensores de semillas y fertilizante según el modo de funcionamiento.
 	Modificacion estructura Tolva y del nombre de la variable (antes SenTol -> ahora Tovla)
+Version 1R30
+	Transmicion del número de serie con 8 caracteres (lo completo con ceros)
+Version 1.0R0
+	Cambio de los Leds de la Tapa
+	Equipos para la venta 		
 	

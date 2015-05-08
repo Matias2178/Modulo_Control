@@ -34,12 +34,12 @@
         #define LED_GPS			LATBbits.LATB12
         #define LED_WIFI		LATBbits.LATB13 
         
-        #define LED_POWER_E		LATDbits.LATD2
-        #define LED_LIN1_E		LATDbits.LATD3
-        #define LED_LIN2_E		LATDbits.LATD4
+        #define LED_POWER_E		LATDbits.LATD6	//Corregido para placa de leds
+        #define LED_LIN1_E		LATDbits.LATD2	//Corregido para placa de leds
+        #define LED_LIN2_E		LATDbits.LATD5	//Corregido para placa de leds
         #define LED_UART_E		LATDbits.LATD7
-        #define LED_GPS_E		LATDbits.LATD6
-        #define LED_WIFI_E		LATDbits.LATD5
+        #define LED_GPS_E		LATDbits.LATD3	//Corregido para placa de leds
+        #define LED_WIFI_E		LATDbits.LATD4	//Corregido para placa de leds
 
   //     	#define LED_LIN1		PORTBbits.RB8
         //#define LED_LIN2		PORTBbits.RB9

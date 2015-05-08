@@ -20,6 +20,7 @@
 	
 unsigned char i;	
 unsigned char * Dispositivo(unsigned char *S,unsigned char Id);	
+unsigned char * CargaSN8(unsigned char *S);
 /******************************************************************************
 *	Funcion:		DtoTerminal()
 *	Descricpion:	Transimite en forma secuencial los datos por el puerto 
@@ -728,7 +729,10 @@ void Diagnostico(char *lb,unsigned char *S)
 	*S = ',';
 	S++;
 //Numero de serie
-	S = ultos(SerialNum,S);
+
+	S = CargaSN8(S);
+
+//	S = ultos(SerialNum,S);
 	*S = ',';
 	S++;
 //Tension en la ECU
@@ -1091,6 +1095,39 @@ void TmrBusLin (char *lb, struct _TLin Tmp,unsigned char *S, char Disp, char Act
 }
 
 
+unsigned char * CargaSN8(unsigned char *S)
+{
+	unsigned char Tex[10];
+	unsigned char i;
+	unsigned char a;
+	unsigned char b;
+	b=0;	
+	memset(Tex,0x00,10);
+	
+	ultos(SerialNum,Tex);
+	for(i=0;i<10;i++)
+	{
+		if(Tex[i]==',' || !Tex[i])
+			break;
+	}
+	if(i>8)
+		i=8;
+	a = 8 -i;
+	for( i=0;i<8;i++)
+	{
+		if(i<a)
+		{
+			*S = '0';
+		}
+		else
+		{
+			*S = Tex[b];
+			b++;
+		}
+		S++;
+	}	
+	return (unsigned char *)S;
+}
 void StsEcu(char *lb,unsigned char *S)
 {
 	strcpy((char*)S,lb);

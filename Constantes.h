@@ -24,10 +24,10 @@
 //-----------------------------------------------------------------------------
 //Constantes del sistema
 
-	#define SoftVerH	0
-	#define SoftVerL	1
-	#define Relase		29
-	#define FVerD		4
+	#define SoftVerH	1
+	#define SoftVerL	0
+	#define Relase		0
+	#define FVerD		5
 	#define FVerM		5	
 	#define FVerA		2015
 	
