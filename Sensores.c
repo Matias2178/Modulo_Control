@@ -62,6 +62,16 @@
 					BUS1.Sie[mID].Sts.B.AuxTT = true;
 					return;
 				}
+				else if(!BUS1.Sie[mID].Sts.B.AuxTT2)
+				{
+					BUS1.Sie[mID].Sts.B.AuxTT2 = true;
+					return;
+				}
+				else if(!BUS1.Sie[mID].Sts.B.AuxTT3)
+				{
+					BUS1.Sie[mID].Sts.B.AuxTT3 = true;
+					return;
+				}
 			}
 			MedValue = MedValue * 100;
 		//Modo de Siembra en Gruesa		
@@ -75,7 +85,9 @@
 					SemMts = (SemSeg * 36) / (unsigned long) VSiembra;
 					BUS1.Sie[mID].Med = (int) SemMts;
 					BUS1.Sie[mID].Sts.B.Act = true;
-					BUS1.Sie[mID].Sts.B.AuxTT = false; 
+					BUS1.Sie[mID].Sts.B.AuxTT = false;
+					BUS1.Sie[mID].Sts.B.AuxTT2 = false;
+					BUS1.Sie[mID].Sts.B.AuxTT3 = false; 
 				}
 				else
 				{
@@ -87,9 +99,15 @@
 			else if(VSiembra)
 			{
 				SemSeg = (unsigned long) MedValue / (unsigned long) k_FinaTM;
+		//Promedio las mediciones en fina
+				SemMts	= (unsigned long) BUS1.Sie[mID].AxMed;
+				BUS1.Sie[mID].AxMed =  (int) SemSeg;
+				SemSeg = (SemSeg + SemMts)/ 2 ;
 				BUS1.Sie[mID].Med = (int) SemSeg;
 				BUS1.Sie[mID].Sts.B.Act = true; 
 				BUS1.Sie[mID].Sts.B.AuxTT = false;
+				BUS1.Sie[mID].Sts.B.AuxTT2 = false;
+				BUS1.Sie[mID].Sts.B.AuxTT3 = false;
 			}
 			else
 			{
@@ -127,6 +145,16 @@
 					BUS1.Fer[mID].Sts.B.AuxTT = true;
 					return;
 				}
+				else if(!BUS1.Fer[mID].Sts.B.AuxTT2)
+				{
+					BUS1.Fer[mID].Sts.B.AuxTT2 = true;
+					return;
+				}
+				else if(!BUS1.Fer[mID].Sts.B.AuxTT3)
+				{
+					BUS1.Fer[mID].Sts.B.AuxTT3 = true;
+					return;
+				}
 			}
 			MedValue = MedValue * 100;	
 			if(BUS1.Fer[mID].Sts.B.Mod)
@@ -140,6 +168,8 @@
 					BUS1.Fer[mID].Med = (int) SemMts;
 					BUS1.Fer[mID].Sts.B.Act = true; 
 					BUS1.Fer[mID].Sts.B.AuxTT = false;
+					BUS1.Fer[mID].Sts.B.AuxTT2 = false;
+					BUS1.Fer[mID].Sts.B.AuxTT3 = false;
 				}
 				else
 				{
@@ -150,9 +180,17 @@
 			else if(VSiembra)
 			{
 				SemSeg = (unsigned long) MedValue / (unsigned long) k_FinaTM;
+				
+			//Promedio las mediciones en fina
+				SemMts	= (unsigned long) BUS1.Fer[mID].AxMed;
+				BUS1.Fer[mID].AxMed =  (int) SemSeg;
+				SemSeg = (SemSeg + SemMts)/ 2 ;
+				
 				BUS1.Fer[mID].Med = (int) SemSeg;
 				BUS1.Fer[mID].Sts.B.Act = true; 
 				BUS1.Fer[mID].Sts.B.AuxTT = false;
+				BUS1.Fer[mID].Sts.B.AuxTT2 = false;
+				BUS1.Fer[mID].Sts.B.AuxTT3 = false;
 			}
 			else
 			{
@@ -250,6 +288,16 @@ void Bus1aDtsCom(void)
 					BUS2.Sie[mID].Sts.B.AuxTT = true;
 					return;
 				}
+				else if(!BUS2.Sie[mID].Sts.B.AuxTT2)
+				{
+					BUS2.Sie[mID].Sts.B.AuxTT2 = true;
+					return;
+				}
+				else if(!BUS2.Sie[mID].Sts.B.AuxTT3)
+				{
+					BUS2.Sie[mID].Sts.B.AuxTT3 = true;
+					return;
+				}
 			}
 			MedValue = MedValue * 100;		
 			if(BUS2.Sie[mID].Sts.B.Mod)
@@ -263,6 +311,8 @@ void Bus1aDtsCom(void)
 					BUS2.Sie[mID].Med = (int) SemMts;
 					BUS2.Sie[mID].Sts.B.Act = true;
 					BUS2.Sie[mID].Sts.B.AuxTT = false;
+					BUS2.Sie[mID].Sts.B.AuxTT2 = false;
+					BUS2.Sie[mID].Sts.B.AuxTT3 = false;
 				}
 				else
 				{
@@ -273,6 +323,12 @@ void Bus1aDtsCom(void)
 			else if(VSiembra)
 			{
 				SemSeg = (unsigned long) MedValue / (unsigned long) k_FinaTM;
+			
+			//Promedio las mediciones en fina
+				SemMts	= (unsigned long) BUS2.Sie[mID].AxMed;
+				BUS2.Sie[mID].AxMed =  (int) SemSeg;
+				SemSeg = (SemSeg + SemMts)/ 2 ;
+					
 				BUS2.Sie[mID].Med = (int) SemSeg;
 				BUS2.Sie[mID].Sts.B.Act = true; 
 			}
@@ -314,6 +370,16 @@ void Bus1aDtsCom(void)
 					BUS2.Fer[mID].Sts.B.AuxTT = true;
 					return;
 				}
+				if(!BUS2.Fer[mID].Sts.B.AuxTT2)
+				{
+					BUS2.Fer[mID].Sts.B.AuxTT2 = true;
+					return;
+				}
+				if(!BUS2.Fer[mID].Sts.B.AuxTT3)
+				{
+					BUS2.Fer[mID].Sts.B.AuxTT3 = true;
+					return;
+				}
 			}
 			
 			MedValue = MedValue * 100;
@@ -328,6 +394,8 @@ void Bus1aDtsCom(void)
 					BUS2.Fer[mID].Med = (int) SemMts;
 					BUS2.Fer[mID].Sts.B.Act = true; 
 					BUS2.Fer[mID].Sts.B.AuxTT = false;
+					BUS2.Fer[mID].Sts.B.AuxTT2 = false;
+					BUS2.Fer[mID].Sts.B.AuxTT3 = false;
 				}
 				else
 				{
@@ -338,9 +406,17 @@ void Bus1aDtsCom(void)
 			else if (VSiembra)
 			{
 				SemSeg = (unsigned long) MedValue / (unsigned long) k_FinaTM;
+			
+			//Promedio las mediciones en fina
+				SemMts	= (unsigned long) BUS2.Fer[mID].AxMed;
+				BUS2.Fer[mID].AxMed =  (int) SemSeg;
+				SemSeg = (SemSeg + SemMts)/ 2 ;
+				
 				BUS2.Fer[mID].Med = (int) SemSeg;
 				BUS2.Fer[mID].Sts.B.Act = true; 
 				BUS2.Fer[mID].Sts.B.AuxTT = false;
+				BUS2.Fer[mID].Sts.B.AuxTT2 = false;
+				BUS2.Fer[mID].Sts.B.AuxTT3 = false;
 			}
 			else
 			{

@@ -55,6 +55,7 @@
 	
 struct _DtsSen{
 	unsigned int Med;	//Cantidad de semillas leidas	
+	unsigned int AxMed;
 	unsigned char tMed;	//Temporizador de medicion
 	union{
 		struct{
@@ -74,7 +75,9 @@ struct _DtsSen{
 		//Aux
 			BYTE AxDesc	:1;		//Auxiliar Falla desconexion
 			BYTE AuxTT	:1;		//Auxiliar Falla Tubo Tapado
-			BYTE 		:6;		//Auxiliar Falla Tubo Tapado		
+			BYTE AuxTT2	:1;		//Auxiliar Falla Tubo Tapado
+			BYTE AuxTT3	:1;		//Auxiliar Falla Tubo Tapado
+			BYTE 		:4;		//Auxiliar Falla Tubo Tapado		
 		}B;
 	}Sts;
 };
