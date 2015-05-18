@@ -62,16 +62,16 @@
 					BUS1.Sie[mID].Sts.B.AuxTT = true;
 					return;
 				}
-				else if(!BUS1.Sie[mID].Sts.B.AuxTT2)
-				{
-					BUS1.Sie[mID].Sts.B.AuxTT2 = true;
-					return;
-				}
-				else if(!BUS1.Sie[mID].Sts.B.AuxTT3)
-				{
-					BUS1.Sie[mID].Sts.B.AuxTT3 = true;
-					return;
-				}
+			//	else if(!BUS1.Sie[mID].Sts.B.AuxTT2)
+			//	{
+			//		BUS1.Sie[mID].Sts.B.AuxTT2 = true;
+			//		return;
+			//	}
+			//	else if(!BUS1.Sie[mID].Sts.B.AuxTT3)
+			//	{
+			///		BUS1.Sie[mID].Sts.B.AuxTT3 = true;
+			//		return;
+			//	}
 			}
 			MedValue = MedValue * 100;
 		//Modo de Siembra en Gruesa		
@@ -145,16 +145,16 @@
 					BUS1.Fer[mID].Sts.B.AuxTT = true;
 					return;
 				}
-				else if(!BUS1.Fer[mID].Sts.B.AuxTT2)
-				{
-					BUS1.Fer[mID].Sts.B.AuxTT2 = true;
-					return;
-				}
-				else if(!BUS1.Fer[mID].Sts.B.AuxTT3)
-				{
-					BUS1.Fer[mID].Sts.B.AuxTT3 = true;
-					return;
-				}
+//				else if(!BUS1.Fer[mID].Sts.B.AuxTT2)
+//				{
+//					BUS1.Fer[mID].Sts.B.AuxTT2 = true;
+//					return;
+//				}
+//				else if(!BUS1.Fer[mID].Sts.B.AuxTT3)
+//				{
+//					BUS1.Fer[mID].Sts.B.AuxTT3 = true;
+//					return;
+//				}
 			}
 			MedValue = MedValue * 100;	
 			if(BUS1.Fer[mID].Sts.B.Mod)
@@ -288,16 +288,16 @@ void Bus1aDtsCom(void)
 					BUS2.Sie[mID].Sts.B.AuxTT = true;
 					return;
 				}
-				else if(!BUS2.Sie[mID].Sts.B.AuxTT2)
-				{
-					BUS2.Sie[mID].Sts.B.AuxTT2 = true;
-					return;
-				}
-				else if(!BUS2.Sie[mID].Sts.B.AuxTT3)
-				{
-					BUS2.Sie[mID].Sts.B.AuxTT3 = true;
-					return;
-				}
+//				else if(!BUS2.Sie[mID].Sts.B.AuxTT2)
+//				{
+//					BUS2.Sie[mID].Sts.B.AuxTT2 = true;
+//					return;
+//				}
+//				else if(!BUS2.Sie[mID].Sts.B.AuxTT3)
+//				{
+//					BUS2.Sie[mID].Sts.B.AuxTT3 = true;
+//					return;
+//				}
 			}
 			MedValue = MedValue * 100;		
 			if(BUS2.Sie[mID].Sts.B.Mod)
@@ -370,16 +370,16 @@ void Bus1aDtsCom(void)
 					BUS2.Fer[mID].Sts.B.AuxTT = true;
 					return;
 				}
-				if(!BUS2.Fer[mID].Sts.B.AuxTT2)
-				{
-					BUS2.Fer[mID].Sts.B.AuxTT2 = true;
-					return;
-				}
-				if(!BUS2.Fer[mID].Sts.B.AuxTT3)
-				{
-					BUS2.Fer[mID].Sts.B.AuxTT3 = true;
-					return;
-				}
+//				if(!BUS2.Fer[mID].Sts.B.AuxTT2)
+//				{
+//					BUS2.Fer[mID].Sts.B.AuxTT2 = true;
+//					return;
+//				}
+//				if(!BUS2.Fer[mID].Sts.B.AuxTT3)
+//				{
+//					BUS2.Fer[mID].Sts.B.AuxTT3 = true;
+//					return;
+//				}
 			}
 			
 			MedValue = MedValue * 100;

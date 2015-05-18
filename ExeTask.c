@@ -377,6 +377,7 @@ void ExeTask(void)
 			Medicion = 0;
 			Bus1aDtsCom();	
 			Bus2aDtsCom();
+			
 //			Sensores.tSIE ++;
 //			if(Sensores.STS.B.fSAct1 || Sensores.STS.B.fFAct1 || Sensores.STS.B.fSAct2 || Sensores.STS.B.fFAct2 || !Medicion || (Sensores.tSIE >= kMaxEscan))
 //			{		
@@ -445,7 +446,6 @@ void ExeTask(void)
 	//		Lat.Ant = Lat.Act;
 	//		Lat.Act = (float) Ent + ((Resto*100)/60);
 		}
-		
 
 //-----------------------------------------------------------------------------	
 //Control de recepcion de datos del GPS

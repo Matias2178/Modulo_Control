@@ -156,9 +156,20 @@ void DtoTerminal(void)
 		else if(Proceso.B.fGPSDtOk | Proceso.B.Puto)
 		{
 			tlecgpstx = 0;
-			Proceso.B.fGPSDtOk = false;
-			GPSDatos("<GPSDT>",ComBuf);
-			Proceso.B.Puto = false;
+			
+			if(!Proceso.B.fRePuto)
+			{
+				GPSDatos("<GPSDT>",ComBuf);
+				Proceso.B.fRePuto = true;
+			}
+			else
+			{	
+				GPSTMR("<GPSTMR>",ComBuf);
+				Proceso.B.Puto = false;
+				Proceso.B.fGPSDtOk = false;
+				Proceso.B.fRePuto = false;
+			}	
+				
 		}
 		else if (Sensores.STS.B.TX_MOD && !Sensores.STS.B.MOD_Ax)
 		{
@@ -276,12 +287,25 @@ void DtoTerminal(void)
 			break;
 			case 7:
 				StsSensores ("<SSFB2>",DtsComBus2,ComBuf,2);
-				Com_DtsTask_Sen010= 0;
+			//	Com_DtsTask_Sen010= 0;
+				Com_DtsTask_Sen010++;
 				Sensores.STS.B.TX_SF1 = false;
 		//		Sensores.STS.B.TX_SF2 = true;
 //				Sensores.STS.B.TX_SF2 = false;
 				Sensores.STS.B.SSF_Ax = true;
 			break;
+//--------------------------------------------------------------------------------------
+			case 8:
+				//TmrBusLin("<TLIN1>",TLin1,ComBuf,TDispLin1,TDispActLin1,TDispErrLin1);
+				TmrBusLin("<TLIN1>",TLin1,ComBuf);
+				Com_DtsTask_Sen010++;	
+			break;		
+			case 9:
+			//	TmrBusLin("<TLIN2>",TLin2,ComBuf,TDispLin2,TDispActLin2,TDispErrLin2);
+				TmrBusLin("<TLIN2>",TLin2,ComBuf);
+				Com_DtsTask_Sen010 = 0;		
+			break;			
+//---------------------------------------------------------------------------------------
 			}	
 		}
 		else
@@ -291,17 +315,7 @@ void DtoTerminal(void)
 		}
 			
 			
-//--------------------------------------------------------------------------------------
-		//		Encabezado("<ENCAB>",ComBuf);
-//			case 16:
-//				TmrBusLin("<TLIN1>",TLin1,ComBuf,TDispLin1,TDispActLin1,TDispErrLin1);
-//				Com_DtsTask010 ++;		
-//			break;		
-//			case 17:
-//				TmrBusLin("<TLIN2>",TLin2,ComBuf,TDispLin2,TDispActLin2,TDispErrLin2);
-//				Com_DtsTask010 ++;		
-//			break;			
-//---------------------------------------------------------------------------------------
+
 	}
 	else
 		return;
@@ -613,6 +627,34 @@ void GPSDatos(char *lb,unsigned char *S)
 	*S = ',';
 	S++;
 	S  = ftos( GPSdts.pos.rmb ,S,3,1);	//Rumbo
+	S++;
+	CRNL(S);
+}	
+//------------------------------------------------------------
+//Temporizador de datos del GPS	
+void GPSTMR(char *lb,unsigned char *S)
+{
+	strcpy((char*)S,lb);
+	S=S + strlen(lb);
+	*S = ',';
+	S++;
+	S  = itos(GPSdts.fecha.d,S,2);
+	*S = '/';
+	S++;	
+	S  = itos(GPSdts.fecha.m,S,2);
+	*S = '/';
+	S++;
+	S  = itos(GPSdts.fecha.a,S,2);
+	*S = ',';
+	S++;
+	S  = itos(GPSdts.hora.h,S,2);
+	*S = ':';
+	S++;
+	S  = itos(GPSdts.hora.m,S,2);
+	*S = ':';
+	S++;
+	S  = itos(GPSdts.hora.s,S,2);
+	*S = ',';
 	S++;
 	CRNL(S);
 }
@@ -1042,7 +1084,8 @@ void FindelaCita(unsigned char* S)
 *					Puntero del buffer de transmicion
 *	Salida Datos:	Ninguno
 ******************************************************************************/			
-void TmrBusLin (char *lb, struct _TLin Tmp,unsigned char *S, char Disp, char Act, char Err)
+//void TmrBusLin (char *lb, struct _TLin Tmp,unsigned char *S, char Disp, char Act, char Err)
+void TmrBusLin (char *lb, struct _TLin Tmp,unsigned char *S)
  {
 	int i;
 	unsigned int Med;
@@ -1053,27 +1096,27 @@ void TmrBusLin (char *lb, struct _TLin Tmp,unsigned char *S, char Disp, char Act
 	*S = ',';
 	S++;
 
-	*S = '(';
-	S++;
-	S = itos(Disp,S,2);
-	*S = ')';
-	S++;
-	*S = ',';
-	S++;
-	*S = '(';
-	S++;
-	S = itos(Act,S,2);
-	*S = ')';
-	S++;
-	*S = ',';
-	S++;
-	*S = '(';
-	S++;
-	S = itos(Err,S,2);
-	*S = ')';
-	S++;
-	*S = ',';
-	S++;
+//	*S = '(';
+//	S++;
+//	S = itos(Disp,S,2);
+//	*S = ')';
+//	S++;
+//	*S = ',';
+//	S++;
+//	*S = '(';
+//	S++;
+//	S = itos(Act,S,2);
+//	*S = ')';
+//	S++;
+//	*S = ',';
+//	S++;
+//	*S = '(';
+//	S++;
+//	S = itos(Err,S,2);
+//	*S = ')';
+//	S++;
+//	*S = ',';
+//	S++;
 	i = Tmp.ind;
 	Prom =0;
 	do{

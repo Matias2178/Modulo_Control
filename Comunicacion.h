@@ -19,9 +19,11 @@
  extern void StsPerifericos (char *lb, struct _DtsPerCom Datos,unsigned char *S,int T);
  
  extern void GPSDatos(char *lb,unsigned char *S);
- extern void GPSSatGan(char *lb,unsigned char *S);  
+ extern void GPSSatGan(char *lb,unsigned char *S); 
+ extern void GPSTMR(char *lb,unsigned char *S); 
  
- extern void TmrBusLin (char *lb, struct _TLin Tmp,unsigned char *S, char Disp, char Act, char Err);
+// extern void TmrBusLin (char *lb, struct _TLin Tmp,unsigned char *S, char Disp, char Act, char Err);
+ extern void TmrBusLin (char *lb, struct _TLin Tmp,unsigned char *S);
  
  extern void CRNL(unsigned char *S);
  //extern unsigned char * Dispositivo(unsigned char *S,unsigned char Id)

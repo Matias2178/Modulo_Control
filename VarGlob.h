@@ -58,7 +58,8 @@
 	extern unsigned int failcont;
 	extern unsigned int BaudiosUART2;
 	extern unsigned int BaudiosUART3;
-	
+//	unsigned int TMRLIN;
+//	unsigned int TMRLINx;
 	extern unsigned long Aux1;
 	
 	extern float Tension;
