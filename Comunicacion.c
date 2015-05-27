@@ -471,7 +471,7 @@ void MedPerifericos (char *lb, struct _DtsPerCom Datos,unsigned char *S,int T)
 		for(i=0;i<16;i++)
 		{
 			Med = Datos.MOD.Al[i];
-			S = itos(Med,S,3);
+			S = uitos(Med,S);
 			*S = ',';
 			S++;
 		}
@@ -482,7 +482,7 @@ void MedPerifericos (char *lb, struct _DtsPerCom Datos,unsigned char *S,int T)
 		for(i=0;i<8;i++)
 		{
 			Med = Datos.ROT.Med[i];
-			S = itos(Med,S,4);
+			S = uitos(Med,S);
 			*S = ',';
 			S++;
 		}
@@ -493,7 +493,7 @@ void MedPerifericos (char *lb, struct _DtsPerCom Datos,unsigned char *S,int T)
 		for(i=0;i<3;i++)
 		{
 			Med = Datos.TRB.Med[i];
-			S = itos(Med,S,4);
+			S = uitos(Med,S);
 			*S = ',';
 			S++;
 		}
@@ -591,7 +591,7 @@ void GPSDatos(char *lb,unsigned char *S)
 //	S++;
 	*S = ',';
 	S++;
-	S  = itos(GPSdts.sys.tvida,S,4);	//tiempo de vida de la señal
+	S  = uitos(GPSdts.sys.tvida,S);	//tiempo de vida de la señal
 	*S = ',';
 	S++;
 	S  = itos(GPSdts.sys.sat,S,2);		//Cantidad de satelites activos
@@ -847,7 +847,7 @@ void GPSSatGan(char *lb,unsigned char *S)
 		if(!SatInfo2[i].Gan)
 			continue;
 		Sat = i +1;
-		S  = itos(Sat,S,2);	//Cantidad de satelite activo
+		S  = itos(Sat,S,2);	//Cantidad de satelites activos
 		*S = ',';
 		S++;
 		S  = itos(SatInfo2[i].Elv,S,2);	//Elevacion
