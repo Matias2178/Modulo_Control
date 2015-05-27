@@ -34,19 +34,26 @@
         #define LED_GPS			LATBbits.LATB12
         #define LED_WIFI		LATBbits.LATB13 
         
+//----------------------------------------------------------------------------------
+//			SIN PLACA ADAPTADORA AMP SEAL 14VIAS        
         #define LED_POWER_E		LATDbits.LATD6	//Corregido para placa de leds
         #define LED_LIN1_E		LATDbits.LATD2	//Corregido para placa de leds
         #define LED_LIN2_E		LATDbits.LATD5	//Corregido para placa de leds
         #define LED_UART_E		LATDbits.LATD7
         #define LED_GPS_E		LATDbits.LATD3	//Corregido para placa de leds
         #define LED_WIFI_E		LATDbits.LATD4	//Corregido para placa de leds
+//----------------------------------------------------------------------------------
 
-  //     	#define LED_LIN1		PORTBbits.RB8
-        //#define LED_LIN2		PORTBbits.RB9
-        //#define LED_CAN			PORTBbits.RB10
-        //#define LED_UART		PORTBbits.RB11
-        //#define LED_GPS			PORTBbits.RB12
-        //#define LED_WIFI		PORTBbits.RB13     
+//----------------------------------------------------------------------------------
+//			CON PLACA ADAPTADORA AMP SEAL 14VIAS
+//        #define LED_POWER_E		LATDbits.LATD2	//Corregido para placa de leds
+//        #define LED_LIN1_E		LATDbits.LATD6	//Corregido para placa de leds
+//        #define LED_LIN2_E		LATDbits.LATD3	//Corregido para placa de leds
+//        #define LED_WIFI_E		LATDbits.LATD4	//Corregido para placa de leds
+//        #define LED_GPS_E 		LATDbits.LATD5	//Corregido para placa de leds
+//-----------------------------------------------------------------------------------
+
+  
     //Tecla de inicio / implement switch
     	#define TECLA_TRAC		PORTBbits.RB3
     	#define IMPLEMENT_SW	PORTBbits.RB3  

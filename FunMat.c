@@ -40,38 +40,38 @@ unsigned char *itos(unsigned int Valor,unsigned char *S, unsigned int Digitos)
 	return (unsigned char *)S;
 }
 
-/******************************************************************************
-*	Funcion:		itos2()
-*	Descricpion:	Convierte un enteros en caracteres ASCCII y los carga en 
-*					array, segun la candidad de digitos que se indican 
-*	Ingreso Datos:	El valor entrero a convertir
-*					Puntero al array a cargar
-*					Cantidad de digitos a imprimir
-*	Salida Datos:	Puntero a la posicion siguiente en el array
-******************************************************************************/	
-unsigned char *itos2(unsigned int Valor,unsigned char *S, unsigned int Digitos)
-{
-	unsigned long int Dec = 10;
-	int i;
-	int ind = 10;
-	unsigned char Aux[10];
-	
-	while(Dec <= Valor)
-	{
-		Aux[ind] = Valor % Dec;
-		ind--;
-		Valor /=Dec;
-	}
-	Aux[ind] = Valor;
-	while (ind < 11)
-	{
-		*S = Aux[ind]+ '0';
-		ind++;
-		S++;
-	}	
-
-	return (unsigned char *)S;
-}
+///******************************************************************************
+//*	Funcion:		itos2()
+//*	Descricpion:	Convierte un enteros en caracteres ASCCII y los carga en 
+//*					array, segun la candidad de digitos que tiene la variable
+//*	Ingreso Datos:	El valor entrero a convertir
+//*					Puntero al array a cargar
+//*					
+//*	Salida Datos:	Puntero a la posicion siguiente en el array
+//******************************************************************************/	
+//unsigned char *itos2(unsigned int Valor,unsigned char *S)
+//{
+//	unsigned long int Dec = 10;
+//	int i;
+//	int ind = 10;
+//	unsigned char Aux[10];
+//	
+//	while(Dec <= Valor)
+//	{
+//		Aux[ind] = Valor % Dec;
+//		ind--;
+//		Valor /=Dec;
+//	}
+//	Aux[ind] = Valor;
+//	while (ind < 11)
+//	{
+//		*S = Aux[ind]+ '0';
+//		ind++;
+//		S++;
+//	}	
+//
+//	return (unsigned char *)S;
+//}
 /******************************************************************************
 *	Funcion:		sitos()
 *	Descricpion:	Convierte un enteros en caracteres ASCCII y los carga en 

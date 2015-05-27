@@ -109,7 +109,16 @@ Version 1R29
 	Modificacion estructura Tolva y del nombre de la variable (antes SenTol -> ahora Tovla)
 Version 1R30
 	Transmicion del número de serie con 8 caracteres (lo completo con ceros)
+	
+/**********************************************************************************************************************/
 Version 1.0R0
 	Cambio de los Leds de la Tapa
 	Equipos para la venta 		
-	
+Version 1.0R1
+	Prueba de mas mediciones con 
+Version 1.0R2
+	Agregado de tiempo de GPS en la transmicion de datos
+	Agregado del tiempo de medicion de los sensores en cada vuelta y el promedio (se utilizaba en las primeras pruebas)
+Version 1.0R3
+	La cantidad de semillas se transmite ya no de 3 digitos sino con la cantidad de digitos que son necesarios.
+	Eliminacion de la funcion itos2 (que no funciona) se reemplaza por uitos (que ya estaba implementada)

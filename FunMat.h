@@ -10,7 +10,7 @@
  *****************************************************************************/
  
  extern unsigned char *itos(unsigned int Valor,unsigned char *S, unsigned int Digitos);
- extern unsigned char *itos2(unsigned int Valor,unsigned char *S, unsigned int Digitos);
+// extern unsigned char *itos2(unsigned int Valor,unsigned char *S);
  extern unsigned char *sitos(int Valor, unsigned char *S);
  extern unsigned char *ultos(unsigned long Valor,unsigned char *S);
  extern unsigned char * ultos10d(unsigned long Valor, unsigned char *S);

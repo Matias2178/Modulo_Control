@@ -117,12 +117,12 @@ void __attribute__ ((interrupt, no_auto_psv)) _U2RXInterrupt(void) {
 	if((Registro == 0x0A) ||(Registro == 0x0D)|| !Registro)
 	{
 		LED_UART = 0;
-		LED_UART_E = 0;
+//		LED_UART_E = 0;
 	}
 	else
 	{	
 		LED_UART = LED_UART ? 0 : 1;
-		LED_UART_E = LED_UART ? 0 : 1;
+//		LED_UART_E = LED_UART ? 0 : 1;
 	}
 	RSFIFOISRRX();
 //	if(Proceso.B.fGPSLec)
@@ -187,12 +187,12 @@ void __attribute__ ((interrupt, no_auto_psv)) _U2TXInterrupt(void)
 	if((U2TxBuf[U2TxInd] == 0x0A) ||(U2TxBuf[U2TxInd] == 0x0D)|| !U2TxBuf[U2TxInd])
 	{
 		LED_UART = 0;
-		LED_UART_E = 0;
+//		LED_UART_E = 0;
 	}
 	else
 	{
 		LED_UART = LED_UART ? 0 : 1;
-		LED_UART_E = LED_UART ? 0 : 1;
+//		LED_UART_E = LED_UART ? 0 : 1;
 	}
 	if((!Proceso.B.fGPSLec && !Proceso.B.fWifiConf))
 //	if((Proceso.B.fGPSLec && !Proceso.B.fWifiConf)) //Solo para pruebas del modulo GPS

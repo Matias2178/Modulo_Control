@@ -63,7 +63,7 @@ void DtoTerminal(void)
 			S=S + strlen(">RMEM");
 			*S = ',';
 			S++;
-			S = (unsigned char*)itos2(MemDatos,S,2);
+			S = (unsigned char*)uitos(MemDatos,S);
 			*S = ',';
 			S++;
 			S = (unsigned char*)InHextoArr(Checksum, S);
@@ -313,9 +313,6 @@ void DtoTerminal(void)
 			Sensores.STS.C.Aux = 0;
 			return;
 		}
-			
-			
-
 	}
 	else
 		return;
@@ -372,14 +369,13 @@ void MedSensores (char *lb, struct _DtsCom Datos,unsigned char *S,int T)
 	{
 		if(T==1)
 		{
-	//		Med = Datos.Sie[i].Med; 
 			Med = Datos.Sie.Med[i];
 		}
 		else
 		{
 			Med = Datos.Fer.Med[i];
 		}	
-		S = itos(Med,S,3);
+		S = uitos(Med,S);
 		*S = ',';
 		S++;
 	}
@@ -402,7 +398,7 @@ void CheckGrabaMem(char *lb,unsigned int Check,unsigned char *S)
 	S=S + strlen(lb);
 	*S = ',';
 	S++;
-	S = (unsigned char*)itos2(MemDatos,S,2);
+	S = (unsigned char*)uitos(MemDatos,S);
 	*S = ',';
 	S++;
 	S = (unsigned char*)InHextoArr(Check, S);
