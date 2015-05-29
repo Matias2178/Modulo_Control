@@ -122,3 +122,5 @@ Version 1.0R2
 Version 1.0R3
 	La cantidad de semillas se transmite ya no de 3 digitos sino con la cantidad de digitos que son necesarios.
 	Eliminacion de la funcion itos2 (que no funciona) se reemplaza por uitos (que ya estaba implementada)
+Version 1.1R0
+	Version aprobada para clientes!!!
