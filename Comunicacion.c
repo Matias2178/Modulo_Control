@@ -115,8 +115,10 @@ void DtoTerminal(void)
 	}
 	else if(Proceso.B.fInicio || Proceso.B.fConfPer)
 	{
-		if(Sts_Tmr.B.Pls1000)
-		{
+
+		if(Sts_Tmr.B.WaitPls)
+ 		{
+			Sts_Tmr.B.WaitPls = false;
 			strcpy((char*)ComBuf,"<WAIT>,");
 		}
 		else
@@ -650,6 +652,9 @@ void GPSTMR(char *lb,unsigned char *S)
 	*S = ':';
 	S++;
 	S  = itos(GPSdts.hora.s,S,2);
+	*S = ',';
+	S++;
+	S  = uitos(ModuloWf.cont,S);
 	*S = ',';
 	S++;
 	CRNL(S);

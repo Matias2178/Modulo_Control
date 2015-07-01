@@ -259,6 +259,7 @@ void ExeTask(void)
 						{
 							Wifi.fMod = false;
 							Sts_Tmr.CntWifi = 0;
+							ModuloWf.cont++;
 						}
 						if(Check(WFcmd,"HELLO",5))
 						{
@@ -526,6 +527,12 @@ void ExeTask(void)
 		{
 			DestWf.Duty = 25;
 			DestWf.Sec = 0x0F0F;
+		}
+
+//Envio el dato Wait cada 500 mseg
+		if((Proceso.B.fInicio || Proceso.B.fConfPer) && Sts_Tmr.B.WaitPls)	
+		{
+			DtoTerminal();	
 		}	
 	}
 

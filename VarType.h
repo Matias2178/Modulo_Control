@@ -36,7 +36,7 @@
 			BYTE LecId		:1;	//Pulso para leer Id sensores
 			BYTE SetID0500	:1; //Pulso cada 500 mseg para envio de mensaje del seteo de ID
 			BYTE ImpSw		:1;	//Auxiliar de tiempo para activacion implement switch
-			BYTE B9:1;
+			BYTE WaitPls	:1; // Pulso para el envio del Wait
 			BYTE B10:1;
 			BYTE B11:1;
 			BYTE B12:1;
@@ -546,6 +546,7 @@ struct _Dest
 
 struct _ModWf
 {
+	unsigned int  cont;
 	unsigned char tex[20];
 	unsigned char ind;
 	union
