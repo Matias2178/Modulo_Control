@@ -421,6 +421,10 @@ void ExeTask(void)
 //Manejo del destelo de los LEDs
 //-----------------------------------------------------------------------------	
 //	LED_CAN = Destello(TMR_CAN,3);
+	if(Wifi_RTS)
+	{
+		LED_CAN = true;
+	}
 	LED_WIFI = Destello(DestWf.Sec, DestWf.Duty);
 	LED_WIFI_E = LED_WIFI;	
 	}

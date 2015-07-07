@@ -111,7 +111,7 @@ void UART2Init()
 void __attribute__ ((interrupt, no_auto_psv)) _U2RXInterrupt(void) {
 	
 	char Registro;
-//	Registro = U2RXREG;
+//	
 	IFS1bits.U2RXIF = 0;
 	
 	if((Registro == 0x0A) ||(Registro == 0x0D)|| !Registro)
@@ -124,52 +124,16 @@ void __attribute__ ((interrupt, no_auto_psv)) _U2RXInterrupt(void) {
 		LED_UART = LED_UART ? 0 : 1;
 //		LED_UART_E = LED_UART ? 0 : 1;
 	}
-	RSFIFOISRRX();
-//	if(Proceso.B.fGPSLec)
-//	{
-//		if(Registro =='$' )
-//		{
-//			Rx2Ind = 0;
-//			U1TxInd = 0;
-//			memset(U1TxBuf,0,sizeof(U1TxBuf));
-//		}
-//		if(Registro ==0x0A )
-//		{
-//			U1TxBuf[U1TxInd] = Registro;
-//		//	U1TxInd++;
-//		//	U1TxBuf[U1TxInd] = U2RXREG;
-//			U1TxInd = 0;
-//			U1TXREG = U1TxBuf[U1TxInd];
-//		}
-//		else
-//		{		
-//			
-//			U1TxBuf[U1TxInd] = Registro;	//lo use para ver el modulo wifi
-//			U1TxInd ++;
-//		}
-//	}
-//	
-//	else if(Proceso.B.fWifiConf)
-//	{
-//		U3TXREG = Registro;	//lo use para ver el modulo wifi
-//	}
-//	
-//	if( Registro == 0x0D || Registro =='<' )
-////	if(Registro =='<' )
-//	{
-//		Proceso.B.fRxCom = true;	//Fin del bloque
-//		Proceso.B.fComRS = true;			
-//	}
-//	else if((Registro == '>')||(Rx2Ind>=256))
-//	{
-//		Rx2Ind = 0;
-//		memset(Rx2Buf,0,sizeof(Rx2Buf));
-//	}
-////	if(!Proceso.B.fComRS)
-////	{
-//		Rx2Buf[Rx2Ind] = Registro;	
-//		Rx2Ind++;
-////	}
+	if(!Proceso.B.fWifiConf)
+	{
+		RSFIFOISRRX();
+	}
+	else
+	{
+		Registro = U2RXREG;
+		U3TXREG = Registro;	//lo use para ver el modulo wifi
+	}
+
 	
 }
 
@@ -257,37 +221,6 @@ void __attribute__ ((interrupt, no_auto_psv)) _U1RXInterrupt(void)
 	char Registro;
 	GPSFIFOISRRX();
 
-//	Registro = U1RXREG;
-//	U4TXREG = Registro;
-//	
-//	if(Proceso.B.fGPSLec)
-//	{			
-//		U2TXREG = Registro;
-//		U3TXREG	= Registro;
-//	}
-//
-//	if( GPSsts.B.fLec && (Registro == 0x0A))
-//	{
-//		GPSsts.B.fLec = false;
-//		GPSsts.B.fMsgOk = GPSCheckSum(U1RxBuf);
-//		if(GPSsts.B.fMsgOk)
-//		{
-//			memcpy(GPSmsg,U1RxBuf,80);
-//		}
-//	}
-//
-//	else if( Registro == '$')
-//	{
-//		GPSsts.B.fLec = true;
-//		U1RxInd = 0;
-//		memset(U1RxBuf,0,strlen((const char*)U1RxBuf));
-//	}
-//	if(U1RxInd >75)
-//	{
-//		U1RxInd = 0;
-//	}
-//	U1RxBuf[U1RxInd] = Registro;	
-//	U1RxInd++;
 }
 
 
@@ -352,67 +285,18 @@ void __attribute__ ((interrupt, no_auto_psv)) _U1TXInterrupt(void) {
 void __attribute__ ((interrupt, no_auto_psv)) _U3RXInterrupt(void) {
 	char Registro;
 	
-//	Registro = U3RXREG;
+//	
 	IFS5bits.U3RXIF = 0;
+	if(!Proceso.B.fWifiConf)
+	{
+		WifiFIFOISRRX();
+	}
+	else
+	{
+		Registro = U3RXREG;
+		U2TXREG = Registro;	//lo use para ver el modulo wifi
+	}
 
-	WifiFIFOISRRX();
-//	if (Registro =='*')
-//	{
-//		if (Proceso.B.fWifiOC)
-//		{
-//			Proceso.B.fWifiOC = false;
-//			if(Check(WFcmd,"OPEN",5))
-//			{
-//				Sts_Tmr.CntWifi = 0;
-//				Proceso.B.fWifiOpen = true;
-//			}
-//			else if(Check(WFcmd,"CLOSE",6) ||Check(WFcmd,"CLOS",5))
-//			{
-//				Proceso.B.fWifiOpen = false;
-//				Sts_Tmr.CntWifi = 0;
-//			}
-//		}
-//		else
-//		{
-//			Proceso.B.fWifiOC = true;
-//			memset(WFcmd,0,sizeof(WFcmd));
-//			WFind = 0;
-//		}
-//	}
-//	else if(Proceso.B.fWifiOC)
-//	{
-//		WFcmd[WFind] = Registro;
-//		WFind++;
-//		
-//	}
-//
-//	if(Proceso.B.fWifiConf)
-//	{
-//		U2TXREG = Registro;	//lo use para ver el modulo wifi
-//	}
-//
-//	else
-//	{	
-//		if( Registro == 0x0D || Registro =='<')
-//		{
-//			Proceso.B.fRxCom = true;	//Fin del bloque	
-//			Proceso.B.fComWf = true;
-//			Rx3Buf[Rx3Ind] = Registro;	
-//			Rx3Ind++;		
-//		}
-//
-//		else if((Registro == '>')||(Rx3Ind >=256))
-//		{
-//			Rx3Ind = 0;
-//			memset(Rx3Buf,0,sizeof(Rx3Buf));
-//		}
-//		if(!Proceso.B.fComWf)
-//		{
-//			Rx3Buf[Rx3Ind] = Registro;	
-//			Rx3Ind++;
-//		}
-//
-//	}
 }
 
 

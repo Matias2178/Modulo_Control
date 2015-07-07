@@ -124,3 +124,9 @@ Version 1.0R3
 	Eliminacion de la funcion itos2 (que no funciona) se reemplaza por uitos (que ya estaba implementada)
 Version 1.1R0
 	Version aprobada para clientes!!!
+Version Ghost 
+	Configuracion de los pines de control de flujo del modulo wifi
+	Configuracion del pin de configuracion del modulo wifi (GPIO9)
+	Se puede entrar a la configuracion del modulo Wifi
+	Se programo para detectar el bit de RTS del modulo (falta que cuando esta lleno no transmita)
+	Se programo para enviar el bit de CTS al modulo wifi

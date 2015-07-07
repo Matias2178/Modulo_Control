@@ -23,8 +23,7 @@
 		#define	Pwr_GPS				LATEbits.LATE0
 		#define Pwr_Wifi			LATFbits.LATF1
 		#define	Hab_GPS				LATFbits.LATF0
-	//	#define Hab_Wifi			LATFbits.LATF3
-	        
+		      
 	//DEFINICION DE LEDS
  		#define LED_POWER		LATBbits.LATB4
         #define LED_LIN1		LATBbits.LATB8
@@ -58,9 +57,15 @@
     	#define TECLA_TRAC		PORTBbits.RB3
     	#define IMPLEMENT_SW	PORTBbits.RB3  
         
-    //LED I/O Mapping  
-        #define Hab_Wifi		LATBbits.LATB13
-        #define WebPage			LATGbits.LATG3
+    //Pines control modulo Wifi 
+        #define Wifi_Conf		LATBbits.LATB5	//output
+        #define Wifi_Reset		LATGbits.LATG3	//output
+        #define Wifi_Rx			LATFbits.LATF6	//???
+        #define Wifi_Tx			LATFbits.LATF2	//???
+        #define Wifi_CTS		LATFbits.LATF3	//output
+        #define Wifi_RTS		LATBbits.LATB2	//input
+        
+        
 	//RELES
 		#define	Rele1			LATEbits.LATE2			
 		#define	Rele2			LATEbits.LATE3
@@ -79,37 +84,37 @@
     
 //-----------------------------------------------------------------------------
 	//Configuracion de los Tris de los puertos
-		#define	InitSetTrisB	0x00EB //b0b0011000011111011
+		#define	InitSetTrisB	0x00CF //b0b0011000011111011
 	/* 	RB15 LIN2_Tx	O	RB14 LIN1_Tx	O	RB13 LED_WIFI 	O	RB12 LED_GPS	O	0000 = 0
-		RB11 LED_RS232	O	RB10 LED_CAN	O	RB09 LED_LIN2 	O	RB08 LED_LIN1	O	0000 = 0	
-		RB07 CAN-R		?	RB06 CAN-D		?	RB05	NC		?	RB04 LED_POWER	O	1110 = E	
-		RB03 TEC_PWR 	I	RB02 UART2Tx 	O	RB01 TCLA IN?	?	RB00 AN0		I   1011 = B*/			//VER SI TX DEL 232 SE COLOCA EN RB3
+	//	RB11 LED_RS232	O	RB10 LED_CAN	O	RB09 LED_LIN2 	O	RB08 LED_LIN1	O	0000 = 0	
+	//	RB07 CAN-R		?	RB06 CAN-D		?	RB05 Wifi_Conf	O	RB04 LED_POWER	O	1100 = C	
+	//	RB03 TEC_PWR 	I	RB02 Wifi_RTS 	I	RB01 Bibration	I	RB00 AN0		I   1111 = F*/			//VER SI TX DEL 232 SE COLOCA EN RB3
 	
 		#define	InitSetTrisC	0x3000 //b0b0011000011111011	Para la configuracion de los Osc
 
 		#define	InitSetTrisD	0x0F83	//0b1111111011111111
 	/* 	RD15 No Disp	0	RD14 No Disp	0	RD13 No Disp	0	RD12 No Disp	0	0000 = 0
-		RD11 RS-232		1 	RD10 RS-232		1	RD09 GPS Rx		I	RD08 GPS Tx		0	1110 = E
-		RD07 CONECTOR	?	RD06 CONECTOR	?	RD05 CONECTOR	?	RD04 CONECTOR	?	1111 = F
-		RD03 CONECTOR	?	RD02 CONECTOR	?	RD01 CONECTOR	?	RD00 CONECTOR	?   1111 = F*/
+	//	RD11 RS-232		1 	RD10 RS-232		1	RD09 GPS Rx		I	RD08 GPS Tx		0	1110 = E
+	//	RD07 CONECTOR	?	RD06 CONECTOR	?	RD05 CONECTOR	?	RD04 CONECTOR	?	1111 = F
+	//	RD03 CONECTOR	?	RD02 CONECTOR	?	RD01 CONECTOR	?	RD00 CONECTOR	?   1111 = F*/
 
 		#define	InitSetTrisE	0xFFD0	//0b1111111100010000
 	/* 	RE15 No Disp	?	RE14 No Disp	?	RE13 No Disp	?	RE12 No Disp	?	1111 = F
-		RE11 No Disp	?	RE10 No Disp	?	RE09 No Disp	?	RE08 No Disp	?	1111 = F
-		RE07 24LC SDA 	O	RE06 24LC SCL 	O	RE05 24LC WP 	O	RE04 NC			?	0001 = 1
-		RE03 RELE 2		O	RE02 RELE 1		O	RE01 PWR GEN	O	RE00 PWR GPS	O	0000 = 0 */
+	//	RE11 No Disp	?	RE10 No Disp	?	RE09 No Disp	?	RE08 No Disp	?	1111 = F
+	//	RE07 24LC SDA 	O	RE06 24LC SCL 	O	RE05 24LC WP 	O	RE04 NC			?	0001 = 1
+	//	RE03 RELE 2		O	RE02 RELE 1		O	RE01 PWR GEN	O	RE00 PWR GPS	O	0000 = 0 */
 
 		#define	InitSetTrisF	0X0074	//0b1111111111111101
 	/* 	RF15 No Disp	0	RF14 No Disp	0	RF13 No Disp	0 	RF12 No Disp	0	0000 = 0
-		RF11 No Disp	0	RF10 No Disp	0	RF09 No Disp	0	RF08 No Disp	0	0000 = 0
-		RF07 No Disp	0	RF06 WIFI		? 	RF05 LIN2_Rx 	I	RF04 LIN1_Rx 	I	0111 = 7
-		RF03 WIFI		0 	RF02 WIFI		? 	RF01 PWR WIFI	O	RF00 GPS HAB	0	0100 = C*/
+	//	RF11 No Disp	0	RF10 No Disp	0	RF09 No Disp	0	RF08 No Disp	0	0000 = 0
+	//	RF07 No Disp	0	RF06 Wifi_Rx	I? 	RF05 LIN2_Rx 	I	RF04 LIN1_Rx 	I	0111 = 7
+	//	RF03 Wifi_CTS	O 	RF02 Wifi_Tx	I? 	RF01 PWR WIFI	O	RF00 GPS HAB	0	0100 = 4*/
 					
 		#define	InitSetTrisG	0x0304	//"0b1111111100111111"
 	/* 	RG15 No Disp	0	RG14 No Disp	0	RG13 No Disp	0 	RG12 No Disp	0	0000 = 0
-		RG11 No Disp	0	RG10 No Disp	0	RG09 AT26 SC 	0	RG08 AT26 SI 	I	0011 = 1
-		RG07 AT26 SO 	0 	RG06 AT26 SCK 	0	RG05 No Disp	0	RG04 No Disp	0	0000 = 0
-		RG03 WIFI_GPIO	0 	RG02 WIFI		? 	RG01 No Disp	0	RG00 No Disp	0	0100 = C*/
+	//	RG11 No Disp	0	RG10 No Disp	0	RG09 AT26 SC 	0	RG08 AT26 SI 	I	0011 = 1
+	//	RG07 AT26 SO 	0 	RG06 AT26 SCK 	0	RG05 No Disp	0	RG04 No Disp	0	0000 = 0
+	//	RG03 Wifi_Reset	0 	RG02  			? 	RG01 No Disp	0	RG00 No Disp	0	0100 = 4*/
 
 
 

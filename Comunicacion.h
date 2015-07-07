@@ -31,4 +31,5 @@
  extern void CheckGrabaMem(char *lb,unsigned int ,unsigned char *S); 
  
  extern void TxCheckSum(unsigned char * S);
+ extern void Tranmicion(char Tipo);
  

@@ -90,7 +90,11 @@ int main (void)
 	Nop();
 	Pwr_Wifi 	= true;		//Alimentacion 3v3 Modulo WiFi
 	Nop();
-	Hab_Wifi 	= true;		//Habilitacion modulo WiFi
+	Wifi_Reset 	= true;		//Reseteo modulo WiFi
+	Nop();
+	Wifi_CTS 	= false;	//Habilito la transmicion de datos desde el Wifi (control de flujo)
+	Nop();
+	Wifi_Conf 	= false;	//Pin para la puesta a fabrica del modulo
 	Nop();
 	Hab_GPS 	= true;		//Habilitacion modulo GPS
 	Nop();
@@ -107,7 +111,7 @@ int main (void)
 	
 //-----------------------------------------------------------------------------
 //Inicializacion de los puertos de comunicaciones UART
-	EepromRDBuf(M_BAUDRATE,&LocUserW00,sizeof(union _UInt16));
+	EepromRDBuf(M_BAUDRATE,LocUserW00.B.V,sizeof(union _UInt16));
 	
 	BaudiosUART2 = SCI_SetBaud(LocUserW00.B.V[0]);
 	BaudiosUART3 = SCI_SetBaud(LocUserW00.B.V[1]);
@@ -325,7 +329,8 @@ int main (void)
 			{
 				Sts_Tmr.Cnt0500 = 0;
 //				Sts_Tmr.B.SetID0500 = true;
-				
+				Sts_Tmr.B.WaitPls = true;
+
 			}
 			if(!Sts_Tmr.B.GPS5Hz)
 			{
