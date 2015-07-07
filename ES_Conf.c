@@ -33,10 +33,12 @@ void Config_ES()
     //        
 		//Uart2 Pin 49 RP24
 			RPINR19bits.U2RXR = RP3;
+	//		RPINR19bits.U2RXR = RP24;	//Placa Adaptadora
  		//Uart 2 Pin 50 RP23
-       //     RPOR11bits.RP23R = U2TX_IO; 
-            RPOR6bits.RP12R  = U2TX_IO;    
-            
+			RPOR6bits.RP12R  = U2TX_IO;
+	//		RPOR5bits.RP11R  = U2TX_IO;	//Placa Adaptadora
+  
+//----------------------------------------------------------------------              
         //Uart1 Pin 42 RP2
 			RPINR18bits.U1RXR = RP2;
 	//		RPINR18bits.U1RXR = RP11;	//Puerto Auxiliar
@@ -52,9 +54,9 @@ void Config_ES()
        //     RPOR1bits.RP3R = U3RTS_IO;   
        
          //Uart4 Pin 42 RP2
-	//		RPINR27bits.U4RXR = RP11;
+	//		RPINR27bits.U4RXR = RP24;
  		//Uart 4 Pin 43 RP4
-    //        RPOR12bits.RP24R = U4TX_IO;  
+    //        RPOR6bits.RP12R = U4TX_IO;  
 //-----------------------------------------------------------------------------
 //Mapeo de las entradas de interrupciones para la comunicacion LIN
 	
