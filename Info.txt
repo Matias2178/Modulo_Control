@@ -123,9 +123,8 @@ Version 1.0R3
 	La cantidad de semillas se transmite ya no de 3 digitos sino con la cantidad de digitos que son necesarios.
 	Eliminacion de la funcion itos2 (que no funciona) se reemplaza por uitos (que ya estaba implementada)
 Version 1.1R0
-	Version aprobada para clientes!!!
-Version Ghost 
-	Version  1.1R1
+	Version aprobada para clientes!!!	
+Version  1.1R1 despues de la busqueda de fallas 
 	Configuracion de los pines de control de flujo del modulo wifi
 	Configuracion del pin de configuracion del modulo wifi (GPIO9)
 	Se puede entrar a la configuracion del modulo Wifi
