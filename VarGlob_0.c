@@ -39,6 +39,8 @@
 	int Adq_SelTask0020;
 	int Adq_SelTask0021;
 	unsigned char IDSen;
+	int espera;
+	int	Secuenciometro;
 
 
 //Control de dispositivos conectados Lin

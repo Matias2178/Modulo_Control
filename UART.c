@@ -132,6 +132,11 @@ void __attribute__ ((interrupt, no_auto_psv)) _U2RXInterrupt(void) {
 	{
 		Registro = U2RXREG;
 		U3TXREG = Registro;	//lo use para ver el modulo wifi
+		if(Registro == '#')
+		{
+			Proceso.B.fWifiConf = false;
+			Proceso.B.fStopDts = false; 	
+		}
 	}
 
 	

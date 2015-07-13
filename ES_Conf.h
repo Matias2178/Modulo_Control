@@ -35,21 +35,21 @@
         
 //----------------------------------------------------------------------------------
 //			SIN PLACA ADAPTADORA AMP SEAL 14VIAS        
-        #define LED_POWER_E		LATDbits.LATD6	//Corregido para placa de leds
-        #define LED_LIN1_E		LATDbits.LATD2	//Corregido para placa de leds
-        #define LED_LIN2_E		LATDbits.LATD5	//Corregido para placa de leds
-        #define LED_UART_E		LATDbits.LATD7
-        #define LED_GPS_E		LATDbits.LATD3	//Corregido para placa de leds
-        #define LED_WIFI_E		LATDbits.LATD4	//Corregido para placa de leds
+//        #define LED_POWER_E		LATDbits.LATD6	//Corregido para placa de leds
+//        #define LED_LIN1_E		LATDbits.LATD2	//Corregido para placa de leds
+//        #define LED_LIN2_E		LATDbits.LATD5	//Corregido para placa de leds
+//        #define LED_UART_E		LATDbits.LATD7
+//        #define LED_GPS_E		LATDbits.LATD3	//Corregido para placa de leds
+//        #define LED_WIFI_E		LATDbits.LATD4	//Corregido para placa de leds
 //----------------------------------------------------------------------------------
 
 //----------------------------------------------------------------------------------
 //			CON PLACA ADAPTADORA AMP SEAL 14VIAS
-//        #define LED_POWER_E		LATDbits.LATD2	//Corregido para placa de leds
-//        #define LED_LIN1_E		LATDbits.LATD6	//Corregido para placa de leds
-//        #define LED_LIN2_E		LATDbits.LATD3	//Corregido para placa de leds
-//        #define LED_WIFI_E		LATDbits.LATD4	//Corregido para placa de leds
-//        #define LED_GPS_E 		LATDbits.LATD5	//Corregido para placa de leds
+		#define LED_POWER_E		LATDbits.LATD2	//Corregido para placa de leds
+		#define LED_LIN1_E		LATDbits.LATD6	//Corregido para placa de leds
+		#define LED_LIN2_E		LATDbits.LATD3	//Corregido para placa de leds
+		#define LED_WIFI_E		LATDbits.LATD4	//Corregido para placa de leds
+		#define LED_GPS_E 		LATDbits.LATD5	//Corregido para placa de leds
 //-----------------------------------------------------------------------------------
 
   
@@ -94,7 +94,7 @@
 
 		#define	InitSetTrisD	0x0F83	//0b1111111011111111
 	/* 	RD15 No Disp	0	RD14 No Disp	0	RD13 No Disp	0	RD12 No Disp	0	0000 = 0
-	//	RD11 RS-232		1 	RD10 RS-232		1	RD09 GPS Rx		I	RD08 GPS Tx		0	1110 = E
+	//	RD11 RS-232		1 	RD10 RS-232		1	RD09 GPS Rx		I	RD08 GPS Tx		1	1111 = F
 	//	RD07 CONECTOR	?	RD06 CONECTOR	?	RD05 CONECTOR	?	RD04 CONECTOR	?	1111 = F
 	//	RD03 CONECTOR	?	RD02 CONECTOR	?	RD01 CONECTOR	?	RD00 CONECTOR	?   1111 = F*/
 

@@ -30,6 +30,8 @@
 	extern int	Medicion;
 	extern int  Checksum;
 	extern int	TMR_CAN;
+	extern int espera;
+	extern int	Secuenciometro;
 //----------------------------------------------------------------------------
 //	VARIABLES PARA LA LECTURA DE LOS PUERTOS
 //	extern unsigned int SenB1ID;

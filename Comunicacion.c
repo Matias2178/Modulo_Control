@@ -1042,6 +1042,12 @@ void TxCheckSum(unsigned char * S)
 //		*S = 0x04;
 //		S++;
 //	}
+//-------------------------------------------------
+//	Secuenciometro ++;
+//	*S = ',';
+//	S++;
+//	S  = (unsigned char*)uitos(Secuenciometro,S);
+//-------------------------------------------------
 	*S = 0x0D;
 	S++;
 	*S = 0x0A;

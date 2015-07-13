@@ -34,6 +34,10 @@ void ExeTask(void)
 	float Resto;
 	union _UInt16 Datos;
 	asm("CLRWDT");
+	if(Wifi_RTS)
+	{
+		LED_CAN = true;
+	}
 //*****************************************************************************	
 //	Tareas que se ejecutan cada 1ms
 //*****************************************************************************
@@ -163,6 +167,7 @@ void ExeTask(void)
 				fifoADDR =	fifoADDR1;	//borrar
 				do
 				{
+					Proceso.B.fLecturaOk = false;
 					if(WifiFIFOEmptyRX())
 					{
 						failcont++;		//borrar
@@ -172,10 +177,6 @@ void ExeTask(void)
 					if(!Datos.C.V[0])
 					{
 						Datos.C.V[0] = WifiFIFOReadRX();
-						if	(!Datos.C.V[1])
-						{
-							Datos.C.V[1] = WifiFIFOReadRX();
-						}
 					}
 					else if	(!Datos.C.V[1])
 					{
@@ -184,10 +185,7 @@ void ExeTask(void)
 					if(Datos.C.V[0] && Datos.C.V[1])
 					{	
 						Dato = ArrtoHex(&Datos.C.V[0]);
-					}
-					else
-					{
-						Proceso.B.fDataErr = true;
+						Proceso.B.fLecturaOk = true;
 					}
 					if((Datos.C.V[0]== 0x0A) || (Datos.C.V[0]== 0x0D)|| (Datos.C.V[1]== 0x0A) || (Datos.C.V[1]== 0x0D))
 					{
@@ -203,13 +201,14 @@ void ExeTask(void)
 						}
 						ExeTask();
 					}
-					else
+					else if (Proceso.B.fLecturaOk)
 					{
 						Datos.C.V[0] = 0;
 						Datos.C.V[1] = 0;
 						SAVE[i] = Dato;
 						Checksum += Dato;
 						i++;
+						Proceso.B.fLecturaOk = false;
 					}	
 				}while(i<512);// && !Proceso.B.fDataErr);
 				Checksum ++;
@@ -421,12 +420,9 @@ void ExeTask(void)
 //Manejo del destelo de los LEDs
 //-----------------------------------------------------------------------------	
 //	LED_CAN = Destello(TMR_CAN,3);
-	if(Wifi_RTS)
-	{
-		LED_CAN = true;
-	}
-	LED_WIFI = Destello(DestWf.Sec, DestWf.Duty);
-	LED_WIFI_E = LED_WIFI;	
+
+		LED_WIFI = Destello(DestWf.Sec, DestWf.Duty);
+		LED_WIFI_E = LED_WIFI;	
 	}
 //*****************************************************************************
 //	Tareas que se ejecutan cada 100ms
@@ -537,7 +533,7 @@ void ExeTask(void)
 		if((Proceso.B.fInicio || Proceso.B.fConfPer) && Sts_Tmr.B.WaitPls)	
 		{
 			DtoTerminal();	
-		}	
+		}
 	}
 
 //*****************************************************************************
@@ -545,8 +541,21 @@ void ExeTask(void)
 //*****************************************************************************
 	if(Sts_Tmr.B.Pls1000)
 	{
-
-
+//	espera++;
+//		if(espera>20 && espera< 32 )
+//		{
+//		if(Wifi_Conf)
+//		{
+//				Wifi_Conf = false;
+//				LED_CAN = true;
+//		}		
+//		else
+//		{
+//				Wifi_Conf = true;
+//				LED_CAN = false;
+//		}
+//		}
+		
 		Sts_Tmr.B.Pls1000 = false; 
 		Sts_Tmr.B.ADCInit = false;
 		TLed++;

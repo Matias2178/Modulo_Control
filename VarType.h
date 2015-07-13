@@ -233,7 +233,7 @@ union _Proc{
 		BYTE fAdqMod2  	: 1;
 		BYTE fAdqTRB2  	: 1;
 		BYTE fAdqNTL2	: 1;
-		BYTE fAdqAx21	: 1;
+		BYTE fLecturaOk	: 1;
 		BYTE fAdqAx22	: 1;
 		BYTE fAdqAx23	: 1;
 	}B;
