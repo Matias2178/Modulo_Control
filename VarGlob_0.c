@@ -14,9 +14,10 @@
  	
 //----------------------------------------------------------------------------
 //	VARIABLES PARA LA LECTURA DE LOS PUERTOS
-
-
-//	unsigned int SenB2ID; 	
+	unsigned int RotRLect;
+	unsigned int RLectCnt; 	
+	unsigned int RotID;
+	unsigned int ErrorRot;
 //----------------------------------------------------------------------------
 //	VARIABLES TEMPORALES PARA PRUEBAS BORRAR DESPUES DE UTILIZAR
 //	char ModDir;

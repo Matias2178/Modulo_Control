@@ -37,7 +37,7 @@
 			BYTE SetID0500	:1; //Pulso cada 500 mseg para envio de mensaje del seteo de ID
 			BYTE ImpSw		:1;	//Auxiliar de tiempo para activacion implement switch
 			BYTE WaitPls	:1; // Pulso para el envio del Wait
-			BYTE B10:1;
+			BYTE ROTPls		:1;	//Pulso para la lectura de los sensores de rotacion
 			BYTE B11:1;
 			BYTE B12:1;
 			BYTE B13:1;
@@ -234,7 +234,7 @@ union _Proc{
 		BYTE fAdqTRB2  	: 1;
 		BYTE fAdqNTL2	: 1;
 		BYTE fLecturaOk	: 1;
-		BYTE fAdqAx22	: 1;
+		BYTE fDosis		: 1;// Flag de cambio de dosis	
 		BYTE fAdqAx23	: 1;
 	}B;
 	struct{

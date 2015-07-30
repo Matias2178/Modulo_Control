@@ -34,10 +34,10 @@
 	extern int	Secuenciometro;
 //----------------------------------------------------------------------------
 //	VARIABLES PARA LA LECTURA DE LOS PUERTOS
-//	extern unsigned int SenB1ID;
-//	extern unsigned char ErrorB1;
-
-//	extern unsigned int SenB2ID;
+	extern unsigned int RotRLect;
+	extern unsigned int RLectCnt;
+	extern unsigned int RotID;
+	extern unsigned int ErrorRot;
 //----------------------------------------------------------------------------
 //	ESTRUCTURA DE LOS TEMPORIZADORES
 	extern struct _Sts_Tmr  Sts_Tmr;

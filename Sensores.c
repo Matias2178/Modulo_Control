@@ -15,6 +15,7 @@
  	#include 	"ES_Conf.h"
  	#include 	"Perifericos.h"
  	#include	"sw1master.h"
+ 	#include	"sw2master.h"
  
  
 /******************************************************************************
@@ -1119,89 +1120,127 @@ void MaxMinId(unsigned char Id)
 *	Salida Datos:	Ninguno
 ******************************************************************************/	
 
-//void Adq_Rotacion(void)
-//{
-//	unsigned int Id;
-//	unsigned int Medicion;
-//	
-//	if (SW2PortSys.Sts.B.fPend)	//Hay una comunicacion pendiente de ser atendida
-//		return;
-//		
-//	switch(Adq_SelTask0021)
-//	{
-//		default:
-//			Adq_SelTask0021=0;
-//
-//		case 0:
-////Lectura de datos sensores de rotacion
-//			Proceso.B.fAdqRot2 = false;
-//			Proceso.B.fAdqRot1 = false;
-//			for(;SenB2ID<8;)
-//			{
-//				Id = 0x40 + SenB2ID;
-//				//Sensor habilitado para lectura
-//				if(Rotacion[SenB2ID].Sts.B.Hab && Rotacion[SenB2ID].Sts.B.Det )
-//				{	break;	}
-//				SenB2ID++;
-//			}
-//			if(SenB2ID>=8)
-//			{
-//				SenB2ID = 0;
-//				Adq_SelTask0021=8;
-//				Proceso.B.fAdqRot2 = true;
-//				goto TRBLIN2;
-//				break;
-//			}
-//			ErrorB2=0;
-//			Adq_SelTask0021++;
-//			if(Rotacion[SenB2ID].Sts.B.Bus)
-//			{
-//				SW1_PortSysStart(Id,0x00 | SW1_cmdRd,2);
-//				SW1_PortSysSend();
-//			}
-//			else
-//			{
-//				SW2_PortSysStart(Id,0x00 | SW2_cmdRd,2);
-//				SW2_PortSysSend();
-//			}
-//			
-//		break;
-//		case 7:
-//			Id = 0x40 + SenB2ID;
-//			if (SW2PortSys.Sts.B.fOk)
-//			{
-//				Rotacion[SenB2ID].Med = *(unsigned int*)&SW2.buf[0];
-//				Rotacion[SenB2ID].Sts.B.Con = true;
-//				Rotacion[SenB2ID].Sts.B.FDs = false;
-//			}
-//			else if(SW2PortSys.Sts.B.fErr && !Rotacion[SenB2ID].Sts.B.FDs)
-//			{
-//				if(ErrorB2>=2)
-//				{
-//					ErrorB2=0;					
-//					Rotacion[SenB2ID].Med = 0;
-//					Rotacion[SenB2ID].Sts.B.Con = false;
-//					Rotacion[SenB2ID].Sts.B.FDs = true;
-//				}
-//				else
-//				{
-//					ErrorB2++;
-//					SW2_PortSysStart(Id,0x00 | SW2_cmdRd,2);
-//					SW2_PortSysSend();
-//					break;
-//				}
-//			}
-//			SenB2ID++;
-//			if(SenB2ID<8)
-//			{
-//				Adq_SelTask0021=6;
-//				break;	
-//			}
-//			else 
-//			{
-//				SenB2ID = 0;
-//				Adq_SelTask0021=8;
-//				Proceso.B.fAdqRot2 = true;
-//	//			goto RPMLIN2;
-//			}
-////		break;
+void Adq_Rotacion(void)
+{
+	unsigned int Id;
+	unsigned int Medicion;
+	switch(RotRLect)
+	{
+		default:
+			RotRLect=0;
+			RotID = 0;
+		case 0:
+//Lectura de datos sensores de rotacion
+			Proceso.B.fAdqRot2 = false;
+			Proceso.B.fAdqRot1 = false;
+			for(;RotID<8;)
+			{
+				Id = 0x40 + RotID;
+				//Sensor habilitado para lectura
+				if(Rotacion[RotID].Sts.B.Hab && Rotacion[RotID].Sts.B.Det )
+				{	break;	}
+				RotID++;
+			}
+			if(RotID>=8)
+			{
+				RotID = 0;
+				RotRLect=200;
+				Proceso.B.fAdqRot2 = true;
+// Poner el reset del llamado a asta funcion
+				Sts_Tmr.B.ROTPls = false;
+				RLectCnt ++;
+				if(RLectCnt >20)
+				{	Proceso.B.fDosis = false;	}
+				break;
+			}
+			ErrorRot=0;
+			RotRLect++;
+		case 1:
+			Id = 0x40 + RotID;
+			if(!Rotacion[RotID].Sts.B.Bus)
+			{
+				if (SW1PortSys.Sts.B.fPend)	//Hay una comunicacion pendiente de ser atendida
+					return;
+				SW1_PortSysStart(Id,0x00 | SW1_cmdRd,2);
+				SW1_PortSysSend();
+			}
+			else
+			{
+				if (SW2PortSys.Sts.B.fPend)	//Hay una comunicacion pendiente de ser atendida
+					return;
+				SW2_PortSysStart(Id,0x00 | SW2_cmdRd,2);
+				SW2_PortSysSend();
+			}
+			RotRLect++;
+		break;
+		case 2:
+			if(!Rotacion[RotID].Sts.B.Bus)
+			{
+				if (SW1PortSys.Sts.B.fOk)
+				{
+					Rotacion[RotID].Med = *(unsigned int*)&SW1.buf[0];
+					Rotacion[RotID].Sts.B.Con = true;
+					Rotacion[RotID].Sts.B.FDs = false;
+				}
+				else if(SW1PortSys.Sts.B.fErr && !Rotacion[RotID].Sts.B.FDs)
+				{
+					if(ErrorRot>=2)
+					{
+						ErrorRot=0;					
+						Rotacion[RotID].Med = 0;
+						Rotacion[RotID].Sts.B.Con = false;
+						Rotacion[RotID].Sts.B.FDs = true;
+					}
+					else
+					{
+						RotRLect = 1;
+						break;
+					}
+				}
+			}
+			else
+			{
+				if (SW2PortSys.Sts.B.fOk)
+				{
+					Rotacion[RotID].Med = *(unsigned int*)&SW2.buf[0];
+					Rotacion[RotID].Sts.B.Con = true;
+					Rotacion[RotID].Sts.B.FDs = false;
+				}
+				else if(SW2PortSys.Sts.B.fErr && !Rotacion[RotID].Sts.B.FDs)
+				{
+					if(ErrorRot>=2)
+					{
+						ErrorRot=0;					
+						Rotacion[RotID].Med = 0;
+						Rotacion[RotID].Sts.B.Con = false;
+						Rotacion[RotID].Sts.B.FDs = true;
+					}
+					else
+					{
+						RotRLect = 1;
+						break;
+					}
+				}
+			}	
+			RotID++;
+			if(RotID<8)
+			{
+				RotRLect=200;
+				Sts_Tmr.B.ROTPls = false;
+//Poner el reseteo de la funcion
+				RLectCnt ++;
+				if(RLectCnt >20)
+				{	Proceso.B.fDosis = false;	}
+				break;	
+			}
+			else 
+			{
+				RotID = 0;
+				RotRLect=0;
+				Proceso.B.fAdqRot2 = true;
+			}
+			break;
+	}
+}			
+			
+

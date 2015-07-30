@@ -328,7 +328,7 @@ int main (void)
 			if(Sts_Tmr.Cnt0500>=5)
 			{
 				Sts_Tmr.Cnt0500 = 0;
-//				Sts_Tmr.B.SetID0500 = true;
+				Sts_Tmr.B.ROTPls = true;
 				Sts_Tmr.B.WaitPls = true;
 
 			}

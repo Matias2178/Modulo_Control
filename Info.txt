@@ -136,3 +136,5 @@ Version 1.1R100
 Version 1.1R50 (lo baje porque no lee 3 digitos)
 	Correccion de errores escritura datos Moduladoras bus LIN 2	
 	No estaba escribiendo el ADDRES 0x04 con el SP y KD escribia la configuracion con los pulsos por vuelta (todos a cero)
+Version 1.1R51
+	Desarrollo (no esta implementado) funcion de lectura con mas frecuencia de sensores de rotacion despues de un cambio de dosis
