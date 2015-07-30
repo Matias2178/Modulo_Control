@@ -32,6 +32,7 @@ void Adq_Proc_Lin1(void)
 {
 	unsigned int Id;
 	unsigned int Medicion;
+	union _UInt32 LocUserDW00;
 	
 	if (SW1PortSys.Sts.B.fPend)	//Hay una comunicacion pendiente de ser atendida
 		return;
@@ -419,7 +420,7 @@ ModLIN1:
 				SenB1ID = 0;
 				Adq_SelTask0011=12;
 				Proceso.B.fAdqMod1 = true;
-				goto TolLIN1;
+				goto escModLIN1;
 				break;
 			}
 			ErrorB1=0;
@@ -468,7 +469,100 @@ ModLIN1:
 				Adq_SelTask0011=12;
 			}
 //		break;
+//Escribe SP kD una vez por segundo
+
 		case 12:
+escModLIN1:
+			Proceso.B.fAdqMod1 = false;
+			for(;SenB1ID<16;)
+			{		
+			//!Moduladora[SenB1ID].Sts.B.Bus indica que esta en el bus 1
+				if(!Moduladora[SenB1ID].Sts.B.Bus)
+				{
+					if(Moduladora[SenB1ID].Sts.B.Hab && Moduladora[SenB1ID].Sts.B.Det)
+					{
+						//Sensor habilitado para lectura
+						Id = ModDirId(SenB1ID);
+						break;
+					}
+					else 
+					{
+						Moduladora[SenB1ID].Vel = 0;
+						Moduladora[SenB1ID].Dis = 0;
+						Moduladora[SenB1ID].Pul = 0;
+						Moduladora[SenB1ID].Al.Val = 0;
+						Moduladora[SenB1ID].Sts.B.Con = false;
+						Moduladora[SenB1ID].Sts.B.FDs = false;
+					}
+				}
+				SenB1ID++;
+			}
+			
+			if(SenB1ID>=16)
+			{
+				SenB1ID = 0;
+				Adq_SelTask0011=14;
+				Proceso.B.fAdqMod1 = true;
+				goto TolLIN1;
+				break;
+			}
+			LocUserDW00.B.V[0]	= Moduladora[SenB1ID].PVT;
+			LocUserDW00.B.V[1]	= Moduladora[SenB1ID].PVD;
+			LocUserDW00.UI.V[1]	= Moduladora[SenB1ID].RDT;
+			ErrorB1=0;
+			Adq_SelTask0011++;
+			
+			SW1_PortUserStart(Id,0x06 | SW1_cmdWr,0);
+			SW1_PortUserWr(0x81);	//REG.ID
+			SW1_PortUserWrBuf(&LocUserDW00.UL.V,sizeof(unsigned long));
+			SW1_PortUserSend(false);
+			
+		break;
+		case 13:
+			if (SW1PortSys.Sts.B.fOk)
+			{
+				Moduladora[SenB1ID].Sts.B.Con = true;
+				Moduladora[SenB1ID].Sts.B.FDs = false;
+			}
+			else if(SW1PortSys.Sts.B.fErr && !Moduladora[SenB1ID].Sts.B.FDs)
+			{
+				if(ErrorB1>=2)
+				{
+					ErrorB1=0;					
+					Moduladora[SenB1ID].Al.Val = 0;
+					Moduladora[SenB1ID].Vel = 0;
+					Moduladora[SenB1ID].Sts.B.Con = false;
+					Moduladora[SenB1ID].Sts.B.FDs = true;
+				}
+				else
+				{
+					ErrorB1++;
+					Id = ModDirId(SenB1ID);
+			
+					LocUserDW00.B.V[0]	= Moduladora[SenB1ID].PVT;
+					LocUserDW00.B.V[1]	= Moduladora[SenB1ID].PVD;
+					LocUserDW00.UI.V[1]	= Moduladora[SenB1ID].RDT;
+					SW1_PortUserStart(Id,0x06 | SW1_cmdWr,0);
+					SW1_PortUserWr(0x81);	//REG.ID
+					SW1_PortUserWrBuf(&LocUserDW00.UL.V,sizeof(unsigned long));
+					SW1_PortUserSend(false);
+					break;
+				}
+			}
+			SenB1ID++;
+			if(SenB1ID<16)
+			{
+				Adq_SelTask0011=12;
+				break;	
+			}
+			else 
+			{
+				SenB1ID = 0;
+				Proceso.B.fAdqMod1 = true;
+				Adq_SelTask0011=14;
+			}
+//		break;
+		case 14:
 //Lectura de datos sensores de Nivel de tolva
 TolLIN1:
 			Proceso.B.fAdqNTL1 = false;
@@ -506,7 +600,7 @@ TolLIN1:
 			SW1_PortSysStart(Id,0x00 | SW1_cmdRd,1);
 			SW1_PortSysSend();
 		break;
-		case 13:
+		case 15:
 			Id = 0x48 + SenB1ID;
 			if (SW1PortSys.Sts.B.fOk)
 			{
@@ -550,7 +644,7 @@ TolLIN1:
 			SenB1ID++;
 			if(SenB1ID<16)
 			{
-				Adq_SelTask0011=12;
+				Adq_SelTask0011=14;
 				break;	
 			}
 			else 
