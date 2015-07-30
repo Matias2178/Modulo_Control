@@ -931,13 +931,17 @@ void TOL2DtsCom(void)
 		Sensores.tTOL = 0;	
 	}
 }
-
+/******************************************************************************
+*	Funcion:		CargaId()
+*	Descricpion:	Lee el bus LIN1 y esperar que no halla ninguno conectado
+*					luego espera a que se conecte uno lee el ID, detecta el tipo
+*					de sensor y los limites del ID y permite cambiar de ID
+*	Ingreso Datos:	Ninguno
+*	Salida Datos:	Ninguno
+******************************************************************************/
 void CargaId(void)
 {
-//	SetId.Id = 0;
-//	SetId.NuevoId = 0;
-//	SetId.IdMax = 0xFF;
-//	SetId.IdMin = 0xFF;
+
 //Hay una comunicacion pendiente de ser atendida
 	if (SW1PortSys.Sts.B.fPend)
 		return;
@@ -1051,6 +1055,14 @@ void CargaId(void)
 	}
 }
 
+/******************************************************************************
+*	Funcion:		MaxMinId()
+*	Descricpion:	Con el ID del sensor carga en la estructura SetID los 
+*					valores de ID maximo, minimo y el de ID virgen
+*					
+*	Ingreso Datos:	ID del sensor
+*	Salida Datos:	Ninguno
+******************************************************************************/
 void MaxMinId(unsigned char Id)
 {	
 //Sensores de semillas
@@ -1096,3 +1108,100 @@ void MaxMinId(unsigned char Id)
 	}
 }
 
+/******************************************************************************
+*	Funcion:		Adq_Rotacion()	
+*	Descricpion:	Adquiere los datos de proceso de los sensores de rotacion
+*					conectados, esta funcion se utiliza cuando se hace un 
+*					cambio de dosis
+*	Nota:			Cuando esta funcion esta activa no leer los datos desde 
+*					Adq_Proc_Lin1()	yAdq_Proc_Lin2()	
+*	Ingreso Datos:	Ninguno
+*	Salida Datos:	Ninguno
+******************************************************************************/	
+
+//void Adq_Rotacion(void)
+//{
+//	unsigned int Id;
+//	unsigned int Medicion;
+//	
+//	if (SW2PortSys.Sts.B.fPend)	//Hay una comunicacion pendiente de ser atendida
+//		return;
+//		
+//	switch(Adq_SelTask0021)
+//	{
+//		default:
+//			Adq_SelTask0021=0;
+//
+//		case 0:
+////Lectura de datos sensores de rotacion
+//			Proceso.B.fAdqRot2 = false;
+//			Proceso.B.fAdqRot1 = false;
+//			for(;SenB2ID<8;)
+//			{
+//				Id = 0x40 + SenB2ID;
+//				//Sensor habilitado para lectura
+//				if(Rotacion[SenB2ID].Sts.B.Hab && Rotacion[SenB2ID].Sts.B.Det )
+//				{	break;	}
+//				SenB2ID++;
+//			}
+//			if(SenB2ID>=8)
+//			{
+//				SenB2ID = 0;
+//				Adq_SelTask0021=8;
+//				Proceso.B.fAdqRot2 = true;
+//				goto TRBLIN2;
+//				break;
+//			}
+//			ErrorB2=0;
+//			Adq_SelTask0021++;
+//			if(Rotacion[SenB2ID].Sts.B.Bus)
+//			{
+//				SW1_PortSysStart(Id,0x00 | SW1_cmdRd,2);
+//				SW1_PortSysSend();
+//			}
+//			else
+//			{
+//				SW2_PortSysStart(Id,0x00 | SW2_cmdRd,2);
+//				SW2_PortSysSend();
+//			}
+//			
+//		break;
+//		case 7:
+//			Id = 0x40 + SenB2ID;
+//			if (SW2PortSys.Sts.B.fOk)
+//			{
+//				Rotacion[SenB2ID].Med = *(unsigned int*)&SW2.buf[0];
+//				Rotacion[SenB2ID].Sts.B.Con = true;
+//				Rotacion[SenB2ID].Sts.B.FDs = false;
+//			}
+//			else if(SW2PortSys.Sts.B.fErr && !Rotacion[SenB2ID].Sts.B.FDs)
+//			{
+//				if(ErrorB2>=2)
+//				{
+//					ErrorB2=0;					
+//					Rotacion[SenB2ID].Med = 0;
+//					Rotacion[SenB2ID].Sts.B.Con = false;
+//					Rotacion[SenB2ID].Sts.B.FDs = true;
+//				}
+//				else
+//				{
+//					ErrorB2++;
+//					SW2_PortSysStart(Id,0x00 | SW2_cmdRd,2);
+//					SW2_PortSysSend();
+//					break;
+//				}
+//			}
+//			SenB2ID++;
+//			if(SenB2ID<8)
+//			{
+//				Adq_SelTask0021=6;
+//				break;	
+//			}
+//			else 
+//			{
+//				SenB2ID = 0;
+//				Adq_SelTask0021=8;
+//				Proceso.B.fAdqRot2 = true;
+//	//			goto RPMLIN2;
+//			}
+////		break;

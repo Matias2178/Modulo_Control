@@ -469,6 +469,7 @@ ModLIN2:
 //		break;
 
 //Lectura de datos de la moduladora
+		case 12:
 escModLIN2:
 			Proceso.B.fAdqMod2 = false;
 			for(;SenB2ID<16;)
@@ -498,7 +499,7 @@ escModLIN2:
 			if(SenB2ID>=16)
 			{
 				SenB2ID = 0;
-				Adq_SelTask0021=12;
+				Adq_SelTask0021=14;
 				Proceso.B.fAdqMod2 = true;
 				goto TolLIN2;
 				break;
@@ -506,18 +507,13 @@ escModLIN2:
 			ErrorB2=0;
 			Adq_SelTask0021++;
 			
-//			SW2_PortSysStart(Id,0x00 | SW2_cmdRd,2);
-//			SW2_PortSysSend();
-			LocUserDW00.B.V[0]	= Moduladora[SenB2ID].PVT;
-			LocUserDW00.B.V[1]	= Moduladora[SenB2ID].PVD;
-			LocUserDW00.UI.V[1]	= Moduladora[SenB2ID].RDT;
-			SW2_PortUserStart(Id,0x06 | SW2_cmdWr,0);
-			SW2_PortUserWr(0x81);	//REG.ID
-			SW2_PortUserWrBuf(&LocUserDW00.UL.V,sizeof(unsigned long));
+			LocUserDW00.UI.V[1] = Moduladora[SenB2ID].KD;
+			LocUserDW00.UI.V[0] = Moduladora[SenB2ID].SP;
+			SW2_PortUserStart(Id,0x04 | SW2_cmdWr,4);
+			SW2_PortUserWrBuf(&LocUserDW00.UL.V,sizeof(LocUserDW00.UL.V));
 			SW2_PortUserSend(false);
 		break;
-		case 13:
-			
+		case 13:	
 			if (SW2PortSys.Sts.B.fOk)
 			{
 				Moduladora[SenB2ID].Sts.B.Con = true;
@@ -538,12 +534,10 @@ escModLIN2:
 					ErrorB2++;
 					Id = ModDirId(SenB2ID);
 		
-					LocUserDW00.B.V[0]	= Moduladora[SenB2ID].PVT;
-					LocUserDW00.B.V[1]	= Moduladora[SenB2ID].PVD;
-					LocUserDW00.UI.V[1]	= Moduladora[SenB2ID].RDT;
-					SW2_PortUserStart(Id,0x06 | SW2_cmdWr,0);
-					SW2_PortUserWr(0x81);	//REG.ID
-					SW2_PortUserWrBuf(&LocUserDW00.UL.V,sizeof(unsigned long));
+					LocUserDW00.UI.V[1] = Moduladora[SenB2ID].KD;
+					LocUserDW00.UI.V[0] = Moduladora[SenB2ID].SP;
+					SW2_PortUserStart(Id,0x04 | SW2_cmdWr,4);
+					SW2_PortUserWrBuf(&LocUserDW00.UL.V,sizeof(LocUserDW00.UL.V));
 					SW2_PortUserSend(false);
 					break;
 				}
@@ -551,14 +545,14 @@ escModLIN2:
 			SenB2ID++;
 			if(SenB2ID<16)
 			{
-				Adq_SelTask0021=10;
+				Adq_SelTask0021=12;
 				break;	
 			}
 			else 
 			{
 				SenB2ID = 0;
 				Proceso.B.fAdqMod2 = true;
-				Adq_SelTask0021=12;
+				Adq_SelTask0021=14;
 //				goto TolLIN2;
 			}
 //		break;
@@ -591,7 +585,7 @@ TolLIN2:
 			if(SenB2ID>=16)
 			{
 				SenB2ID = 0;
-				Adq_SelTask0021=0;
+				Adq_SelTask0021=16;
 				Proceso.B.fAdqNTL2 = true;
 				break;
 			}
@@ -651,7 +645,7 @@ TolLIN2:
 			else 
 			{
 				SenB2ID = 0;
-				Adq_SelTask0021=0;
+				Adq_SelTask0021=16;
 				Proceso.B.fAdqNTL2 = true;
 			}
 		break;

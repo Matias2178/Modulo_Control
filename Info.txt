@@ -133,3 +133,6 @@ Version  1.1R1 despues de la busqueda de fallas
 	Configuracion de Leds de paplaca externa
 Version 1.1R100
 	En el proceso normal de trabajo escribo el SP y KD a las moduladoras
+Version 1.1R50 (lo baje porque no lee 3 digitos)
+	Correccion de errores escritura datos Moduladoras bus LIN 2	
+	No estaba escribiendo el ADDRES 0x04 con el SP y KD escribia la configuracion con los pulsos por vuelta (todos a cero)

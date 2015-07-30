@@ -506,15 +506,13 @@ escModLIN1:
 				goto TolLIN1;
 				break;
 			}
-			LocUserDW00.B.V[0]	= Moduladora[SenB1ID].PVT;
-			LocUserDW00.B.V[1]	= Moduladora[SenB1ID].PVD;
-			LocUserDW00.UI.V[1]	= Moduladora[SenB1ID].RDT;
 			ErrorB1=0;
 			Adq_SelTask0011++;
 			
-			SW1_PortUserStart(Id,0x06 | SW1_cmdWr,0);
-			SW1_PortUserWr(0x81);	//REG.ID
-			SW1_PortUserWrBuf(&LocUserDW00.UL.V,sizeof(unsigned long));
+			LocUserDW00.UI.V[1] = Moduladora[SenB1ID].KD;
+			LocUserDW00.UI.V[0] = Moduladora[SenB1ID].SP;
+			SW1_PortUserStart(Id,0x04 | SW1_cmdWr,4);
+			SW1_PortUserWrBuf(&LocUserDW00.UL.V,sizeof(LocUserDW00.UL.V));
 			SW1_PortUserSend(false);
 			
 		break;
@@ -538,13 +536,11 @@ escModLIN1:
 				{
 					ErrorB1++;
 					Id = ModDirId(SenB1ID);
-			
-					LocUserDW00.B.V[0]	= Moduladora[SenB1ID].PVT;
-					LocUserDW00.B.V[1]	= Moduladora[SenB1ID].PVD;
-					LocUserDW00.UI.V[1]	= Moduladora[SenB1ID].RDT;
-					SW1_PortUserStart(Id,0x06 | SW1_cmdWr,0);
-					SW1_PortUserWr(0x81);	//REG.ID
-					SW1_PortUserWrBuf(&LocUserDW00.UL.V,sizeof(unsigned long));
+					
+					LocUserDW00.UI.V[1] = Moduladora[SenB1ID].KD;
+					LocUserDW00.UI.V[0] = Moduladora[SenB1ID].SP;
+					SW1_PortUserStart(Id,0x04 | SW1_cmdWr,4);
+					SW1_PortUserWrBuf(&LocUserDW00.UL.V,sizeof(LocUserDW00.UL.V));
 					SW1_PortUserSend(false);
 					break;
 				}
