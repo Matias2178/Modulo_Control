@@ -383,430 +383,431 @@ void Comando(unsigned char *S)
 			*P = ',';
 			P++;
 		}
-
+/*
 //-----------------------------------------------------------------------------
 //HABILITACION DESHABILITACION DE SENSORES PARA PROCESO
 
-		else if(Check(Cmd,"HAB",sizeof("HAB")) || Check(Cmd,"DSH",sizeof("DSH")))
-		{
-			dsh = false;			
-			if( Check(Cmd,"DSH",sizeof("DSH")))
-				dsh = true;
-				
-			if(Com)
-			{
-				memset(Cmd,0x00,10);
-				S += Movstr(Cmd,S);
-				
-				if(Check(Cmd,"SIEM",sizeof("SIEM")))
-				{
-					if(*S=='<')
-					{
-						SenDtsHab.SemB1 = 0xFFFFFFFF;
-						SenDtsHab.SemB2 = 0xFFFFFFFF;
-						
-					}
-					else
-					{
-						S++;
-						while(*S!='<' && *S && *S!=0x0A && *S!= 0x0D)
-						{
-							memset(Cmd,0x00,10);
-							S += Movstr(Cmd,S);
-							S++;
-							Sen = atoi((char*)Cmd);
-							if(Sen>64) continue;	
-							Sen--;
-							Mask = 1;
-							
-							if(Sen<32)
-							{
-								Mask = Mask << Sen;
-								if(dsh)
-								{
-									SenDtsHab.SemB1 &= (~Mask);
-								}
-								else
-								{
-									SenDtsHab.SemB1 |= Mask;
-								}
-							}
-							else
-							{
-								Sen = Sen - 32;
-								Mask = Mask << Sen;
-								if(dsh)
-								{
-									SenDtsHab.SemB2 &= (~Mask);
-								}
-								else
-								{
-									SenDtsHab.SemB2 |= Mask;
-								}
-							}
-						}
-					}
-					EepromWRBuf(M_STS_HAB_SEN,(unsigned char *)&SenDtsHab,sizeof(struct _SenDts));
-				}
-				else if(Check(Cmd,"FERT",sizeof("FERT")))
-				{
-					if(*S=='<')
-					{
-						SenDtsHab.FerB1 = 0xFFFFFFFF;
-						SenDtsHab.FerB2 = 0xFFFFFFFF;	
-					}
-					else
-					{
-						S++;
-						while(*S!='<' && *S && *S!=0x0A && *S!= 0x0D)
-						{
-							memset(Cmd,0x00,10);
-							S += Movstr(Cmd,S);
-							S++;
-							Sen = atoi((char*)Cmd);
-							if(Sen>64) continue;	
-							Sen--;
-							Mask = 1;
-							
-							if(Sen<32)
-							{
-								Mask = Mask << Sen;
-								if(dsh)
-								{
-									SenDtsHab.FerB1 &= (~Mask);
-								}
-								else
-								{
-									SenDtsHab.FerB1 |= Mask;
-								}
-							}
-							else
-							{
-								Sen = Sen - 32;
-								Mask = Mask << Sen;
-								if(dsh)
-								{
-									SenDtsHab.FerB2 &= (~Mask);
-								}
-								else
-								{
-									SenDtsHab.FerB2 |= Mask;
-								}
-							}
-						}
-					}
-					EepromWRBuf(M_STS_HAB_SEN,(unsigned char *)&SenDtsHab,sizeof(struct _SenDts));
-				}			
-				else if(Check(Cmd,"MOD",sizeof("MOD")))
-				{
-					S++;
-					while(*S!='<' && *S && *S!=0x0A && *S!= 0x0D)
-					{
-						memset(Cmd,0x00,10);
-						S += Movstr(Cmd,S);
-						S++;
-						Sen = atoi((char*)Cmd);
-						if(Sen>16) continue;	
-						Sen--;
-						Mask = 1;				
-						Mask = Mask << Sen;
-						if(dsh)
-						{
-							
-							HabPer.MOD &= (int)(~Mask);
-						}
-						else
-						{
-							HabPer.MOD |= (int) Mask;
-						}
-					}
-					EepromWRBuf(M_STS_HAB_PER,(unsigned char *)&HabPer,sizeof(struct _DtsPer));
-					
-				}
-				else if(Check(Cmd,"ROT",sizeof("ROT")))
-				{
-					S++;
-					while(*S!='<' && *S && *S!=0x0A && *S!= 0x0D)
-					{
-						memset(Cmd,0x00,10);
-						S += Movstr(Cmd,S);
-						S++;
-						Sen = atoi((char*)Cmd);
-						if(Sen>8) continue;	
-						Sen--;
-						Mask = 1;
-						
-						Mask = Mask << Sen;
-						if(dsh)
-						{
-							HabPer.ROT &= (int)(~Mask);
-						}
-						else
-						{
-							HabPer.ROT |= (int) Mask;
-						}
-					}
-					EepromWRBuf(M_STS_HAB_PER,(unsigned char *)&HabPer,sizeof(struct _DtsPer));
-				}
-				else if(Check(Cmd,"TRB",sizeof("TRB")))
-				{
-					S++;
-					while(*S!='<' && *S && *S!=0x0A && *S!= 0x0D)
-					{
-						memset(Cmd,0x00,10);
-						S += Movstr(Cmd,S);
-						S++;
-						Sen = atoi((char*)Cmd);
-						if(Sen>3) continue;	
-						Sen--;
-						Mask = 1;
-						
-						Mask = Mask << Sen;
-						if(dsh)
-						{
-							HabPer.TRB &= (int)(~Mask);
-						}
-						else
-						{
-							HabPer.TRB |= (int) Mask;
-						}
-					}
-					HabPer.TRB &= 0x07;
-
-					EepromWRBuf(M_STS_HAB_PER,(unsigned char *)&HabPer,sizeof(struct _DtsPer));
-				}
-				else if(Check(Cmd,"TLV",sizeof("TLV")))
-				{
-					S++;
-					while(*S!='<' && *S && *S!=0x0A && *S!= 0x0D)
-					{
-						memset(Cmd,0x00,10);
-						S += Movstr(Cmd,S);
-						S++;
-						Sen = atoi((char*)Cmd);
-						if(Sen>16) continue;	
-						Sen--;
-						Mask = 1;
-						
-						Mask = Mask << Sen;
-						if(dsh)
-						{
-							HabPer.TOL &= (int)(~Mask);
-						}
-						else
-						{
-							HabPer.TOL |= (int) Mask;
-						}
-					}
-
-					EepromWRBuf(M_STS_HAB_PER,(unsigned char *)&HabPer,sizeof(struct _DtsPer));
-				}
-				else
-				{
-					P = TXTError(P);
-					goto lFinComando;
-				}
-				CargaConfSen();	
-				CargaConfPer();									
-			}
-			P += Movstr(P,(unsigned char*)"START");
-			FinCmd(P);
-			CBuffersTx();		
-			while(!U2STAbits.TRMT || !U3STAbits.TRMT) ExeTask();
-			
-			P = QTxBuf;
-			StsPer64 ("SIEM",P,SenDtsHab.SemB1,SenDtsHab.SemB2);
-			CBuffersTx();
-			
-			while(!U2STAbits.TRMT || !U3STAbits.TRMT) ExeTask();			
-			
-			P = QTxBuf;
-			StsPer64 ("FERT",P,SenDtsHab.FerB1,SenDtsHab.FerB2);
-			CBuffersTx();
-			while(!U2STAbits.TRMT || !U3STAbits.TRMT) ExeTask();			
-			
-			P = QTxBuf;
-			StsPer16 ("MOD",P,HabPer.MOD);
-			CBuffersTx();
-			while(!U2STAbits.TRMT || !U3STAbits.TRMT) ExeTask();
-			
-			P = QTxBuf;
-			StsPer16 ("ROT",P,HabPer.ROT);
-			CBuffersTx();
-			while(!U2STAbits.TRMT || !U3STAbits.TRMT) ExeTask();			
-
-			P = QTxBuf;
-			StsPer16 ("TRB",P,HabPer.TRB);
-			CBuffersTx();
-			while(!U2STAbits.TRMT || !U3STAbits.TRMT) ExeTask();
-				
-			P = QTxBuf;
-			strcpy((char *)P,">QAJ,HAB,STOP<");
-			P = P + strlen(">QAJ,HAB,STOP<");
-		}
+//		else if(Check(Cmd,"HAB",sizeof("HAB")) || Check(Cmd,"DSH",sizeof("DSH")))
+//		{
+//			dsh = false;			
+//			if( Check(Cmd,"DSH",sizeof("DSH")))
+//				dsh = true;
+//				
+//			if(Com)
+//			{
+//				memset(Cmd,0x00,10);
+//				S += Movstr(Cmd,S);
+//				
+//				if(Check(Cmd,"SIEM",sizeof("SIEM")))
+//				{
+//					if(*S=='<')
+//					{
+//						SenDtsHab.SemB1 = 0xFFFFFFFF;
+//						SenDtsHab.SemB2 = 0xFFFFFFFF;
+//						
+//					}
+//					else
+//					{
+//						S++;
+//						while(*S!='<' && *S && *S!=0x0A && *S!= 0x0D)
+//						{
+//							memset(Cmd,0x00,10);
+//							S += Movstr(Cmd,S);
+//							S++;
+//							Sen = atoi((char*)Cmd);
+//							if(Sen>64) continue;	
+//							Sen--;
+//							Mask = 1;
+//							
+//							if(Sen<32)
+//							{
+//								Mask = Mask << Sen;
+//								if(dsh)
+//								{
+//									SenDtsHab.SemB1 &= (~Mask);
+//								}
+//								else
+//								{
+//									SenDtsHab.SemB1 |= Mask;
+//								}
+//							}
+//							else
+//							{
+//								Sen = Sen - 32;
+//								Mask = Mask << Sen;
+//								if(dsh)
+//								{
+//									SenDtsHab.SemB2 &= (~Mask);
+//								}
+//								else
+//								{
+//									SenDtsHab.SemB2 |= Mask;
+//								}
+//							}
+//						}
+//					}
+//					EepromWRBuf(M_STS_HAB_SEN,(unsigned char *)&SenDtsHab,sizeof(struct _SenDts));
+//				}
+//				else if(Check(Cmd,"FERT",sizeof("FERT")))
+//				{
+//					if(*S=='<')
+//					{
+//						SenDtsHab.FerB1 = 0xFFFFFFFF;
+//						SenDtsHab.FerB2 = 0xFFFFFFFF;	
+//					}
+//					else
+//					{
+//						S++;
+//						while(*S!='<' && *S && *S!=0x0A && *S!= 0x0D)
+//						{
+//							memset(Cmd,0x00,10);
+//							S += Movstr(Cmd,S);
+//							S++;
+//							Sen = atoi((char*)Cmd);
+//							if(Sen>64) continue;	
+//							Sen--;
+//							Mask = 1;
+//							
+//							if(Sen<32)
+//							{
+//								Mask = Mask << Sen;
+//								if(dsh)
+//								{
+//									SenDtsHab.FerB1 &= (~Mask);
+//								}
+//								else
+//								{
+//									SenDtsHab.FerB1 |= Mask;
+//								}
+//							}
+//							else
+//							{
+//								Sen = Sen - 32;
+//								Mask = Mask << Sen;
+//								if(dsh)
+//								{
+//									SenDtsHab.FerB2 &= (~Mask);
+//								}
+//								else
+//								{
+//									SenDtsHab.FerB2 |= Mask;
+//								}
+//							}
+//						}
+//					}
+//					EepromWRBuf(M_STS_HAB_SEN,(unsigned char *)&SenDtsHab,sizeof(struct _SenDts));
+//				}			
+//				else if(Check(Cmd,"MOD",sizeof("MOD")))
+//				{
+//					S++;
+//					while(*S!='<' && *S && *S!=0x0A && *S!= 0x0D)
+//					{
+//						memset(Cmd,0x00,10);
+//						S += Movstr(Cmd,S);
+//						S++;
+//						Sen = atoi((char*)Cmd);
+//						if(Sen>16) continue;	
+//						Sen--;
+//						Mask = 1;				
+//						Mask = Mask << Sen;
+//						if(dsh)
+//						{
+//							
+//							HabPer.MOD &= (int)(~Mask);
+//						}
+//						else
+//						{
+//							HabPer.MOD |= (int) Mask;
+//						}
+//					}
+//					EepromWRBuf(M_STS_HAB_PER,(unsigned char *)&HabPer,sizeof(struct _DtsPer));
+//					
+//				}
+//				else if(Check(Cmd,"ROT",sizeof("ROT")))
+//				{
+//					S++;
+//					while(*S!='<' && *S && *S!=0x0A && *S!= 0x0D)
+//					{
+//						memset(Cmd,0x00,10);
+//						S += Movstr(Cmd,S);
+//						S++;
+//						Sen = atoi((char*)Cmd);
+//						if(Sen>8) continue;	
+//						Sen--;
+//						Mask = 1;
+//						
+//						Mask = Mask << Sen;
+//						if(dsh)
+//						{
+//							HabPer.ROT &= (int)(~Mask);
+//						}
+//						else
+//						{
+//							HabPer.ROT |= (int) Mask;
+//						}
+//					}
+//					EepromWRBuf(M_STS_HAB_PER,(unsigned char *)&HabPer,sizeof(struct _DtsPer));
+//				}
+//				else if(Check(Cmd,"TRB",sizeof("TRB")))
+//				{
+//					S++;
+//					while(*S!='<' && *S && *S!=0x0A && *S!= 0x0D)
+//					{
+//						memset(Cmd,0x00,10);
+//						S += Movstr(Cmd,S);
+//						S++;
+//						Sen = atoi((char*)Cmd);
+//						if(Sen>3) continue;	
+//						Sen--;
+//						Mask = 1;
+//						
+//						Mask = Mask << Sen;
+//						if(dsh)
+//						{
+//							HabPer.TRB &= (int)(~Mask);
+//						}
+//						else
+//						{
+//							HabPer.TRB |= (int) Mask;
+//						}
+//					}
+//					HabPer.TRB &= 0x07;
+//
+//					EepromWRBuf(M_STS_HAB_PER,(unsigned char *)&HabPer,sizeof(struct _DtsPer));
+//				}
+//				else if(Check(Cmd,"TLV",sizeof("TLV")))
+//				{
+//					S++;
+//					while(*S!='<' && *S && *S!=0x0A && *S!= 0x0D)
+//					{
+//						memset(Cmd,0x00,10);
+//						S += Movstr(Cmd,S);
+//						S++;
+//						Sen = atoi((char*)Cmd);
+//						if(Sen>16) continue;	
+//						Sen--;
+//						Mask = 1;
+//						
+//						Mask = Mask << Sen;
+//						if(dsh)
+//						{
+//							HabPer.TOL &= (int)(~Mask);
+//						}
+//						else
+//						{
+//							HabPer.TOL |= (int) Mask;
+//						}
+//					}
+//
+//					EepromWRBuf(M_STS_HAB_PER,(unsigned char *)&HabPer,sizeof(struct _DtsPer));
+//				}
+//				else
+//				{
+//					P = TXTError(P);
+//					goto lFinComando;
+//				}
+//				CargaConfSen();	
+//				CargaConfPer();									
+//			}
+//			P += Movstr(P,(unsigned char*)"START");
+//			FinCmd(P);
+//			CBuffersTx();		
+//			while(!U2STAbits.TRMT || !U3STAbits.TRMT) ExeTask();
+//			
+//			P = QTxBuf;
+//			StsPer64 ("SIEM",P,SenDtsHab.SemB1,SenDtsHab.SemB2);
+//			CBuffersTx();
+//			
+//			while(!U2STAbits.TRMT || !U3STAbits.TRMT) ExeTask();			
+//			
+//			P = QTxBuf;
+//			StsPer64 ("FERT",P,SenDtsHab.FerB1,SenDtsHab.FerB2);
+//			CBuffersTx();
+//			while(!U2STAbits.TRMT || !U3STAbits.TRMT) ExeTask();			
+//			
+//			P = QTxBuf;
+//			StsPer16 ("MOD",P,HabPer.MOD);
+//			CBuffersTx();
+//			while(!U2STAbits.TRMT || !U3STAbits.TRMT) ExeTask();
+//			
+//			P = QTxBuf;
+//			StsPer16 ("ROT",P,HabPer.ROT);
+//			CBuffersTx();
+//			while(!U2STAbits.TRMT || !U3STAbits.TRMT) ExeTask();			
+//
+//			P = QTxBuf;
+//			StsPer16 ("TRB",P,HabPer.TRB);
+//			CBuffersTx();
+//			while(!U2STAbits.TRMT || !U3STAbits.TRMT) ExeTask();
+//				
+//			P = QTxBuf;
+//			strcpy((char *)P,">QAJ,HAB,STOP<");
+//			P = P + strlen(">QAJ,HAB,STOP<");
+//		}
 //-----------------------------------------------------------------------------
-		//Configuro y leo el SP y el KD de todo el sistema de moduladoras
-		else if(Check(Cmd,"SIS",sizeof("SIS")) )
-		{
-			P--;
-			for(a=0;a<4;a++)
-			{
-			//	*P = ',';
-			//	P++;
-				memset(Cmd,0x00,10);
-				S += Movstr(Cmd,S);
-				S++;
-				//Siembra Primaria
-				if(Check(Cmd,"SP",sizeof("SP")) )
-				{
-					ModNum = 1;
-				//	strcpy((char *)P,"SP");
-				//	P = P + strlen("SP");
-				}
-				
-				//Siembra Secundaria
-				else if(Check(Cmd,"SS",sizeof("SS")) )
-				{
-					ModNum = 2;
-				//	strcpy((char *)P,"SS");
-				//	P = P + strlen("SS");
-				}
-					
-				//Fertilizante Primario
-				else if(Check(Cmd,"FP",sizeof("FP")) )
-				{
-					ModNum = 3;
-				//	strcpy((char *)P,"FP");
-				//	P = P + strlen("FP");
-				}	
-					
-				//Fertilizante Secundario
-				else if(Check(Cmd,"FS",sizeof("FS")) )
-				{
-					ModNum = 4;
-				//	strcpy((char *)P,"FS");
-				//	P = P + strlen("FS");
-				}	
-				else
-				{
-					P = TXTError(P);
-					goto lFinComando;
-				}	
-					
-				ModNum --;
-				if(Com)
-				{
-					memset(Cmd,0x00,10);
-					//Set Point
-					S += Movstr(Cmd,S);
-					S++;
-					SPAux = atoi((char*)Cmd);
-					//Constante KD
-					memset(Cmd,0x00,10);
-					S += Movstr(Cmd,S);
-					S++;
-					KDAux = atoi((char*)Cmd);
-						
-					for(i=0;i<16;i=i+4)
-					{
-						Sen = i + ModNum;
-						if(	Moduladora[Sen].Sts.B.Det)
-						{
-							//P--;
-						//	FinCmd(P);
-						//	P=P+3;
-							*P = ',';
-							P++;
-							//Numero de Sensor
-						//	strcpy((char *)P,"MOD,");
-						//	P = P + strlen("MOD,");
-							AuxSen = Sen + 1;
-							P  = (unsigned char*)uitos(AuxSen,P);
-							*P = ',';
-							P++;
-							if(ModSistKpKd(Sen,SPAux,KDAux,true))
-							{
-								P  = (unsigned char*)uitos(Moduladora[Sen].SP,P);	
-								*P = ',';
-								P++;
-								P  = (unsigned char*)uitos(Moduladora[Sen].KD,P);
-						//		P++;
-							}
-							else
-							{
-							//	P = TXTError(P);
-							//	P--;
-								strcpy((char *)P,"ERR,ERR");
-								P = P + strlen("ERR,ERR");	
-							}	
-						}
-						else
-						{
-							//P--;
-						//	FinCmd(P);
-						//	P=P+3;
-							*P = ',';
-							P++;
-				//			strcpy((char *)P,"MOD,");
-				//			P = P + strlen("MOD,");
-							AuxSen = Sen + 1;
-							P  = (unsigned char*)uitos(AuxSen,P);
-							*P = ',';
-							P++;
-							*P = ',';
-							P++;
-						//	strcpy((char *)P,"DESC");
-						//	P = P + strlen("DESC");	
-						}
-					}
-				}
-			
-				else
-				{	
-					for(i=0;i<16;i=i+4)
-					{
-						Sen = i + ModNum;
-						if(	Moduladora[Sen].Sts.B.Det)
-						{
-						//	P--;
-					//		FinCmd(P);
-					//		P=P+3;
-					//		//Numero de Sensor
-					//		strcpy((char *)P,"MOD,");
-					//		P = P + strlen("MOD,");
-							AuxSen = Sen + 1;
-							P  = (unsigned char*)uitos(AuxSen,P);
-							*P = ',';
-							P++;
-							ModSistKpKd(Sen,SPAux,KDAux,false);
-							P  = (unsigned char*)uitos(Moduladora[Sen].SP,P);	
-							*P = ',';
-							P++;
-							P  = (unsigned char*)uitos(Moduladora[Sen].KD,P);	
-						}
-						else
-						{
-						//	P--;
-					//		FinCmd(P);
-					//		P=P+3;
-					//		strcpy((char *)P,"MOD,");
-					//		P = P + strlen("MOD,");
-							AuxSen = Sen + 1;
-							P  = (unsigned char*)uitos(AuxSen,P);
-							*P = ',';
-							P++;
-							*P = ',';
-							P++;
-						//	strcpy((char *)P,"DESC");
-						//	P = P + strlen("DESC");
-							
-						}
-					}
-				}
-			//	FinCmd(P);
-			//	P=P+3;
-			}
-		}
+//		//Configuro y leo el SP y el KD de todo el sistema de moduladoras
+//		else if(Check(Cmd,"SIS",sizeof("SIS")) )
+//		{
+//			P--;
+//			for(a=0;a<4;a++)
+//			{
+//			//	*P = ',';
+//			//	P++;
+//				memset(Cmd,0x00,10);
+//				S += Movstr(Cmd,S);
+//				S++;
+//				//Siembra Primaria
+//				if(Check(Cmd,"SP",sizeof("SP")) )
+//				{
+//					ModNum = 1;
+//				//	strcpy((char *)P,"SP");
+//				//	P = P + strlen("SP");
+//				}
+//				
+//				//Siembra Secundaria
+//				else if(Check(Cmd,"SS",sizeof("SS")) )
+//				{
+//					ModNum = 2;
+//				//	strcpy((char *)P,"SS");
+//				//	P = P + strlen("SS");
+//				}
+//					
+//				//Fertilizante Primario
+//				else if(Check(Cmd,"FP",sizeof("FP")) )
+//				{
+//					ModNum = 3;
+//				//	strcpy((char *)P,"FP");
+//				//	P = P + strlen("FP");
+//				}	
+//					
+//				//Fertilizante Secundario
+//				else if(Check(Cmd,"FS",sizeof("FS")) )
+//				{
+//					ModNum = 4;
+//				//	strcpy((char *)P,"FS");
+//				//	P = P + strlen("FS");
+//				}	
+//				else
+//				{
+//					P = TXTError(P);
+//					goto lFinComando;
+//				}	
+//					
+//				ModNum --;
+//				if(Com)
+//				{
+//					memset(Cmd,0x00,10);
+//					//Set Point
+//					S += Movstr(Cmd,S);
+//					S++;
+//					SPAux = atoi((char*)Cmd);
+//					//Constante KD
+//					memset(Cmd,0x00,10);
+//					S += Movstr(Cmd,S);
+//					S++;
+//					KDAux = atoi((char*)Cmd);
+//						
+//					for(i=0;i<16;i=i+4)
+//					{
+//						Sen = i + ModNum;
+//						if(	Moduladora[Sen].Sts.B.Det)
+//						{
+//							//P--;
+//						//	FinCmd(P);
+//						//	P=P+3;
+//							*P = ',';
+//							P++;
+//							//Numero de Sensor
+//						//	strcpy((char *)P,"MOD,");
+//						//	P = P + strlen("MOD,");
+//							AuxSen = Sen + 1;
+//							P  = (unsigned char*)uitos(AuxSen,P);
+//							*P = ',';
+//							P++;
+//							if(ModSistKpKd(Sen,SPAux,KDAux,true))
+//							{
+//								P  = (unsigned char*)uitos(Moduladora[Sen].SP,P);	
+//								*P = ',';
+//								P++;
+//								P  = (unsigned char*)uitos(Moduladora[Sen].KD,P);
+//						//		P++;
+//							}
+//							else
+//							{
+//							//	P = TXTError(P);
+//							//	P--;
+//								strcpy((char *)P,"ERR,ERR");
+//								P = P + strlen("ERR,ERR");	
+//							}	
+//						}
+//						else
+//						{
+//							//P--;
+//						//	FinCmd(P);
+//						//	P=P+3;
+//							*P = ',';
+//							P++;
+//				//			strcpy((char *)P,"MOD,");
+//				//			P = P + strlen("MOD,");
+//							AuxSen = Sen + 1;
+//							P  = (unsigned char*)uitos(AuxSen,P);
+//							*P = ',';
+//							P++;
+//							*P = ',';
+//							P++;
+//						//	strcpy((char *)P,"DESC");
+//						//	P = P + strlen("DESC");	
+//						}
+//					}
+//				}
+//			
+//				else
+//				{	
+//					for(i=0;i<16;i=i+4)
+//					{
+//						Sen = i + ModNum;
+//						if(	Moduladora[Sen].Sts.B.Det)
+//						{
+//						//	P--;
+//					//		FinCmd(P);
+//					//		P=P+3;
+//					//		//Numero de Sensor
+//					//		strcpy((char *)P,"MOD,");
+//					//		P = P + strlen("MOD,");
+//							AuxSen = Sen + 1;
+//							P  = (unsigned char*)uitos(AuxSen,P);
+//							*P = ',';
+//							P++;
+//							ModSistKpKd(Sen,SPAux,KDAux,false);
+//							P  = (unsigned char*)uitos(Moduladora[Sen].SP,P);	
+//							*P = ',';
+//							P++;
+//							P  = (unsigned char*)uitos(Moduladora[Sen].KD,P);	
+//						}
+//						else
+//						{
+//						//	P--;
+//					//		FinCmd(P);
+//					//		P=P+3;
+//					//		strcpy((char *)P,"MOD,");
+//					//		P = P + strlen("MOD,");
+//							AuxSen = Sen + 1;
+//							P  = (unsigned char*)uitos(AuxSen,P);
+//							*P = ',';
+//							P++;
+//							*P = ',';
+//							P++;
+//						//	strcpy((char *)P,"DESC");
+//						//	P = P + strlen("DESC");
+//							
+//						}
+//					}
+//				}
+//			//	FinCmd(P);
+//			//	P=P+3;
+//			}
+//		}
+*/
 //-----------------------------------------------------------------------------			
 		//Configuro el SP y el KD para cada moduladora individualmente
 		else if(Check(Cmd,"MOD",sizeof("MOD")) )

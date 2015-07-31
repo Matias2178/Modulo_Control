@@ -40,10 +40,7 @@
 	
 int main (void)
 {
-//	int Control;
 	union _UInt16 LocUserW00;
-//	int i;
-//	unsigned char Trans[256]= "HOLA ESTO ES UNA PRUEBA DE 256 CARACTERES PARA VER COMO SE COMPORTA EL FIFO EN TRANSMICION, ES SOLO PAR LLENAR LA FIFO Y VER COMO SE COMPORTA JUNTO CON LA TRASMICION DE DATOS QUE HAY QUE VER QUE PASA YA QUE TENGO QUE TRASMITIR 256 CARACTERES FIN DE LA CITA";
 //-----------------------------------------------------------------------------
 //Configuracion de Osciladores
 
@@ -184,15 +181,15 @@ int main (void)
 	
 	LED_POWER = true;
 	LED_POWER_E = true;
-	SenDtsMod.SemB1 = 0xFFFFFFFF;
-	SenDtsMod.SemB2 = 0xFFFFFFFF;
-	SenDtsMod.FerB1 = 0x00000000;
-	SenDtsMod.FerB2 = 0x00000000;
+//	SenDtsMod.SemB1 = 0xFFFFFFFF;
+//	SenDtsMod.SemB2 = 0xFFFFFFFF;
+//	SenDtsMod.FerB1 = 0x00000000;
+//	SenDtsMod.FerB2 = 0x00000000;
 	
-	SenDtsHab.FerB1 = 0xFFFFFFFF;
-	SenDtsHab.FerB2 = 0xFFFFFFFF;
-	SenDtsHab.SemB2 = 0xFFFFFFFF;
-	SenDtsHab.SemB1 = 0xFFFFFFFF;
+//	SenDtsHab.FerB1 = 0xFFFFFFFF;
+//	SenDtsHab.FerB2 = 0xFFFFFFFF;
+//	SenDtsHab.SemB2 = 0xFFFFFFFF;
+//	SenDtsHab.SemB1 = 0xFFFFFFFF;
 
 	CargaConfSen();	
 	CargaConfPer();

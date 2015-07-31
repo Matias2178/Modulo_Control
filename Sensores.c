@@ -576,6 +576,21 @@ void GuardaConfSen(void)
 {
 int i;
 unsigned long Mask;
+		SenDtsHab.SemB1 = 0;
+		SenDtsCon.SemB1 = 0;
+		SenDtsMod.SemB1 = 0;
+		
+		SenDtsHab.FerB1 = 0;
+		SenDtsCon.FerB1 = 0;
+		SenDtsMod.FerB1 = 0;
+		
+		SenDtsHab.SemB2 = 0;
+		SenDtsCon.SemB2 = 0;
+		SenDtsMod.SemB2 = 0;
+		
+		SenDtsHab.FerB2 = 0;
+		SenDtsCon.FerB2 = 0;
+		SenDtsMod.FerB2 = 0;
 	for(i=0;i<32;i++)
 	{
 		Mask = 1;
@@ -599,6 +614,7 @@ unsigned long Mask;
 	}
 	EepromWRBuf(M_STS_HAB_SEN,(unsigned char *)&SenDtsHab,sizeof(struct _SenDts));
 	EepromWRBuf(M_STS_CON_SEN,(unsigned char *)&SenDtsCon,sizeof(struct _SenDts));
+	EepromWRBuf(M_STS_MOD_SEN,(unsigned char *)&SenDtsMod,sizeof(struct _SenDts));
 }
 
 /******************************************************************************

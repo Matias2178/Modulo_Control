@@ -122,6 +122,8 @@ void MemLoad(void)
 	
 	LocUserDW00.BIT.B1 = EepromRDBuf(M_STS_CON_SEN,(unsigned char *)&SenDtsCon,sizeof(struct _SenDts));
 	
+	LocUserDW00.BIT.B1 = EepromRDBuf(M_STS_MOD_SEN,(unsigned char *)&SenDtsMod,sizeof(struct _SenDts));
+	
 	LocUserDW00.BIT.B3 = EepromRDBuf(M_STS_HAB_PER,(unsigned char *)&HabPer,sizeof(struct _DtsPer));
 		
 	LocUserDW00.BIT.B4 = EepromRDBuf(M_STS_CON_PER,(unsigned char *)&ConPer,sizeof(struct _DtsPer));
