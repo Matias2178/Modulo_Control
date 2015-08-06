@@ -79,30 +79,36 @@ void MemInit(void)
 		strcat(Nombre,Cmd);
 		EepromWRBuf(M_NOMBRE_SEMB,Nombre,20);
 		
-		
+		Dly_1_MiliSec(12);
 		//Por defecto quedan habilitados todos los sensores
 		memset(&SenDtsHab,0xFF,sizeof(struct _SenDts));
 		LocUserDW00.BIT.B0 = EepromWRBuf(M_STS_HAB_SEN,(unsigned char *)&SenDtsHab,sizeof(struct _SenDts));
 		
+		Dly_1_MiliSec(12);		
 		//Por defecto no tengo ningun sensor que este coenctado
 		memset(&SenDtsCon,0xFF,sizeof(struct _SenDts));
 		LocUserDW00.BIT.B1 = EepromWRBuf(M_STS_CON_SEN,(unsigned char *)&SenDtsCon,sizeof(struct _SenDts));
 		
+		Dly_1_MiliSec(12);		
 		memset(&HabPer,0xFF,sizeof(struct _DtsPer));
 	 	HabPer.TRB &= 0x07;
 		LocUserDW00.BIT.B2 = EepromWRBuf(M_STS_HAB_PER,(unsigned char *)&HabPer,sizeof(struct _DtsPer));
 		
+		Dly_1_MiliSec(12);		
 		memset(&ConPer,0xFF,sizeof(struct _DtsPer));
 		ConPer.TRB &= 0x07;
 		LocUserDW00.BIT.B3 = EepromWRBuf(M_STS_CON_PER,(unsigned char *)&ConPer,sizeof(struct _DtsPer));
 		
+		Dly_1_MiliSec(12);		
 		memset(&BusPer,0xFF,sizeof(struct _DtsPer));
 		BusPer.TRB &= 0x07;
 		LocUserDW00.BIT.B4 = EepromWRBuf(M_STS_BUS_PER,(unsigned char *)&BusPer,sizeof(struct _DtsPer));
-
+		
+		Dly_1_MiliSec(12);
 		memset(&DtsSiembra,0x00,sizeof(struct _DtsSiembra));
 		LocUserDW00.BIT.B6 = EepromWRBuf(M_DATOS_SEMBRADORA,(unsigned char *)&DtsSiembra,sizeof(struct _DtsSiembra));
 		
+		Dly_1_MiliSec(12);
 		Control = k_MEM_CHECK;
 		LocUserDW00.BIT.B7 = EepromWRBuf(M_CHECK_FAB,(unsigned char *)&Control,sizeof(Control));
 		Control = k_MEM_CHECK;
@@ -143,9 +149,11 @@ void MemLoad(void)
 
 void GuardaPar(void)
 {
-
+	Dly_1_MiliSec(12);
 	EepromWRBuf(M_STS_HAB_PER,(unsigned char *)&HabPer,sizeof(struct _DtsPer));
+	Dly_1_MiliSec(12);
 	EepromWRBuf(M_STS_CON_PER,(unsigned char *)&ConPer,sizeof(struct _DtsPer));
+	Dly_1_MiliSec(12);
 	EepromWRBuf(M_STS_BUS_PER,(unsigned char *)&BusPer,sizeof(struct _DtsPer));
 }
 		

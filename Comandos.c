@@ -264,6 +264,7 @@ void Comando(unsigned char *S)
 				S += Movstr(Cmd,S);
 				S++;
 				DtsSiembra.ModSie = ModSiembra(Cmd);
+				Dly_1_MiliSec(12);
 				EepromWRBuf(M_DATOS_SEMBRADORA,(unsigned char *)&DtsSiembra,sizeof(struct _DtsSiembra));
 			}
 			EepromRDBuf(M_DATOS_SEMBRADORA,(unsigned char *)&DtsSiembra,sizeof(struct _DtsSiembra));
@@ -310,6 +311,7 @@ void Comando(unsigned char *S)
 				S += Movstr(Cmd,S);
 				S++;
 				CorrAlDen.B.V[3] = (char)(atoi((char*)Cmd));
+				Dly_1_MiliSec(12);
 				EepromWRBuf(M_FAC_AJS_ALTA_DENS,(unsigned char *)&CorrAlDen,sizeof(union _UInt32));
 				
 			}
@@ -1152,9 +1154,11 @@ void Comando(unsigned char *S)
 			if(Com)
 			{
 				SenRedetecion();
-				
+				Dly_1_MiliSec(12);
 				EepromWRBuf(M_STS_CON_SEN,(unsigned char *)&SenDtsCon,sizeof(struct _SenDts));
+				Dly_1_MiliSec(12);
 				EepromWRBuf(M_STS_CON_PER,(unsigned char *)&ConPer,sizeof(struct _DtsPer));
+				Dly_1_MiliSec(12);
 				EepromWRBuf(M_STS_BUS_PER,(unsigned char *)&BusPer,sizeof(struct _DtsPer));	
 			}
 			P = QTxBuf;
@@ -1450,6 +1454,7 @@ void Comando(unsigned char *S)
 					P = TXTError(P);
 					goto lFinComando;
 				}
+				Dly_1_MiliSec(12);
 				EepromWRBuf(M_BAUDRATE,(unsigned char *)&LocUserW00,sizeof(union _UInt16));
 				while(!U2STAbits.TRMT || !U3STAbits.TRMT) ExeTask();
 			}

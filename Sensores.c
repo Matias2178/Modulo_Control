@@ -612,8 +612,12 @@ unsigned long Mask;
 		SenDtsCon.FerB2 |= (BUS2.Fer[i].Sts.B.Det & Mask)<<i;
 		SenDtsMod.FerB2 |= (BUS2.Fer[i].Sts.B.Mod & Mask)<<i;	
 	}
+
+	Dly_1_MiliSec(12);
 	EepromWRBuf(M_STS_HAB_SEN,(unsigned char *)&SenDtsHab,sizeof(struct _SenDts));
+	Dly_1_MiliSec(12);
 	EepromWRBuf(M_STS_CON_SEN,(unsigned char *)&SenDtsCon,sizeof(struct _SenDts));
+	Dly_1_MiliSec(12);
 	EepromWRBuf(M_STS_MOD_SEN,(unsigned char *)&SenDtsMod,sizeof(struct _SenDts));
 }
 
@@ -719,7 +723,9 @@ void GrabaConfPer(void)
 	}
 
 	EepromWRBuf(M_STS_HAB_PER,(unsigned char *)&HabPer,sizeof(struct _DtsPer));
+	Dly_1_MiliSec(12);
 	EepromWRBuf(M_STS_CON_PER,(unsigned char *)&ConPer,sizeof(struct _DtsPer));
+	Dly_1_MiliSec(12);
 	EepromWRBuf(M_STS_BUS_PER,(unsigned char *)&BusPer,sizeof(struct _DtsPer));	
 }
 

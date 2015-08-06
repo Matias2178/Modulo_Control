@@ -143,4 +143,5 @@ Version 1.1R52
 	Se modifico la posicion de memoria donde se guardan las configuraciones de los sensores de semilla y fertilizante
 	Se agrego para que guarde en memoria el modo de siembra
 	Al inicio de la funcion de guardado se reinician las variables 
-	
+Version 1.1R53
+	Agregado de un retardo de tiempo en la grabacion de datos en la memoria EEPROM para lograr una grabacion de los datos.	
