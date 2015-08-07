@@ -133,3 +133,5 @@ Version  1.1R1 despues de la busqueda de fallas
 	Configuracion de Leds de paplaca externa
 Version 1.1R2
 	Correccion de errores en la configuracion de ID en tolva
+Version 1.1R3
+	Correccion respuesta de comandos

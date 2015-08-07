@@ -1553,6 +1553,8 @@ void Comando(unsigned char *S)
 				S++;
 				if(Check(Cmd,"SEM",sizeof("SEM")))
 				{
+					strcpy((char *)P,"SEM,");
+					P = P + strlen("SEM,");
 					if(SetId.VoidId != 0xF0)
 						goto lFallaCargaNum;
 					
@@ -1561,6 +1563,8 @@ void Comando(unsigned char *S)
 				}
 				else if(Check(Cmd,"FER",sizeof("FER")))
 				{
+					strcpy((char *)P,"FER,");
+					P = P + strlen("FER,");
 					if(SetId.VoidId != 0xF0)
 						goto lFallaCargaNum;
 					
@@ -1569,16 +1573,22 @@ void Comando(unsigned char *S)
 				}
 				else if(Check(Cmd,"TLV",sizeof("TLV")))
 				{
+					strcpy((char *)P,"TLV,");
+					P = P + strlen("TLV,");
 					if(SetId.VoidId != 0xF2)
 						goto lFallaCargaNum;
 				}
 				else if(Check(Cmd,"ROT",sizeof("ROT")))
 				{
+					strcpy((char *)P,"ROT,");
+					P = P + strlen("ROT,");
 					if(SetId.VoidId != 0xF1)
 						goto lFallaCargaNum;	
 				}	
 				else if(Check(Cmd,"TRB",sizeof("TRB")))
 				{
+					strcpy((char *)P,"TRB,");
+					P = P + strlen("TRB,");
 					if( SetId.IdMin != 0xD3)
 						goto lFallaCargaNum;	
 				}			
@@ -1586,6 +1596,8 @@ void Comando(unsigned char *S)
 				S += Movstr(Cmd,S);
 				S++;
 				NumId = atoi((char*)Cmd);
+				P  = (unsigned char*)uitos(NumId,P);
+				P++;
 				if(NumId)
 				{
 					NumId--;
