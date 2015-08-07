@@ -1567,7 +1567,7 @@ void Comando(unsigned char *S)
 					SetId.IdMax = 0x3F;
 					SetId.IdMin = 0x20;
 				}
-				else if(Check(Cmd,"TLB",sizeof("TLB")))
+				else if(Check(Cmd,"TLV",sizeof("TLV")))
 				{
 					if(SetId.VoidId != 0xF2)
 						goto lFallaCargaNum;

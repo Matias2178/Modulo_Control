@@ -131,3 +131,5 @@ Version  1.1R1 despues de la busqueda de fallas
 	Se programo para detectar el bit de RTS del modulo (falta que cuando esta lleno no transmita)
 	Se programo para enviar el bit de CTS al modulo wifi
 	Configuracion de Leds de paplaca externa
+Version 1.1R2
+	Correccion de errores en la configuracion de ID en tolva

@@ -962,8 +962,8 @@ unsigned char * Dispositivo(unsigned char *S,unsigned char Id)
 	//Sensor de nivel de tolva
 	else if((Id>=0x48 && Id<=0x57) || Id == 0xF2 )
 	{	
-		strcpy((char*)S,"TLB");
-		S=S + strlen("TLB");
+		strcpy((char*)S,"TLV");
+		S=S + strlen("TLV");
 	}
 	//Sensor de nivel de turbina
 	else if((Id>=0xD3 && Id<=0xD5))
