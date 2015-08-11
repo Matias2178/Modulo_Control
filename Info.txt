@@ -125,6 +125,7 @@ Version 1.0R3
 Version 1.1R0
 	Version aprobada para clientes!!!	
 Version  1.1R1 despues de la busqueda de fallas 
+	Envio del Wait cada 500 mseg (Colocado en el ExeTask)
 	Configuracion de los pines de control de flujo del modulo wifi
 	Configuracion del pin de configuracion del modulo wifi (GPIO9)
 	Se puede entrar a la configuracion del modulo Wifi
@@ -135,3 +136,5 @@ Version 1.1R2
 	Correccion de errores en la configuracion de ID en tolva
 Version 1.1R3
 	Correccion respuesta de comandos
+Version 1.1R4
+	Espera a que se termine de enviar datos por los puertos serie antes de madnar algo de comunicacion.

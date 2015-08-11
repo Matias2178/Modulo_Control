@@ -37,10 +37,10 @@ void DtoTerminal(void)
 	memset(ComBuf,0,260);
 	Proceso.B.fT2xCOM = false;
 	Proceso.B.fT3xCOM = false;
+	if(!U2STAbits.TRMT || !U3STAbits.TRMT)
+			return;
 	if(Wifi.LeeDato)
 	{
-		if(!U2STAbits.TRMT || !U3STAbits.TRMT)
-			return;
 		S = ComBuf;
 		switch(Com_DtsTask_ROT010)
 		{
@@ -115,15 +115,13 @@ void DtoTerminal(void)
 	}
 	else if(Proceso.B.fInicio || Proceso.B.fConfPer)
 	{
-
 		if(Sts_Tmr.B.WaitPls)
  		{
 			Sts_Tmr.B.WaitPls = false;
 			strcpy((char*)ComBuf,"<WAIT>,");
 		}
 		else
-			return;
-		
+			return;	
 	}
 	else if(Proceso.B.fSetId)
 	{
