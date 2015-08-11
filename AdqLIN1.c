@@ -275,15 +275,23 @@ RotLIN1:
 				Rotacion[SenB1ID].Med = *(unsigned int*)&SW1.buf[0];
 				Rotacion[SenB1ID].Sts.B.Con = true;
 				Rotacion[SenB1ID].Sts.B.FDs = false;
+				Rotacion[SenB1ID].Sts.B.AxDesc = false;
 			}
 			else if(SW1PortSys.Sts.B.fErr && !Rotacion[SenB1ID].Sts.B.FDs)
 			{
 				if(ErrorB1>=2)
 				{
-					ErrorB1=0;					
-					Rotacion[SenB1ID].Med = 0;
-					Rotacion[SenB1ID].Sts.B.Con = false;
-					Rotacion[SenB1ID].Sts.B.FDs = true;
+					if(Rotacion[SenB1ID].Sts.B.AxDesc)
+					{
+						ErrorB1=0;					
+						Rotacion[SenB1ID].Med = 0;
+						Rotacion[SenB1ID].Sts.B.Con = false;
+						Rotacion[SenB1ID].Sts.B.FDs = true;
+					}
+					else
+					{
+						Rotacion[SenB1ID].Sts.B.AxDesc = true;
+					}
 				}
 				else
 				{
@@ -356,15 +364,23 @@ TRBLIN1:
 				Turbina[SenB1ID].Med = *(unsigned int*)&SW1.buf[0];
 				Turbina[SenB1ID].Sts.B.Con = true;
 				Turbina[SenB1ID].Sts.B.FDs = false;
+				Turbina[SenB1ID].Sts.B.AxDesc = false;
 			}
 			else if(SW1PortSys.Sts.B.fErr && !Turbina[SenB1ID].Sts.B.FDs)
 			{
 				if(ErrorB1>=2)
 				{
-					ErrorB1=0;					
-					Turbina[SenB1ID].Med = 0;
-					Turbina[SenB1ID].Sts.B.Con = false;
-					Turbina[SenB1ID].Sts.B.FDs = true;
+					if(Turbina[SenB1ID].Sts.B.AxDesc)
+					{
+						ErrorB1=0;					
+						Turbina[SenB1ID].Med = 0;
+						Turbina[SenB1ID].Sts.B.Con = false;
+						Turbina[SenB1ID].Sts.B.FDs = true;
+					}
+					else
+					{
+						Turbina[SenB1ID].Sts.B.AxDesc = true;
+					}
 				}
 				else
 				{
@@ -436,16 +452,24 @@ ModLIN1:
 				Moduladora[SenB1ID].Vel = *(unsigned int*)&SW1.buf[0];
 				Moduladora[SenB1ID].Sts.B.Con = true;
 				Moduladora[SenB1ID].Sts.B.FDs = false;
+				Moduladora[SenB1ID].Sts.B.AxDesc = false;
 			}
 			else if(SW1PortSys.Sts.B.fErr && !Moduladora[SenB1ID].Sts.B.FDs)
 			{
 				if(ErrorB1>=2)
 				{
-					ErrorB1=0;					
-					Moduladora[SenB1ID].Al.Val = 0;
-					Moduladora[SenB1ID].Vel = 0;
-					Moduladora[SenB1ID].Sts.B.Con = false;
-					Moduladora[SenB1ID].Sts.B.FDs = true;
+					if(Moduladora[SenB1ID].Sts.B.AxDesc)
+					{
+						ErrorB1=0;					
+						Moduladora[SenB1ID].Al.Val = 0;
+						Moduladora[SenB1ID].Vel = 0;
+						Moduladora[SenB1ID].Sts.B.Con = false;
+						Moduladora[SenB1ID].Sts.B.FDs = true;
+					}
+					else
+					{
+						Moduladora[SenB1ID].Sts.B.AxDesc = true;
+					}
 				}
 				else
 				{
@@ -474,6 +498,15 @@ ModLIN1:
 		case 12:
 escModLIN1:
 			Proceso.B.fAdqMod1 = false;
+			if(Sts_Tmr.TMRModB1<5)
+			{
+				SenB1ID = 0;
+				Adq_SelTask0011=14;
+				Proceso.B.fAdqMod1 = true;
+				goto TolLIN1;
+				break;
+			}
+			Sts_Tmr.TMRModB1 = 0;
 			for(;SenB1ID<16;)
 			{		
 			//!Moduladora[SenB1ID].Sts.B.Bus indica que esta en el bus 1
@@ -521,16 +554,13 @@ escModLIN1:
 			{
 				Moduladora[SenB1ID].Sts.B.Con = true;
 				Moduladora[SenB1ID].Sts.B.FDs = false;
+				Moduladora[SenB1ID].Sts.B.AxDesc = false;
 			}
 			else if(SW1PortSys.Sts.B.fErr && !Moduladora[SenB1ID].Sts.B.FDs)
 			{
 				if(ErrorB1>=2)
 				{
 					ErrorB1=0;					
-					Moduladora[SenB1ID].Al.Val = 0;
-					Moduladora[SenB1ID].Vel = 0;
-					Moduladora[SenB1ID].Sts.B.Con = false;
-					Moduladora[SenB1ID].Sts.B.FDs = true;
 				}
 				else
 				{
@@ -618,16 +648,24 @@ TolLIN1:
 				}
 				Tolva[SenB1ID].Sts.B.FDs = false;
 				Tolva[SenB1ID].Sts.B.Con = true;
+				Tolva[SenB1ID].Sts.B.AxDesc = false;
 			}
 			else if(SW1PortSys.Sts.B.fErr && !Tolva[SenB1ID].Sts.B.FDs)
 			{
 				if(ErrorB1>=2)
 				{
-					ErrorB1=0;	
-					Tolva[SenB1ID].Alcont = 0;				
-					Tolva[SenB1ID].Sts.B.SNV = false;
-					Tolva[SenB1ID].Sts.B.Con = false;
-					Tolva[SenB1ID].Sts.B.FDs = true;
+					if(Tolva[SenB1ID].Sts.B.AxDesc)
+					{
+						ErrorB1=0;	
+						Tolva[SenB1ID].Alcont = 0;				
+						Tolva[SenB1ID].Sts.B.SNV = false;
+						Tolva[SenB1ID].Sts.B.Con = false;
+						Tolva[SenB1ID].Sts.B.FDs = true;
+					}
+					else
+					{
+						Tolva[SenB1ID].Sts.B.AxDesc = true;
+					}	
 				}
 				else
 				{

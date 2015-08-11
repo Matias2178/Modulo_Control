@@ -49,6 +49,8 @@
 		BYTE 	Cnt1000;
 		BYTE 	Cnt0500;
 		BYTE	CntGPS5;
+		BYTE 	TMRModB1;
+		BYTE 	TMRModB2;
 		WORD	CntWifi;
 		WORD	TMRImpSw;
 	};
@@ -98,7 +100,7 @@ struct _SenRot{
 			BYTE Bus	:1;		//0:Bus0  1:Bus 1
 			BYTE Hab	:1;		//Esta habilitado por sistema	
 			BYTE Det	:1;		//El sensor esta Detectado
-			BYTE B4		:1;		//
+			BYTE AxDesc :1;		//
 			BYTE FMin	:1;		//Alarma medicion por debajo del minimo
 			BYTE FMax	:1;		//Alamra medicion por encima del maximo
 			BYTE FDs	:1;		//Falla desconexion
@@ -113,8 +115,8 @@ struct _SenTol{
 			BYTE Bus	:1;		//0:Bus0  1:Bus 1
 			BYTE Hab	:1;		//Esta habilitado por sistema	
 			BYTE Det	:1;		//El sensor esta Detectado
+			BYTE AxDesc :1;		//
 			BYTE SNV	:1;		//0:Desactivado	1: Activado (Detecta semilla)
-			BYTE B5		:1;		//
 			BYTE B6		:1;		//
 			BYTE FDs	:1;		//Falla desconexion		
 		}B;
@@ -139,7 +141,7 @@ struct _Mod{
 			BYTE Bus	:1;		//0:Bus0  1:Bus 1
 			BYTE Hab	:1;		//Esta habilitado por sistema	
 			BYTE Det	:1;		//El sensor esta Detectado
-			BYTE B4		:1;		//
+			BYTE AxDesc :1;		//
 			BYTE B5		:1;
 			BYTE B6		:1;
 			BYTE FDs	:1;		//Falla desconexion

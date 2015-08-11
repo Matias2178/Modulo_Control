@@ -611,6 +611,8 @@ void ExeTask(void)
 			LED_GPS = 1;
 			LED_GPS_E = 1;
 		}
+		Sts_Tmr.TMRModB2 ++;
+		Sts_Tmr.TMRModB1 ++;
 //-----------------------------------------------------------------------------	
 //Majejo de la alimentacion del modulo GPS y el cambio a 5Hrz
 //		if(GPSsts.B.fBaud && (GPSdts.sys.Baud != 3) && GPSsts.B.fOn && Sts_Tmr.B.GPS5Hz)

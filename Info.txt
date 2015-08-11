@@ -145,3 +145,9 @@ Version 1.1R52
 	Al inicio de la funcion de guardado se reinician las variables 
 Version 1.1R53
 	Agregado de un retardo de tiempo en la grabacion de datos en la memoria EEPROM para lograr una grabacion de los datos.	
+Version 1.1R54
+	Espera 5 segundos antes de enviar el SP y el KD a las moduladoras
+	Espera un ciclo de lectura para dar como desconectado a una moduladora
+	Espera un ciclo de lectura para dar como desconectado un sensor de rotacion
+	Espera un ciclo de lectura para dar como desconectado un sensor de turbina
+	Espera un ciclo de lectura para dar como desconectado un sensor de tolva
