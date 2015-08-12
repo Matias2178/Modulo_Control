@@ -125,12 +125,19 @@ Version 1.0R3
 Version 1.1R0
 	Version aprobada para clientes!!!	
 Version  1.1R1 despues de la busqueda de fallas 
+	Envio del Wait cada 500 mseg (Colocado en el ExeTask)
 	Configuracion de los pines de control de flujo del modulo wifi
 	Configuracion del pin de configuracion del modulo wifi (GPIO9)
 	Se puede entrar a la configuracion del modulo Wifi
 	Se programo para detectar el bit de RTS del modulo (falta que cuando esta lleno no transmita)
 	Se programo para enviar el bit de CTS al modulo wifi
 	Configuracion de Leds de paplaca externa
+Version 1.1R2
+	Correccion de errores en la configuracion de ID en tolva
+Version 1.1R3
+	Correccion respuesta de comandos
+Version 1.1R4
+	Espera a que se termine de enviar datos por los puertos serie antes de madnar algo de comunicacion.
 Version 1.1R100
 	En el proceso normal de trabajo escribo el SP y KD a las moduladoras
 Version 1.1R50 (lo baje porque no lee 3 digitos)
@@ -151,3 +158,5 @@ Version 1.1R54
 	Espera un ciclo de lectura para dar como desconectado un sensor de rotacion
 	Espera un ciclo de lectura para dar como desconectado un sensor de turbina
 	Espera un ciclo de lectura para dar como desconectado un sensor de tolva
+Version 1.2R55
+	Ajustes para unificar ramas de desarrollo (moduladora Ver1.1R50...y master 1.1R2....) 	
