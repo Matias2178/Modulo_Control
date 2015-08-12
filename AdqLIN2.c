@@ -29,6 +29,7 @@ void Adq_Proc_Lin2(void)
 {
 	unsigned int Id;
 	unsigned int Medicion;
+	union _UInt32 LocUserDW00;
 	
 	if (SW2PortSys.Sts.B.fPend)	//Hay una comunicacion pendiente de ser atendida
 		return;
@@ -270,15 +271,23 @@ RotLIN2:
 				Rotacion[SenB2ID].Med = *(unsigned int*)&SW2.buf[0];
 				Rotacion[SenB2ID].Sts.B.Con = true;
 				Rotacion[SenB2ID].Sts.B.FDs = false;
+				Rotacion[SenB2ID].Sts.B.AxDesc = false;
 			}
 			else if(SW2PortSys.Sts.B.fErr && !Rotacion[SenB2ID].Sts.B.FDs)
 			{
 				if(ErrorB2>=2)
 				{
-					ErrorB2=0;					
-					Rotacion[SenB2ID].Med = 0;
-					Rotacion[SenB2ID].Sts.B.Con = false;
-					Rotacion[SenB2ID].Sts.B.FDs = true;
+					if ( Rotacion[SenB2ID].Sts.B.AxDesc)
+					{
+						ErrorB2=0;					
+						Rotacion[SenB2ID].Med = 0;
+						Rotacion[SenB2ID].Sts.B.Con = false;
+						Rotacion[SenB2ID].Sts.B.FDs = true;
+					}
+					else
+					{
+						Rotacion[SenB2ID].Sts.B.AxDesc = true;
+					}
 				}
 				else
 				{
@@ -350,15 +359,23 @@ TRBLIN2:
 				Turbina[SenB2ID].Med = *(unsigned int*)&SW2.buf[0];
 				Turbina[SenB2ID].Sts.B.Con = true;
 				Turbina[SenB2ID].Sts.B.FDs = false;
+				Turbina[SenB2ID].Sts.B.AxDesc = false;
 			}
 			else if(SW2PortSys.Sts.B.fErr && !Turbina[SenB2ID].Sts.B.FDs)
 			{
 				if(ErrorB2>=2)
 				{
-					ErrorB2=0;					
-					Turbina[SenB2ID].Med = 0;
-					Turbina[SenB2ID].Sts.B.Con = false;
-					Turbina[SenB2ID].Sts.B.FDs = true;
+					if( Turbina[SenB2ID].Sts.B.AxDesc)
+					{
+						ErrorB2=0;					
+						Turbina[SenB2ID].Med = 0;
+						Turbina[SenB2ID].Sts.B.Con = false;
+						Turbina[SenB2ID].Sts.B.FDs = true;
+					}
+					else
+					{
+						Turbina[SenB2ID].Sts.B.AxDesc = true;
+					}
 				}
 				else
 				{
@@ -415,7 +432,7 @@ ModLIN2:
 				SenB2ID = 0;
 				Adq_SelTask0021=12;
 				Proceso.B.fAdqMod2 = true;
-				goto TolLIN2;
+				goto escModLIN2;
 				break;
 			}
 			ErrorB2=0;
@@ -432,16 +449,24 @@ ModLIN2:
 				Moduladora[SenB2ID].Vel = *(unsigned int*)&SW2.buf[0];
 				Moduladora[SenB2ID].Sts.B.Con = true;
 				Moduladora[SenB2ID].Sts.B.FDs = false;
+				Moduladora[SenB2ID].Sts.B.AxDesc = false;
 			}
 			else if(SW2PortSys.Sts.B.fErr && !Moduladora[SenB2ID].Sts.B.FDs)
 			{
 				if(ErrorB2>=2)
 				{
-					ErrorB2=0;					
-					Moduladora[SenB2ID].Al.Val = 0;
-					Moduladora[SenB2ID].Vel = 0;
-					Moduladora[SenB2ID].Sts.B.Con = false;
-					Moduladora[SenB2ID].Sts.B.FDs = true;
+					if( Moduladora[SenB2ID].Sts.B.AxDesc)
+					{
+						ErrorB2=0;					
+						Moduladora[SenB2ID].Al.Val = 0;
+						Moduladora[SenB2ID].Vel = 0;
+						Moduladora[SenB2ID].Sts.B.Con = false;
+						Moduladora[SenB2ID].Sts.B.FDs = true;
+					}
+					else
+					{
+						Moduladora[SenB2ID].Sts.B.AxDesc = true;
+					}
 				}
 				else
 				{
@@ -466,7 +491,102 @@ ModLIN2:
 //				goto TolLIN2;
 			}
 //		break;
+
+//Lectura de datos de la moduladora
 		case 12:
+escModLIN2:
+			Proceso.B.fAdqMod2 = false;
+			if(Sts_Tmr.TMRModB2<5)
+			{
+				SenB2ID = 0;
+				Adq_SelTask0021=14;
+				Proceso.B.fAdqMod2 = true;
+				goto TolLIN2;
+				break;
+			}
+			Sts_Tmr.TMRModB1 = 2;
+			for(;SenB2ID<16;)
+			{
+//Moduladora[SenB2ID].Sts.B.Bus indica que esta en el bus 2
+				if(Moduladora[SenB2ID].Sts.B.Bus)
+				{
+					if(Moduladora[SenB2ID].Sts.B.Hab && Moduladora[SenB2ID].Sts.B.Det)
+					{
+						Id = ModDirId(SenB2ID);	
+						//Sensor habilitado para lectura
+						break;
+					}
+					else 
+					{
+						Moduladora[SenB2ID].Vel = 0;
+						Moduladora[SenB2ID].Dis = 0;
+						Moduladora[SenB2ID].Pul = 0;
+						Moduladora[SenB2ID].Al.Val = 0;
+						Moduladora[SenB2ID].Sts.B.Con = false;
+						Moduladora[SenB2ID].Sts.B.FDs = false;
+					}
+				}
+				SenB2ID++;
+			}
+			
+			if(SenB2ID>=16)
+			{
+				SenB2ID = 0;
+				Adq_SelTask0021=14;
+				Proceso.B.fAdqMod2 = true;
+				goto TolLIN2;
+				break;
+			}
+			ErrorB2=0;
+			Adq_SelTask0021++;
+			
+			LocUserDW00.UI.V[1] = Moduladora[SenB2ID].KD;
+			LocUserDW00.UI.V[0] = Moduladora[SenB2ID].SP;
+			SW2_PortUserStart(Id,0x04 | SW2_cmdWr,4);
+			SW2_PortUserWrBuf(&LocUserDW00.UL.V,sizeof(LocUserDW00.UL.V));
+			SW2_PortUserSend(false);
+		break;
+		case 13:	
+			if (SW2PortSys.Sts.B.fOk)
+			{
+				Moduladora[SenB2ID].Sts.B.Con = true;
+				Moduladora[SenB2ID].Sts.B.FDs = false;
+				Moduladora[SenB2ID].Sts.B.AxDesc = false;
+			}
+			else if(SW2PortSys.Sts.B.fErr && !Moduladora[SenB2ID].Sts.B.FDs)
+			{
+				if(ErrorB2>=2)
+				{
+					ErrorB2=0;					
+				}
+				else
+				{
+					ErrorB2++;
+					Id = ModDirId(SenB2ID);
+		
+					LocUserDW00.UI.V[1] = Moduladora[SenB2ID].KD;
+					LocUserDW00.UI.V[0] = Moduladora[SenB2ID].SP;
+					SW2_PortUserStart(Id,0x04 | SW2_cmdWr,4);
+					SW2_PortUserWrBuf(&LocUserDW00.UL.V,sizeof(LocUserDW00.UL.V));
+					SW2_PortUserSend(false);
+					break;
+				}
+			}
+			SenB2ID++;
+			if(SenB2ID<16)
+			{
+				Adq_SelTask0021=12;
+				break;	
+			}
+			else 
+			{
+				SenB2ID = 0;
+				Proceso.B.fAdqMod2 = true;
+				Adq_SelTask0021=14;
+//				goto TolLIN2;
+			}
+//		break;
+		case 14:
 //Lectura de datos sensores de Nivel de tolva
 TolLIN2:
 			Proceso.B.fAdqNTL2 = false;
@@ -495,7 +615,7 @@ TolLIN2:
 			if(SenB2ID>=16)
 			{
 				SenB2ID = 0;
-				Adq_SelTask0021=14;
+				Adq_SelTask0021=16;
 				Proceso.B.fAdqNTL2 = true;
 				break;
 			}
@@ -505,7 +625,7 @@ TolLIN2:
 			SW2_PortSysStart(Id,0x00 | SW2_cmdRd,1);
 			SW2_PortSysSend();
 		break;
-		case 13:
+		case 15:
 			Id = 0x48 + SenB2ID;
 			if (SW2PortSys.Sts.B.fOk)
 			{
@@ -527,16 +647,24 @@ TolLIN2:
 				}
 				Tolva[SenB2ID].Sts.B.FDs = false;
 				Tolva[SenB2ID].Sts.B.Con = true;
+				Tolva[SenB2ID].Sts.B.AxDesc = false;
 			}
 			else if(SW2PortSys.Sts.B.fErr && !Tolva[SenB2ID].Sts.B.FDs)
 			{
 				if(ErrorB2>=2)
 				{
-					ErrorB2=0;	
-					Tolva[SenB2ID].Alcont = 0;				
-					Tolva[SenB2ID].Sts.B.SNV = false;
-					Tolva[SenB2ID].Sts.B.Con = false;
-					Tolva[SenB2ID].Sts.B.FDs = true;
+					if( Tolva[SenB2ID].Sts.B.AxDesc)
+					{
+						ErrorB2=0;	
+						Tolva[SenB2ID].Alcont = 0;				
+						Tolva[SenB2ID].Sts.B.SNV = false;
+						Tolva[SenB2ID].Sts.B.Con = false;
+						Tolva[SenB2ID].Sts.B.FDs = true;
+					}
+					else
+					{
+						Tolva[SenB2ID].Sts.B.AxDesc = true;
+					}	
 				}
 				else
 				{
@@ -549,13 +677,13 @@ TolLIN2:
 			SenB2ID++;
 			if(SenB2ID<16)
 			{
-				Adq_SelTask0021=12;
+				Adq_SelTask0021=14;
 				break;	
 			}
 			else 
 			{
 				SenB2ID = 0;
-				Adq_SelTask0021=14;
+				Adq_SelTask0021=16;
 				Proceso.B.fAdqNTL2 = true;
 			}
 		break;
