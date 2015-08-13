@@ -1137,7 +1137,7 @@ void MaxMinId(unsigned char Id)
 *					conectados, esta funcion se utiliza cuando se hace un 
 *					cambio de dosis
 *	Nota:			Cuando esta funcion esta activa no leer los datos desde 
-*					Adq_Proc_Lin1()	yAdq_Proc_Lin2()	
+*					Adq_Proc_Lin1()	y Adq_Proc_Lin2()	
 *	Ingreso Datos:	Ninguno
 *	Salida Datos:	Ninguno
 ******************************************************************************/	

@@ -170,3 +170,5 @@ Version 1.1R55
 >>>>>>> moduladora
 Version 1.1R6
 	Agregado de numerador de tramas para controlar tramas perdidas
+Version 1.1R7
+	Correccion falla tubo tapado de un sensor cuando se realiza el cambio de dosis

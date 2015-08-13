@@ -228,7 +228,7 @@ union _Proc{
 		BYTE fAdqTRB1  	: 1;
 		BYTE fAdqNTL1	: 1;
 		BYTE fAdqAx11	: 1;
-		BYTE fAdqAx12	: 1;
+		BYTE fAdqAx12	: 1;//Ingreso de un nuevo SP y KD para las cajas
 		BYTE fAdqAx13	: 1;
 		BYTE fAdqSie2	: 1;//Fin de la lectura de los sensores y se los carga en el buffer de transmicion
 		BYTE fAdqRot2  	: 1;
@@ -238,6 +238,7 @@ union _Proc{
 		BYTE fLecturaOk	: 1;
 		BYTE fDosis		: 1;// Flag de cambio de dosis	
 		BYTE fAdqAx23	: 1;
+		
 	}B;
 	struct{
 	unsigned int Proc;
