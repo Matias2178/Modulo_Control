@@ -137,10 +137,13 @@ Version 1.1R2
 Version 1.1R3
 	Correccion respuesta de comandos
 Version 1.1R4
-<<<<<<< HEAD
 	Espera a que se termine de enviar datos por los puertos serie antes de madnar algo de comunicacion.
-=======
-	Espera a que se termine de enviar datos por los puertos serie antes de madnar algo de comunicacion.
+//***************************************************************************************************************************************************
+//***************************************************************************************************************************************************
+//----------------------------------------------------------------
+//	Rama de solucion de problemas con moduladoras
+//	Sale de la version 1.1R1
+//----------------------------------------------------------------
 Version 1.1R100
 	En el proceso normal de trabajo escribo el SP y KD a las moduladoras
 Version 1.1R50 (lo baje porque no lee 3 digitos)
@@ -161,6 +164,9 @@ Version 1.1R54
 	Espera un ciclo de lectura para dar como desconectado un sensor de rotacion
 	Espera un ciclo de lectura para dar como desconectado un sensor de turbina
 	Espera un ciclo de lectura para dar como desconectado un sensor de tolva
-Version 1.2R55
+Version 1.1R55
 	Ajustes para unificar ramas de desarrollo (moduladora Ver1.1R50...y master 1.1R2....) 	
+//***************************************************************************************************************************************************
 >>>>>>> moduladora
+Version 1.1R6
+	Agregado de numerador de tramas para controlar tramas perdidas
