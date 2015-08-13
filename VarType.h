@@ -237,7 +237,7 @@ union _Proc{
 		BYTE fAdqNTL2	: 1;
 		BYTE fLecturaOk	: 1;
 		BYTE fDosis		: 1;// Flag de cambio de dosis	
-		BYTE fAdqAx23	: 1;
+		BYTE fApagadoRN	: 1;
 		
 	}B;
 	struct{
@@ -459,7 +459,7 @@ struct _SCom
 	unsigned char fMod	:1;	//Estado del modulo	
 	unsigned char lCom	:1;	//Inicio de lectura del comando
 	unsigned char fCom	:1;	//Comando Listo
-	unsigned char wf232	:1;	//Comunicacion RS-232 Wifi directo
+	unsigned char fClose:1;	//Comunicacion RS-232 Wifi directo
 	unsigned char IniDato:1;	//Dato Falla
 	unsigned char EscDato:1;
 	unsigned char LeeDato:1;	//Carga dato en memoria

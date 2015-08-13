@@ -22,3 +22,4 @@
  extern unsigned char *InHextoArr(unsigned int D, unsigned char *P);
  extern unsigned char *LongHextoArr(unsigned long D, unsigned char *P);
  extern unsigned long ArrtoLongHex2(unsigned char *P,unsigned long Dato);
+ extern unsigned char *ditos(unsigned int Valor,unsigned char *S, unsigned int Digitos, unsigned int Decimales);

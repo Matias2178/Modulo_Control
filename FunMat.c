@@ -39,7 +39,43 @@ unsigned char *itos(unsigned int Valor,unsigned char *S, unsigned int Digitos)
 	}
 	return (unsigned char *)S;
 }
-
+/******************************************************************************
+*	Funcion:		ditos()
+*	Descricpion:	Convierte un enteros en caracteres ASCCII y los carga en 
+*					array, segun la candidad de digitos que se indican 
+*	Ingreso Datos:	El valor entrero a convertir
+*					Puntero al array a cargar
+*					Cantidad de digitos a imprimir
+*	Salida Datos:	Puntero a la posicion siguiente en el array
+******************************************************************************/	
+unsigned char *ditos(unsigned int Valor,unsigned char *S, unsigned int Digitos, unsigned int Decimales)
+{
+	Decimales ++;
+	unsigned long int Dec = 10;
+	int i;
+	for(i=1;i<Digitos;i++)
+	{
+		Dec = Dec * 10;
+	}
+	Valor = Valor - (Valor/Dec)*Dec;
+	Dec = Dec / 10;
+	Digitos ++;
+	for(i=Digitos;i;i--)
+	{
+		if(i==Decimales)
+		{
+			*S = '.';
+			S++;
+			continue;
+		}
+		*S = (Valor/Dec+'0');
+		
+    	Valor = Valor - (Valor/Dec)*Dec;
+    	Dec = Dec / 10;
+		S++;
+	}
+	return (unsigned char *)S;
+}
 ///******************************************************************************
 //*	Funcion:		itos2()
 //*	Descricpion:	Convierte un enteros en caracteres ASCCII y los carga en 

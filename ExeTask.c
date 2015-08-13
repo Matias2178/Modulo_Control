@@ -77,20 +77,14 @@ void ExeTask(void)
 			if( GPSsts.B.fLec && (Dato == 0x0A))
 			{
 				GPSsts.B.fLec = false;
-	//			GPSsts.B.fMsgOk = GPSCheckSum(GPSmsg);
 				CGPS.Sentencias ++;
 				if(GPSsts.B.fMsgOk = GPSCheckSum(GPSmsg))
 					CGPS.Correctas ++;
 				else
 					CGPS.Fallas ++;
-					
-		//	GPSsts.B.fMsgOk = true;
+
 				GPSInd = 0;
 				break;
-//				if(GPSsts.B.fMsgOk)
-//				{
-//					memcpy(GPSmsg,U1RxBuf,80);
-//				}	
 			}
 		}
 //-----------------------------------------------------------------------------
@@ -126,7 +120,6 @@ void ExeTask(void)
 			{
 				Rx232Ind = 0;
 				RS232.lCom = true;
-				
 			}
 			if(RS232.lCom)
 			{
@@ -252,11 +245,13 @@ void ExeTask(void)
 						{
 							Sts_Tmr.CntWifi = 0;
 							Wifi.fMod = true;
+							Wifi.fClose = false;
 							
 						}
 						else if(Check(WFcmd,"CLOSE",6) ||Check(WFcmd,"CLOS",5))
 						{
 							Wifi.fMod = false;
+							Wifi.fClose = true;
 							Sts_Tmr.CntWifi = 0;
 							ModuloWf.cont++;
 						}
@@ -442,10 +437,6 @@ void ExeTask(void)
 		if( GPSdts.pos.vel > 2.0)
 		{		
 			GPSdts.pos.dist +=  (GPSdts.pos.vel/3.6)/10;
-	//		Resto = GPSdts.pos.lat % 100;
-	//		Ent = (int) GPSdts.pos.lat / 10;
-	//		Lat.Ant = Lat.Act;
-	//		Lat.Act = (float) Ent + ((Resto*100)/60);
 		}
 
 //-----------------------------------------------------------------------------	
@@ -484,10 +475,10 @@ void ExeTask(void)
 		{
 			DestWf.Duty = 5;
 			DestWf.Sec = 0x0000;
-			
+			Proceso.B.fApagadoRN = false;
 			Wifi.fConectado = false;	
 			Sts_Tmr.CntWifi++;
-			if(Sts_Tmr.CntWifi > 100)
+			if(Sts_Tmr.CntWifi > 50)
 			{
 				Sts_Tmr.CntWifi = 0;
 				Pwr_Wifi 	= true;		//Alimentacion 3v3 Modulo WiFi			
@@ -510,6 +501,7 @@ void ExeTask(void)
 //Se abrio el puerto esta transmitiendo datos
 			else
 			{
+				Proceso.B.fApagadoRN = false;
 				DestWf.Duty = 3;
 				DestWf.Sec = 0xAAAA;
 			}			
@@ -522,9 +514,32 @@ void ExeTask(void)
 				Wifi.lMod = false;		
 			}
 		}
+//Se Abrio y se cerro el puerto
+		else if (Wifi.fClose && !Wifi.fMod)
+		{
+			LED_CAN = true;
+			Proceso.B.fApagadoRN = true;
+			DestWf.Duty = 30;
+			DestWf.Sec = 0x0333;
+			Sts_Tmr.CntWifi++;
+			if(Sts_Tmr.CntWifi > 300)
+			{
+				Sts_Tmr.CntWifi = 0;
+				Pwr_Wifi 	= false;		//Alimentacion 3v3 Modulo WiFi
+				Wifi.fMod = false;
+				Wifi.lMod = false;	
+				Wifi.fClose = false;
+				RN171_Desc++;
+				EepromWRBuf(M_RN171_OFF,&RN171_Desc,sizeof(RN171_Desc));
+
+					
+			}
+			
+		}
 //El modulo esta encendido pero el puerto no esta abierto
 		else 
 		{
+			LED_CAN = LED_CAN ? true : false;
 			DestWf.Duty = 25;
 			DestWf.Sec = 0x0F0F;
 		}

@@ -172,3 +172,8 @@ Version 1.1R6
 	Agregado de numerador de tramas para controlar tramas perdidas
 Version 1.1R7
 	Correccion falla tubo tapado de un sensor cuando se realiza el cambio de dosis
+Version 1.1R8
+	Reseteo del RN-171 despues de un tiempo de que se detecto un *CLOSE*
+	Cuando esta esperando ese tiempo lo envia por el puerto serie
+	Contador de descoenxiones y guardado en memoria
+	Destello 3 veces y espero un tiempo (destellos lentos)

@@ -37,11 +37,12 @@ void DtoTerminal(void)
 	memset(ComBuf,0,260);
 	Proceso.B.fT2xCOM = false;
 	Proceso.B.fT3xCOM = false;
+	S = ComBuf;
 	if(!U2STAbits.TRMT || !U3STAbits.TRMT)
 			return;
 	if(Wifi.LeeDato)
 	{
-		S = ComBuf;
+		
 		switch(Com_DtsTask_ROT010)
 		{
 		default:
@@ -112,6 +113,19 @@ void DtoTerminal(void)
 		break;	
 		}
 		goto lComSinCheck;					
+	}
+	else if (Proceso.B.fApagadoRN && Sts_Tmr.B.WaitPls)
+	{
+		Sts_Tmr.B.WaitPls = false;
+		S += Movstr(S,"*** Apangando RN171 en  ");
+		i = (300 - Sts_Tmr.CntWifi) ;
+//		S  = (unsigned char*)uitos(i,S);
+		S  = (unsigned char*) ditos(i,S,3,1);
+		S += Movstr(S," segundos *** ");
+		*S = 0x0D;
+		S++;
+		*S = 0x0A;
+		S++;
 	}
 	else if(Proceso.B.fInicio || Proceso.B.fConfPer)
 	{
@@ -653,6 +667,9 @@ void GPSTMR(char *lb,unsigned char *S)
 	*S = ',';
 	S++;
 	S  = uitos(ModuloWf.cont,S);
+	*S = ',';
+	S++;
+	S  = ultos(RN171_Desc,S);
 	*S = ',';
 	S++;
 	CRNL(S);

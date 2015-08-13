@@ -1107,6 +1107,24 @@ void Comando(unsigned char *S)
 			P  = (unsigned char*)sitos(TimeZone,P);	//Ganancia promedio de los satelies
 			P++; 			
 		}
+//-----------------------------------------------------------------------------
+//CONTROLA LA CANTIDAD DE APAGADAS DEL MODULO RN-171
+		else if(Check(Cmd,"RN171",sizeof("RN171")))
+		{
+			if(Com)
+			{
+				memset(Cmd,0x00,10);
+				S += Movstr(Cmd,S);
+				S++;
+				if(Check(Cmd,"RN171",sizeof("RN171")))
+				{
+					RN171_Desc = 0;
+					EepromWRBuf(M_RN171_OFF,&RN171_Desc,sizeof(RN171_Desc));
+				}	
+			}
+			P  = ultos(RN171_Desc,P);	//CANTIDAD DE DESCONEXIONES
+			P++; 			
+		}
 //-----------------------------------------------------------------------------		
 //           CONFIGURACION DE PARAMETROS DE SIEMBRA 
 //>XCONF,ModSiembra,NumeroSurcos,SepSurcos,AnchoSiembra<

@@ -60,6 +60,7 @@
 	int TMR_CAN;
 	int	tlecgpstx;
 	int TimeZone;
+	unsigned long RN171_Desc;
 	unsigned int MemAddr;
 	unsigned int MemDatos;
 	unsigned int fifoADDR;

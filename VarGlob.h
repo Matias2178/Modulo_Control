@@ -53,6 +53,7 @@
 //	extern char Comunic;
 	extern int VSiembra;	
 	extern int TimeZone;
+	extern unsigned long RN171_Desc;
 	extern unsigned int MemAddr;
 	extern unsigned int MemDatos;
 	extern unsigned int fifoADDR;

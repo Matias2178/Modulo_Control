@@ -71,7 +71,16 @@ enum{M_AJS_TIME_ZONE=0x0020									//long
 	,M_BAUDRATE_WIFI = M_BAUDRATE
 	,M_BAUDRATE_RS232
 };
+//-----------------------------------------------
+//CONTADOR DE RESETEOS RN-171
+//0x0024 - 0x0027 - (4)
+enum{M_RN171_OFF=0x0024									//long
+	,M_RN171_OFF_0=M_RN171_OFF
+	,M_RN171_OFF_1
+	,M_RN171_OFF_2
+	,M_RN171_OFF_3
 
+};
 
 	
 //-----------------------------------------------

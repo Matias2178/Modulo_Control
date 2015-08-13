@@ -111,6 +111,10 @@ void MemInit(void)
 		Dly_1_MiliSec(12);
 		Control = k_MEM_CHECK;
 		LocUserDW00.BIT.B7 = EepromWRBuf(M_CHECK_FAB,(unsigned char *)&Control,sizeof(Control));
+		
+		Dly_1_MiliSec(12);
+		RN171_Desc = 0;
+		LocUserDW00.BIT.B8 = EepromWRBuf(M_RN171_OFF,&RN171_Desc,sizeof(RN171_Desc));
 		Control = k_MEM_CHECK;
 	}
 }
@@ -141,6 +145,8 @@ void MemLoad(void)
 	LocUserDW00.BIT.B7 = EepromRDBuf(M_AJS_TIME_ZONE,(unsigned char *)&TimeZone,sizeof(TimeZone));
 	
 	LocUserDW00.BIT.B8 = EepromRDBuf(M_FAC_AJS_ALTA_DENS,(unsigned char *)&CorrAlDen,sizeof(union _UInt32));
+	
+	LocUserDW00.BIT.B8 = EepromRDBuf(M_RN171_OFF,(unsigned char *)&CorrAlDen,sizeof(TimeZone));
 	
 	Nop();
 	
