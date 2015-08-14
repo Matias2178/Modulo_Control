@@ -177,3 +177,13 @@ Version 1.1R8
 	Cuando esta esperando ese tiempo lo envia por el puerto serie
 	Contador de descoenxiones y guardado en memoria
 	Destello 3 veces y espero un tiempo (destellos lentos)
+Version 1.1R9
+	Modificacion de la espera del Bus LIN en la Lectura/Escritura de las moduladoras
+	Si se escribe un dato de la moduladora no se actualizan los parametros de los sensores.
+	Se transmite solamente la cantidad de datos necesarios por los puertos series 
+		Antes 000,000,000
+		Ahora 0,0,0
+	Se espera a que los sensores tengan una lectura distinta antes de enviar datos
+	En caso de no leer se envian los datos cada 5 seg (controlar esto)
+	Se paso la carga de datos de sensores de semilla y fertilizante desde la funcion ExeTask a Main
+	

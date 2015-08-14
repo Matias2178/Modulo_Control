@@ -27,7 +27,7 @@
 //	extern char TDispActLin2;
 //	extern char TDispErrLin2;
 	extern int	tlecgpstx;
-	extern int	Medicion;
+//	extern int	Medicion;
 	extern int  Checksum;
 	extern int	TMR_CAN;
 //	extern int espera;

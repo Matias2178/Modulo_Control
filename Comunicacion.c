@@ -234,7 +234,8 @@ void DtoTerminal(void)
 			StsPerifericos ("<SNTOL>",DtsPerCom,ComBuf,4);
 			Sensores.STS.B.TOL_Ax = true;
 		}
-
+		
+//Esto se envia cada 5 segundos
 		else if(Sensores.STS.B.DIAG && !Sensores.STS.B.DIAG_Ax)
 		{
 			switch(Com_DtsTask_DIAG10)
@@ -452,7 +453,7 @@ void StsSensores (char *lb, struct _DtsCom Datos,unsigned char *S,int T)
 		{
 			Med = Datos.Fer.Sts[i];
 		}	
-		S = (unsigned char*)itos(Med,S,3);
+		S = (unsigned char*)uitos(Med,S);
 		*S = ',';
 		S++;
 	}
@@ -542,7 +543,7 @@ void StsPerifericos (char *lb, struct _DtsPerCom Datos,unsigned char *S,int T)
 		for(i=0;i<16;i++)
 		{
 			Med = Datos.MOD.Sts[i];
-			S = itos(Med,S,3);
+			S = uitos(Med,S);
 			*S = ',';
 			S++;
 		}
@@ -553,7 +554,7 @@ void StsPerifericos (char *lb, struct _DtsPerCom Datos,unsigned char *S,int T)
 		for(i=0;i<8;i++)
 		{
 			Med = Datos.ROT.Sts[i];
-			S = itos(Med,S,3);
+			S = uitos(Med,S);
 			*S = ',';
 			S++;
 		}
@@ -564,7 +565,7 @@ void StsPerifericos (char *lb, struct _DtsPerCom Datos,unsigned char *S,int T)
 		for(i=0;i<3;i++)
 		{
 			Med = Datos.TRB.Sts[i];
-			S = itos(Med,S,3);
+			S = uitos(Med,S);
 			*S = ',';
 			S++;
 		}
@@ -575,7 +576,7 @@ void StsPerifericos (char *lb, struct _DtsPerCom Datos,unsigned char *S,int T)
 		for(i=0;i<16;i++)
 		{
 			Med = Datos.TOL.Sts[i];
-			S = itos(Med,S,3);
+			S = uitos(Med,S);
 			*S = ',';
 			S++;
 		}
@@ -608,10 +609,10 @@ void GPSDatos(char *lb,unsigned char *S)
 	S  = uitos(GPSdts.sys.tvida,S);	//tiempo de vida de la señal
 	*S = ',';
 	S++;
-	S  = itos(GPSdts.sys.sat,S,2);		//Cantidad de satelites activos
+	S  = uitos(GPSdts.sys.sat,S);		//Cantidad de satelites activos
 	*S = ',';
 	S++;
-	S  = itos(GPSdts.sys.gan,S,2);		//Ganancia promedio de los satelies
+	S  = uitos(GPSdts.sys.gan,S);		//Ganancia promedio de los satelies
 	*S = ',';
 	S++;
 	S  = ftos(GPSdts.sys.pres,S,3,2);	//Presicion
@@ -716,7 +717,7 @@ void Encabezado(char *lb,unsigned char *S)
 	S  = itos(SoftVerL,S,2);
 	*S = '.';
 	S++;
-	S  = itos(Relase,S,2);
+	S  = uitos(Relase,S);
 	*S = ',';
 	S++;
 
@@ -783,7 +784,7 @@ void Diagnostico(char *lb,unsigned char *S)
 	S  = itos(SoftVerL,S,2);
 	*S = '.';
 	S++;
-	S  = itos(Relase,S,2);
+	S  = uitos(Relase,S);
 	*S = ',';
 	S++;
 //Numero de serie
@@ -923,7 +924,7 @@ void SetNumId(char *lb,unsigned char *S)
 	{
 		Num = 0;
 	}
-	S  = itos(Num,S,2);	
+	S  = uitos(Num,S);	
 //	*S = ',';
 	S++;
 	CRNL(S);

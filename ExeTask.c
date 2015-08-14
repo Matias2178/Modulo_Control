@@ -364,29 +364,13 @@ void ExeTask(void)
 //			VSiembra = 0;	//Para final
 //		}
 //		VSiembra = (unsigned int)(GPSdts.pos.vel*10);	//solo para probador estatico
+
+
+
 //-----------------------------------------------------------------------------
 // Transferencia de datos para comunicacion
-//-----------------------------------------------------------------------------		
-		if(Proceso.B.fAdqSie1 && Proceso.B.fAdqSie2)// && !Sensores.STS.B.TX_SF1 && !Sensores.STS.B.TX_SF2)
-		{	
-			Medicion = 0;
-			Bus1aDtsCom();	
-			Bus2aDtsCom();
-			
-//			Sensores.tSIE ++;
-//			if(Sensores.STS.B.fSAct1 || Sensores.STS.B.fFAct1 || Sensores.STS.B.fSAct2 || Sensores.STS.B.fFAct2 || !Medicion || (Sensores.tSIE >= kMaxEscan))
-//			{		
-				Sensores.STS.B.TX_SF1 = true;
-//				Sensores.STS.B.fSAct1 = false;
-//				Sensores.STS.B.fFAct1 = false;
-//				Sensores.STS.B.fSAct2 = false;
-//				Sensores.STS.B.fFAct2 = false;
-//				Sensores.tSIE = 0;
-//			}
-//			Sensores.STS.B.TX_SF1 = true;
-			Proceso.B.fAdqSie2 = false;
-			Proceso.B.fAdqSie1 = false;		
-		}
+//-----------------------------------------------------------------------------	
+
 		//Modificación de los ID de los Sensors
 		if(Proceso.B.fSetId)
 		{
@@ -430,6 +414,12 @@ void ExeTask(void)
 //Se resetea si la señal recibida es valida
 //-----------------------------------------------------------------------------	
 //		GPSdts.sys.tvid++;	
+
+		Sensores.tSIE ++;
+		Sensores.tROT ++;	
+		Sensores.tMOD ++;
+		Sensores.tTRB ++;
+		Sensores.tTOL ++;
 //-----------------------------------------------------------------------------		
 // Calculos de los metros recorridos
 // Solo si la velocidad es mayor a 2.0 km/h

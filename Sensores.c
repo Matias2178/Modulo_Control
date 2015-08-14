@@ -54,7 +54,7 @@
 			if(BUS1.Sie[mID].tMed != tMed)
 			{
 				BUS1.Sie[mID].tMed = tMed;
-//				Sensores.STS.B.fSAct1 = true;
+				Sensores.STS.B.fSAct1 = true;
 			}
 			if(!MedValue)
 			{
@@ -137,7 +137,7 @@
 			if(BUS1.Fer[mID].tMed != tMed)
 			{
 				BUS1.Fer[mID].tMed = tMed;
-//				Sensores.STS.B.fFAct1 = true;
+				Sensores.STS.B.fFAct1 = true;
 			}
 			if(!MedValue)
 			{
@@ -224,19 +224,19 @@ void Bus1aDtsCom(void)
 		DtsComBus1.Sie.Med[i] = BUS1.Sie[i].Med;
 		DtsComBus1.Sie.Sts[i] = BUS1.Sie[i].Sts.C.Val;
 		
-		if(BUS1.Sie[i].Sts.B.Con && BUS1.Sie[i].Med)
-		{
-			Medicion ++;
-		}
+//		if(BUS1.Sie[i].Sts.B.Con && BUS1.Sie[i].Med)
+//		{
+//			Medicion ++;
+//		}
 		
 		//SENSORES DE FERTILIZANTE
 		DtsComBus1.Fer.Med[i] = BUS1.Fer[i].Med;
 		DtsComBus1.Fer.Sts[i] = BUS1.Fer[i].Sts.C.Val;
 		
-		if(BUS1.Fer[i].Sts.B.Con && BUS1.Fer[i].Med)
-		{
-			Medicion ++;
-		}		
+//		if(BUS1.Fer[i].Sts.B.Con && BUS1.Fer[i].Med)
+//		{
+//			Medicion ++;
+//		}		
 	}
 	
 }		
@@ -280,7 +280,7 @@ void Bus1aDtsCom(void)
 			if(BUS2.Sie[mID].tMed != tMed)
 			{
 				BUS2.Sie[mID].tMed = tMed;
-//				Sensores.STS.B.fSAct2 = true;
+				Sensores.STS.B.fSAct2 = true;
 			}
 			if(!MedValue)
 			{
@@ -362,7 +362,7 @@ void Bus1aDtsCom(void)
 			if(BUS2.Fer[mID].tMed != tMed)
 			{
 				BUS2.Fer[mID].tMed = tMed;
-//				Sensores.STS.B.fFAct2 = true;
+				Sensores.STS.B.fFAct2 = true;
 			}
 			if(!MedValue)
 			{
@@ -453,19 +453,19 @@ void Bus2aDtsCom(void)
 		DtsComBus2.Sie.Med[i] = BUS2.Sie[i].Med;
 		DtsComBus2.Sie.Sts[i] = BUS2.Sie[i].Sts.C.Val;
 		
-		if(BUS2.Sie[i].Sts.B.Con && BUS2.Sie[i].Med)
-		{
-			Medicion ++;
-		}
+//		if(BUS2.Sie[i].Sts.B.Con && BUS2.Sie[i].Med)
+//		{
+//			Medicion ++;
+//		}
 		
 		//SENSORES DE FERTILIZANTE
 		DtsComBus2.Fer.Med[i] = BUS2.Fer[i].Med;
 		DtsComBus2.Fer.Sts[i] = BUS2.Fer[i].Sts.C.Val;
 		
-		if(BUS2.Fer[i].Sts.B.Con && BUS2.Fer[i].Med)
-		{
-			Medicion ++;
-		}
+//		if(BUS2.Fer[i].Sts.B.Con && BUS2.Fer[i].Med)
+//		{
+//			Medicion ++;
+//		}
 	}
 }
 /******************************************************************************
@@ -835,9 +835,7 @@ void Mod2DtsCom(void)
 {
 	int i;
 	int cont = 0;
-	
-	Sensores.tMOD ++; 
-	
+
 	for(i=0;i<16;i++)
 	{
 		DtsPerCom.MOD.Al[i]	= Moduladora[i].Al.Val ;
@@ -868,9 +866,7 @@ void ROT2DtsCom(void)
 {
 	int i;
 	int cont = 0;
-	
-	Sensores.tROT ++;
-	
+		
 	for(i=0;i<8;i++)
 	{
 		DtsPerCom.ROT.Med[i]	= Rotacion[i].Med ;
@@ -900,9 +896,7 @@ void TRB2DtsCom(void)
 {
 	int i;
 	int cont = 0;
-	
-	Sensores.tTRB ++;	
-	
+
 	for(i=0;i<3;i++)
 	{
 		DtsPerCom.TRB.Med[i]= Turbina[i].Med ;
@@ -935,8 +929,7 @@ void TOL2DtsCom(void)
 	int i;
 	int cont = 0;
 		
-	Sensores.tTOL ++;
-	
+
 	for(i=0;i<16;i++)
 	{
 		DtsPerCom.TOL.Sts[i]= Tolva[i].Sts.Val;

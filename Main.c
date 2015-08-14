@@ -258,6 +258,30 @@ int main (void)
 			Proceso.B.fAdqNTL1 = false;
 			Proceso.B.fAdqNTL2 = false;	
 		}
+		if(Proceso.B.fAdqSie1 && Proceso.B.fAdqSie2)
+		{	
+//			Medicion = 0;
+			if(!Proceso.B.fAjMod)
+			{
+				Bus1aDtsCom();	
+				Bus2aDtsCom();
+			}
+			else
+			{
+				Proceso.B.fAjMod = false;
+			}	
+			if(Sensores.STS.B.fSAct1 || Sensores.STS.B.fFAct1 || Sensores.STS.B.fSAct2 || Sensores.STS.B.fFAct2 || (Sensores.tSIE >= kMaxEscan))
+			{		
+				Sensores.STS.B.TX_SF1 = true;
+				Sensores.STS.B.fSAct1 = false;
+				Sensores.STS.B.fFAct1 = false;
+				Sensores.STS.B.fSAct2 = false;
+				Sensores.STS.B.fFAct2 = false;
+				Sensores.tSIE = 0;
+			}
+			Proceso.B.fAdqSie2 = false;
+			Proceso.B.fAdqSie1 = false;		
+		}
 //----------------------------------------------------------------------------
 //	ENVIO DE DATOS DESDE EL MODULO DE SIEMBRA AL TERMINAL		
 		if(Proceso.B.fRxCom && !Wifi.LeeDato)

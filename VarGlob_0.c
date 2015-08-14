@@ -78,7 +78,7 @@
 //	float VelTest; //Borrar solo para pruebas
 //	char Comunic;
 	int VSiembra;
-	int	Medicion;
+//	int	Medicion;
 	int Checksum;
 	
 	struct _TLin TLin1;

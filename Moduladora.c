@@ -252,11 +252,16 @@ char ModAjtSPKD0(unsigned char ID)
 	LocUserDW00.UI.V[0] = Moduladora[SenId].SP;
 	
 	Proceso.B.fConfPer = true;
-	while(SW1PortUser.Sts.B.fPend ||SW2PortUser.Sts.B.fPend) ExeTask();
+	Proceso.B.fAjMod = true;// Se esta realizando una lectura o un ajuste
+							// de parametros de la moduladora
+	
+//	while(SW1PortUser.Sts.B.fPend ||SW2PortUser.Sts.B.fPend) ExeTask();
 	Error = 0;
 	do{
 		if(!Moduladora[SenId].Sts.B.Bus)
 		{
+			while(SW1PortUser.Sts.B.fPend) ExeTask();
+			
 			SW1_PortUserStart(Id,0x04 | SW1_cmdWr,4);
 			SW1_PortUserWrBuf(&LocUserDW00.UL.V,sizeof(LocUserDW00.UL.V));
 			Local1 = SW1_PortUserSend(true);
@@ -266,6 +271,8 @@ char ModAjtSPKD0(unsigned char ID)
 		}
 		else
 		{
+			while(SW2PortUser.Sts.B.fPend) ExeTask();
+			
 			SW2_PortUserStart(Id,0x04 | SW2_cmdWr,4);
 			SW2_PortUserWrBuf(&LocUserDW00.UL.V,sizeof(LocUserDW00.UL.V));
 			Local1 = SW2_PortUserSend(true);
@@ -304,12 +311,16 @@ char ModLecSPKD0(unsigned char ID)
 	SenId = ID;
 	Id = ModDirId(SenId);		
 	Proceso.B.fConfPer = true;
-
-	while(SW1PortUser.Sts.B.fPend ||SW2PortUser.Sts.B.fPend) ExeTask();
+	Proceso.B.fAjMod = true;// Se esta realizando una lectura o un ajuste
+							// de parametros de la moduladora
+	
+//	while(SW1PortUser.Sts.B.fPend ||SW2PortUser.Sts.B.fPend) ExeTask();
 	Error = 0;
 	do{
 		if(!Moduladora[SenId].Sts.B.Bus)
 		{
+			while(SW1PortUser.Sts.B.fPend) ExeTask();
+			
 			SW1_PortUserStart(Id,0x04 | SW1_cmdRd,4);
 			if(SW1_PortUserSend(true))
 			{
@@ -322,6 +333,8 @@ char ModLecSPKD0(unsigned char ID)
 		}
 		else
 		{	
+			while(SW2PortUser.Sts.B.fPend) ExeTask();
+			
 			SW2_PortUserStart(Id,0x04 | SW2_cmdRd,4);
 			if(SW2_PortUserSend(true))
 			{
@@ -338,8 +351,6 @@ char ModLecSPKD0(unsigned char ID)
 	
 	if(Error >=3)
 		return false;
-		
-	
 	Moduladora[SenId].KD = LocUserDW00.UI.V[1];
 	Moduladora[SenId].SP = LocUserDW00.UI.V[0];
 	Proceso.B.fConfPer = false;
@@ -368,13 +379,15 @@ char ModConfPul0(unsigned char ID)
 	LocUserDW00.UL.V = Moduladora[SenId].Pul;
 	
 	Proceso.B.fConfPer = true;
-	while(SW1PortUser.Sts.B.fPend ||SW2PortUser.Sts.B.fPend) ExeTask();
+//	while(SW1PortUser.Sts.B.fPend ||SW2PortUser.Sts.B.fPend) ExeTask();
 	
 	Error = 0;
 	do{
 			
 		if(!Moduladora[SenId].Sts.B.Bus)
 		{
+			while(SW1PortUser.Sts.B.fPend) ExeTask();
+			
 			SW1_PortUserStart(Id,0x03 | SW1_cmdWr,4);
 			SW1_PortUserWrBuf(&LocUserDW00.UL.V,sizeof(LocUserDW00.UL.V));
 			Local1 = SW1_PortUserSend(true);
@@ -383,6 +396,8 @@ char ModConfPul0(unsigned char ID)
 		}
 		else
 		{
+			while(SW2PortUser.Sts.B.fPend) ExeTask();
+			
 			SW2_PortUserStart(Id,0x03 | SW2_cmdWr,4);
 			SW2_PortUserWrBuf(&LocUserDW00.UL.V,sizeof(LocUserDW00.UL.V));
 			Local1 = SW2_PortUserSend(true);	
@@ -414,10 +429,12 @@ char ModLectPul0(unsigned char ID)
 	Id = ModDirId(SenId);	
 	Proceso.B.fConfPer = true;
 	
-	while(SW1PortUser.Sts.B.fPend ||SW2PortUser.Sts.B.fPend) ExeTask();
+//	while(SW1PortUser.Sts.B.fPend ||SW2PortUser.Sts.B.fPend) ExeTask();
 		
 	if(!Moduladora[SenId].Sts.B.Bus)
-	{	
+	{
+		while(SW1PortUser.Sts.B.fPend) ExeTask();	
+		
 		if(!Sw1_RdPV(Id,0x02,4))
 		{
 			Proceso.B.fConfPer = false;
@@ -434,6 +451,8 @@ char ModLectPul0(unsigned char ID)
 	}
 	else
 	{	
+		while(SW2PortUser.Sts.B.fPend) ExeTask();
+		
 		if(!Sw2_RdPV(Id,0x02,4))
 		{
 			Proceso.B.fConfPer = false;
@@ -475,19 +494,23 @@ char ModConfPulKm(unsigned char ID)
 	Id = ModDirId(SenId);	
 	Proceso.B.fConfPer = true;
 	
-	while(SW1PortUser.Sts.B.fPend ||SW2PortUser.Sts.B.fPend) ExeTask();
+//	while(SW1PortUser.Sts.B.fPend ||SW2PortUser.Sts.B.fPend) ExeTask();
 	
 	LocUserDW00.UL.V = Moduladora[SenId].PKm;
 	Error = 0;
 	do{
 		if(!Moduladora[SenId].Sts.B.Bus)
 		{
+			while(SW1PortUser.Sts.B.fPend) ExeTask();
+			
 			Local1 = Sw1_WrReg(Id,0x80,&LocUserDW00.UL.V);
 	//		Proceso.B.fConfPer = false;
 	//		return Local1;
 		}
 		else
 		{
+			while(SW2PortUser.Sts.B.fPend) ExeTask();
+			
 			Local1 = Sw2_WrReg(Id,0x80,&LocUserDW00.UL.V);
 	//		Proceso.B.fConfPer = false;
 	//		return 	Local1;	
@@ -524,18 +547,22 @@ char ModLectPulKm(unsigned char ID)
 	Id = ModDirId(SenId);		
 	Proceso.B.fConfPer = true;
 	
-	while(SW1PortUser.Sts.B.fPend ||SW2PortUser.Sts.B.fPend) ExeTask();
+//	while(SW1PortUser.Sts.B.fPend ||SW2PortUser.Sts.B.fPend) ExeTask();
 	Error = 0;
 	do{
 		
 		if(!Moduladora[SenId].Sts.B.Bus)
 		{
+			while(SW1PortUser.Sts.B.fPend) ExeTask();
+			
 			Local1 = Sw1_RdReg(Id,0x80,&Moduladora[SenId].PKm);
 		//	Proceso.B.fConfPer = false;
 		//	return Local1;
 		}
 		else
 		{
+			while(SW2PortUser.Sts.B.fPend) ExeTask();
+			
 			Local1 = Sw2_RdReg(Id,0x80,&Moduladora[SenId].PKm);
 		//	Proceso.B.fConfPer = false;
 		//	return 	Local1;
@@ -571,7 +598,7 @@ char ModConfParam(unsigned char ID)
 	Id = ModDirId(SenId);		
 	Proceso.B.fConfPer = true;
 	
-	while(SW1PortUser.Sts.B.fPend ||SW2PortUser.Sts.B.fPend) ExeTask();
+//	while(SW1PortUser.Sts.B.fPend ||SW2PortUser.Sts.B.fPend) ExeTask();
 	
 	LocUserDW00.B.V[0] = Moduladora[SenId].PVT;
 	LocUserDW00.B.V[1] = Moduladora[SenId].PVD;
@@ -580,10 +607,14 @@ char ModConfParam(unsigned char ID)
 	do{	
 		if(!Moduladora[SenId].Sts.B.Bus)
 		{
+			while(SW1PortUser.Sts.B.fPend) ExeTask();
+			
 			Local1 = Sw1_WrReg(Id,0x81,&LocUserDW00.UL.V);
 		}
 		else
 		{
+			while(SW2PortUser.Sts.B.fPend) ExeTask();
+			
 			Local1 = Sw2_WrReg(Id,0x81,&LocUserDW00.UL.V);
 		}
 		if (Local1)

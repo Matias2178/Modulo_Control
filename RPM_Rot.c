@@ -296,7 +296,7 @@ char TRBLecPar00(unsigned char ID)
 			
 		Error = 0;
 		do{
-			while(SW1PortUser.Sts.B.fPend) ExeTask();		
+			while(SW2PortUser.Sts.B.fPend) ExeTask();		
 			if(Sw2_RdReg(Id,0x06,&LocUserDW00.UL.V))
 			{
 				Error = 0;
@@ -309,7 +309,7 @@ char TRBLecPar00(unsigned char ID)
 			
 		Error = 0;
 		do{
-			while(SW1PortUser.Sts.B.fPend) ExeTask();
+			while(SW2PortUser.Sts.B.fPend) ExeTask();
 			if(Sw2_RdReg(Id,0x07,&LocUserDW01.UL.V))
 			{
 				Error = 0;
@@ -358,8 +358,10 @@ char TRBEscPar00(unsigned char ID)
 		
 	if(!Turbina[SenId].Sts.B.Bus)
 	{
+		
 		Error = 0;
 		do{
+			while(SW1PortUser.Sts.B.fPend) ExeTask();
 			if(Sw1_WrReg(Id,0x80,&Turbina[SenId].FK))
 			{
 				Error = 0;
@@ -373,7 +375,9 @@ char TRBEscPar00(unsigned char ID)
 		
 		LocUserDW00.UI.V[0] = Turbina[SenId].AlMin;
 		LocUserDW00.UI.V[1] = Turbina[SenId].TmMin;
+		
 		do{
+			while(SW1PortUser.Sts.B.fPend) ExeTask();
 			if(Sw1_WrReg(Id,0x06,&LocUserDW00.UL.V))
 			{
 				Error = 0;
@@ -388,6 +392,7 @@ char TRBEscPar00(unsigned char ID)
 		LocUserDW00.UI.V[0] = Turbina[SenId].AlMax;
 		LocUserDW00.UI.V[1] = Turbina[SenId].TmMax;
 		do{
+			while(SW1PortUser.Sts.B.fPend) ExeTask();
 			if(Sw1_WrReg(Id,0x07,&LocUserDW00.UL.V))
 			{
 				Error = 0;
@@ -401,6 +406,7 @@ char TRBEscPar00(unsigned char ID)
 	else
 	{
 		do{
+			while(SW2PortUser.Sts.B.fPend) ExeTask();
 			if(Sw2_WrReg(Id,0x80,&Turbina[SenId].FK))
 			{
 				Error = 0;
@@ -415,6 +421,7 @@ char TRBEscPar00(unsigned char ID)
 		LocUserDW00.UI.V[0] = Turbina[SenId].AlMin;
 		LocUserDW00.UI.V[1] = Turbina[SenId].TmMin;
 		do{
+			while(SW2PortUser.Sts.B.fPend) ExeTask();
 			if(Sw2_WrReg(Id,0x06,&LocUserDW00.UL.V))
 			{
 				Error = 0;
@@ -429,6 +436,7 @@ char TRBEscPar00(unsigned char ID)
 		LocUserDW00.UI.V[0] = Turbina[SenId].AlMax;
 		LocUserDW00.UI.V[1] = Turbina[SenId].TmMax;
 		do{
+			while(SW2PortUser.Sts.B.fPend) ExeTask();
 			if(Sw2_WrReg(Id,0x07,&LocUserDW00.UL.V))
 			{
 				Error = 0;
@@ -555,7 +563,8 @@ void TOLStart000(void)
 	for(SenId=0;SenId<16;SenId++)
 	{
 		Id = 0x48 + SenId;		
-
+		while(SW1PortUser.Sts.B.fPend || SW2PortUser.Sts.B.fPend) ExeTask();
+		
 		SW1_PortUserStart(Id,0x00 | SW1_cmdRd,1);
 		SW1_PortUserSend(false);
 		

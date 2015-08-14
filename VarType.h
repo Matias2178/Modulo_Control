@@ -229,7 +229,7 @@ union _Proc{
 		BYTE fAdqNTL1	: 1;
 		BYTE fAdqAx11	: 1;
 		BYTE fAdqAx12	: 1;//Ingreso de un nuevo SP y KD para las cajas
-		BYTE fAdqAx13	: 1;
+		BYTE fAjMod		: 1;//Indica que se envio un ajuste a la moduladora y no escribir los datos de sensores
 		BYTE fAdqSie2	: 1;//Fin de la lectura de los sensores y se los carga en el buffer de transmicion
 		BYTE fAdqRot2  	: 1;
 		BYTE fAdqMod2  	: 1;
@@ -490,10 +490,10 @@ struct _Sensores{
 			BYTE RX_B6	:1;
 			BYTE RX_B7	:1;
 			
-			BYTE fSAct0	:1;//Libre
+			BYTE fSAct1	:1;//Libre
 			BYTE fFAct1	:1;//Libre
 			BYTE fSAct2	:1;//Libre
-			BYTE fFAct3	:1;//Libre
+			BYTE fFAct2	:1;//Libre
 			BYTE SAct4	:1;//Libre
 			BYTE SAct5	:1;//Libre
 			BYTE SAct6	:1;//Libre
