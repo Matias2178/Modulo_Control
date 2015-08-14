@@ -74,8 +74,16 @@
 			//		return;
 			//	}
 			}
+			else
+			{
+				BUS1.Sie[mID].Sts.B.AuxTT = false;
+				BUS1.Sie[mID].Sts.B.AuxTT2 = false;
+				BUS1.Sie[mID].Sts.B.AuxTT3 = false;
+			}
 			MedValue = MedValue * 100;
-		//Modo de Siembra en Gruesa		
+//-------------------------------------------------
+//Modo de Siembra en Gruesa		
+//-------------------------------------------------
 			if(BUS1.Sie[mID].Sts.B.Mod)
 			{
 				if(MedValue && VSiembra)
@@ -86,9 +94,7 @@
 					SemMts = (SemSeg * 36) / (unsigned long) VSiembra;
 					BUS1.Sie[mID].Med = (int) SemMts;
 					BUS1.Sie[mID].Sts.B.Act = true;
-					BUS1.Sie[mID].Sts.B.AuxTT = false;
-					BUS1.Sie[mID].Sts.B.AuxTT2 = false;
-					BUS1.Sie[mID].Sts.B.AuxTT3 = false; 
+					 
 				}
 				else
 				{
@@ -96,7 +102,9 @@
 					BUS1.Sie[mID].Sts.B.Act = false;
 				}
 			}
-		//Modo de siembra Fina
+//-------------------------------------------------
+//Modo de siembra Fina
+//-------------------------------------------------
 			else if(VSiembra)
 			{
 				SemSeg = (unsigned long) MedValue / (unsigned long) k_FinaTM;
@@ -106,9 +114,6 @@
 				SemSeg = (SemSeg + SemMts)/ 2 ;
 				BUS1.Sie[mID].Med = (int) SemSeg;
 				BUS1.Sie[mID].Sts.B.Act = true; 
-				BUS1.Sie[mID].Sts.B.AuxTT = false;
-				BUS1.Sie[mID].Sts.B.AuxTT2 = false;
-				BUS1.Sie[mID].Sts.B.AuxTT3 = false;
 			}
 			else
 			{
@@ -121,6 +126,9 @@
 			//SENSOR INACTIVO
 			BUS1.Sie[mID].Med = 0;
 			BUS1.Sie[mID].Sts.B.Act = false;
+			BUS1.Sie[mID].Sts.B.AuxTT = false;
+			BUS1.Sie[mID].Sts.B.AuxTT2 = false;
+			BUS1.Sie[mID].Sts.B.AuxTT3 = false;
 		}
 	}
 	else if (mID <= 0x3F)
@@ -157,6 +165,15 @@
 //					return;
 //				}
 			}
+			else
+			{
+				BUS1.Fer[mID].Sts.B.AuxTT = false;
+				BUS1.Fer[mID].Sts.B.AuxTT2 = false;
+				BUS1.Fer[mID].Sts.B.AuxTT3 = false;
+			}
+//-------------------------------------------------
+//Modo de Siembra en Gruesa		
+//-------------------------------------------------
 			MedValue = MedValue * 100;	
 			if(BUS1.Fer[mID].Sts.B.Mod)
 			{
@@ -168,9 +185,6 @@
 					SemMts = (SemSeg * 36) / (unsigned long) VSiembra;
 					BUS1.Fer[mID].Med = (int) SemMts;
 					BUS1.Fer[mID].Sts.B.Act = true; 
-					BUS1.Fer[mID].Sts.B.AuxTT = false;
-					BUS1.Fer[mID].Sts.B.AuxTT2 = false;
-					BUS1.Fer[mID].Sts.B.AuxTT3 = false;
 				}
 				else
 				{
@@ -178,6 +192,9 @@
 					BUS1.Fer[mID].Sts.B.Act = false;
 				}
 			}
+//-------------------------------------------------
+//Modo de siembra Fina
+//-------------------------------------------------
 			else if(VSiembra)
 			{
 				SemSeg = (unsigned long) MedValue / (unsigned long) k_FinaTM;
@@ -189,9 +206,6 @@
 				
 				BUS1.Fer[mID].Med = (int) SemSeg;
 				BUS1.Fer[mID].Sts.B.Act = true; 
-				BUS1.Fer[mID].Sts.B.AuxTT = false;
-				BUS1.Fer[mID].Sts.B.AuxTT2 = false;
-				BUS1.Fer[mID].Sts.B.AuxTT3 = false;
 			}
 			else
 			{
@@ -203,7 +217,10 @@
 		{
 			//SENSOR INACTIVO
 			BUS1.Fer[mID].Med = 0;
-			BUS1.Fer[mID].Sts.B.Act = false;	
+			BUS1.Fer[mID].Sts.B.Act = false;
+			BUS1.Fer[mID].Sts.B.AuxTT = false;
+			BUS1.Fer[mID].Sts.B.AuxTT2 = false;
+			BUS1.Fer[mID].Sts.B.AuxTT3 = false;	
 		}
 	}
 }
@@ -264,15 +281,14 @@ void Bus1aDtsCom(void)
 	MedValue=((unsigned int)Med >> 12);
 	MedId=MedValue & 0x000F;
 	MedValue=Med & 0x0FFF;
-	mID = ID;
-	
-	
+	mID = ID;	
 	if (mID <= 0x1F)
 	{
 		//SENSORES DE SIEMBRA
 		if(MedId & 0x08)
 		{
-			//SENSOR ACTIVO
+
+//SENSOR ACTIVO
 //Activar configuracion para fina y gruesa
 //y hacer lo mismo para fertilizante y para el bus2
 //Falta la parte de correccion por alta densidad
@@ -300,7 +316,16 @@ void Bus1aDtsCom(void)
 //					return;
 //				}
 			}
+			else
+			{
+				BUS2.Sie[mID].Sts.B.AuxTT = false;
+				BUS2.Sie[mID].Sts.B.AuxTT2 = false;
+				BUS2.Sie[mID].Sts.B.AuxTT3 = false;
+			}
 			MedValue = MedValue * 100;		
+//-------------------------------------------------
+//Modo de Siembra en Gruesa		
+//-------------------------------------------------
 			if(BUS2.Sie[mID].Sts.B.Mod)
 			{
 				if(MedValue && VSiembra)
@@ -311,9 +336,7 @@ void Bus1aDtsCom(void)
 					SemMts = (SemSeg * 36) / (unsigned long) VSiembra;
 					BUS2.Sie[mID].Med = (int) SemMts;
 					BUS2.Sie[mID].Sts.B.Act = true;
-					BUS2.Sie[mID].Sts.B.AuxTT = false;
-					BUS2.Sie[mID].Sts.B.AuxTT2 = false;
-					BUS2.Sie[mID].Sts.B.AuxTT3 = false;
+
 				}
 				else
 				{
@@ -321,23 +344,23 @@ void Bus1aDtsCom(void)
 					BUS2.Sie[mID].Sts.B.Act = false;
 				}
 			}
+//-------------------------------------------------
+//Modo de siembra Fina
+//-------------------------------------------------
 			else if(VSiembra)
 			{
-				SemSeg = (unsigned long) MedValue / (unsigned long) k_FinaTM;
-			
+				SemSeg = (unsigned long) MedValue / (unsigned long) k_FinaTM;		
 			//Promedio las mediciones en fina
 				SemMts	= (unsigned long) BUS2.Sie[mID].AxMed;
 				BUS2.Sie[mID].AxMed =  (int) SemSeg;
 				SemSeg = (SemSeg + SemMts)/ 2 ;
-					
 				BUS2.Sie[mID].Med = (int) SemSeg;
 				BUS2.Sie[mID].Sts.B.Act = true; 
 			}
 			else
 			{
-				BUS1.Sie[mID].Med = 0;
-				BUS1.Sie[mID].Sts.B.Act = false;
-				BUS2.Sie[mID].Sts.B.AuxTT = false;
+				BUS2.Sie[mID].Med = 0;
+				BUS2.Sie[mID].Sts.B.Act = false;
 			}
 		}
 		else
@@ -345,8 +368,10 @@ void Bus1aDtsCom(void)
 			//SENSOR INACTIVO
 			BUS2.Sie[mID].Med = 0;
 			BUS2.Sie[mID].Sts.B.Act = false;
-		}
-		
+			BUS2.Sie[mID].Sts.B.AuxTT = false;
+			BUS2.Sie[mID].Sts.B.AuxTT2 = false;
+			BUS2.Sie[mID].Sts.B.AuxTT3 = false;
+		}	
 	}
 	else if (mID <= 0x3F)
 	{
@@ -354,7 +379,7 @@ void Bus1aDtsCom(void)
 		mID -= 0x20;
 		if(MedId & 0x08)
 		{
-		//SENSOR ACTIVO
+//SENSOR ACTIVO
 //Activar configuracion para fina y gruesa
 //y hacer lo mismo para fertilizante y para el bus2
 //Falta la parte de correccion por alta densidad
@@ -382,7 +407,15 @@ void Bus1aDtsCom(void)
 //					return;
 //				}
 			}
-			
+			else
+			{
+				BUS2.Fer[mID].Sts.B.AuxTT = false;
+				BUS2.Fer[mID].Sts.B.AuxTT2 = false;
+				BUS2.Fer[mID].Sts.B.AuxTT3 = false;
+			}
+//-------------------------------------------------
+//Modo de Siembra en Gruesa		
+//-------------------------------------------------			
 			MedValue = MedValue * 100;
 			if(BUS2.Fer[mID].Sts.B.Mod)
 			{
@@ -394,9 +427,6 @@ void Bus1aDtsCom(void)
 					SemMts = (SemSeg * 36) / (unsigned long) VSiembra;
 					BUS2.Fer[mID].Med = (int) SemMts;
 					BUS2.Fer[mID].Sts.B.Act = true; 
-					BUS2.Fer[mID].Sts.B.AuxTT = false;
-					BUS2.Fer[mID].Sts.B.AuxTT2 = false;
-					BUS2.Fer[mID].Sts.B.AuxTT3 = false;
 				}
 				else
 				{
@@ -404,6 +434,9 @@ void Bus1aDtsCom(void)
 					BUS2.Fer[mID].Sts.B.Act = false;
 				}
 			}
+//-------------------------------------------------
+//Modo de siembra Fina
+//-------------------------------------------------
 			else if (VSiembra)
 			{
 				SemSeg = (unsigned long) MedValue / (unsigned long) k_FinaTM;
@@ -415,24 +448,24 @@ void Bus1aDtsCom(void)
 				
 				BUS2.Fer[mID].Med = (int) SemSeg;
 				BUS2.Fer[mID].Sts.B.Act = true; 
-				BUS2.Fer[mID].Sts.B.AuxTT = false;
-				BUS2.Fer[mID].Sts.B.AuxTT2 = false;
-				BUS2.Fer[mID].Sts.B.AuxTT3 = false;
 			}
 			else
 			{
-				BUS1.Sie[mID].Med = 0;
-				BUS1.Sie[mID].Sts.B.Act = false;
+				BUS2.Fer[mID].Med = 0;
+				BUS2.Fer[mID].Sts.B.Act = false;
 			}
 		}
 		else
 		{
 			//SENSOR INACTIVO
 			BUS2.Fer[mID].Med = 0;
-			BUS2.Fer[mID].Sts.B.Act = false;	
+			BUS2.Fer[mID].Sts.B.Act = false;
+			BUS2.Fer[mID].Sts.B.AuxTT = false;
+			BUS2.Fer[mID].Sts.B.AuxTT2 = false;
+			BUS2.Fer[mID].Sts.B.AuxTT3 = false;	
 		}
 	}
-}		
+}	
 
 
 /******************************************************************************

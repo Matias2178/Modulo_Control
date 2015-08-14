@@ -186,4 +186,5 @@ Version 1.1R9
 	Se espera a que los sensores tengan una lectura distinta antes de enviar datos
 	En caso de no leer se envian los datos cada 5 seg (controlar esto)
 	Se paso la carga de datos de sensores de semilla y fertilizante desde la funcion ExeTask a Main
-	
+Version 1.1R10
+	Correcciones en las funciones de procesamiento de datos de sensores para poner sensores como inactivos	
