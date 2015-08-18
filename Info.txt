@@ -190,3 +190,5 @@ Version 1.1R10
 	Correcciones en las funciones de procesamiento de datos de sensores para poner sensores como inactivos	
 Version 1.1R11
 	Espera un ciclo de lectura antes de dar tubo tapado para los sensores de semilla y fertilizante
+Version 1.1R12
+	Espera a que se transmita todo un bloque de datos antes de comenzar a transmitir otro

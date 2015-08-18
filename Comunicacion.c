@@ -167,12 +167,13 @@ void DtoTerminal(void)
 			CheckGrabaMem(">RMEM",Checksum,ComBuf);
 			goto lComSinCheck;
 		}	
-		else if(Proceso.B.fGPSDtOk | Proceso.B.Puto)
+		else if((Proceso.B.fGPSDtOk | Proceso.B.Puto)&& (!Sensores.Secuencia || Sensores.Secuencia == 1))
 		{
 			tlecgpstx = 0;
 			
 			if(!Proceso.B.fRePuto)
 			{
+				Sensores.Secuencia = 1;
 				GPSDatos("<GPSDT>",ComBuf);
 				Proceso.B.fRePuto = true;
 			}
@@ -182,23 +183,27 @@ void DtoTerminal(void)
 				Proceso.B.Puto = false;
 				Proceso.B.fGPSDtOk = false;
 				Proceso.B.fRePuto = false;
+				Sensores.Secuencia = 0;
 			}	
 				
 		}
-		else if (Sensores.STS.B.TX_MOD && !Sensores.STS.B.MOD_Ax)
+		else if (Sensores.STS.B.TX_MOD && !Sensores.STS.B.MOD_Ax && (!Sensores.Secuencia || Sensores.Secuencia == 2))
 		{
+			Sensores.Secuencia = 2;
 			Sensores.STS.B.TX_MOD = false;
 			Sensores.STS.B.MOD_Ax = true;
 			//MedPerifericos ("<ALMOD>",DtsPerCom,ComBuf,1);
 			StsPerifericos ("<SPMOD>",DtsPerCom,ComBuf,1);
+			Sensores.Secuencia = 0;
 		}
-		else if (Sensores.STS.B.TX_TRB && !Sensores.STS.B.TRB_Ax)
+		else if (Sensores.STS.B.TX_TRB && !Sensores.STS.B.TRB_Ax && (!Sensores.Secuencia || Sensores.Secuencia == 3))
 		{
 			switch(Com_DtsTask_TRB010)
 			{	
 			default:
 				Com_DtsTask_TRB010 = 0;		
 			case 0:
+				Sensores.Secuencia = 3;
 				MedPerifericos ("<MPTRB>",DtsPerCom,ComBuf,3);
 				Com_DtsTask_TRB010++;
 			break;
@@ -207,16 +212,18 @@ void DtoTerminal(void)
 				Sensores.STS.B.TX_TRB = false;
 				Com_DtsTask_TRB010 = 0;
 				Sensores.STS.B.TRB_Ax = true;
+				Sensores.Secuencia = 0;
 			break;
 			}			
 		}
-		else if (Sensores.STS.B.TX_ROT && !Sensores.STS.B.ROT_Ax)
+		else if (Sensores.STS.B.TX_ROT && !Sensores.STS.B.ROT_Ax && (!Sensores.Secuencia || Sensores.Secuencia == 4))
 		{
 			switch(Com_DtsTask_ROT010)
 			{
 			default:
 				Com_DtsTask_ROT010 = 0;		
 			case 0:
+				Sensores.Secuencia = 4;
 				MedPerifericos ("<MPROT>",DtsPerCom,ComBuf,2);
 				Com_DtsTask_ROT010++;
 			break;
@@ -225,24 +232,28 @@ void DtoTerminal(void)
 				Sensores.STS.B.TX_ROT = false;
 				Com_DtsTask_ROT010 = 0;
 				Sensores.STS.B.ROT_Ax = true;
+				Sensores.Secuencia = 0;
 			break;
 			}	
 		}
-		else if(Sensores.STS.B.TX_TOL && !Sensores.STS.B.TOL_Ax)
+		else if(Sensores.STS.B.TX_TOL && !Sensores.STS.B.TOL_Ax && (!Sensores.Secuencia || Sensores.Secuencia == 5))
 		{
+			Sensores.Secuencia = 5;
 			Sensores.STS.B.TX_TOL = false;
 			StsPerifericos ("<SNTOL>",DtsPerCom,ComBuf,4);
 			Sensores.STS.B.TOL_Ax = true;
+			Sensores.Secuencia = 0;
 		}
 		
 //Esto se envia cada 5 segundos
-		else if(Sensores.STS.B.DIAG && !Sensores.STS.B.DIAG_Ax)
+		else if(Sensores.STS.B.DIAG && !Sensores.STS.B.DIAG_Ax && (!Sensores.Secuencia || Sensores.Secuencia == 6))
 		{
 			switch(Com_DtsTask_DIAG10)
 			{	
 				default:
 					Com_DtsTask_DIAG10 = 0;		
 				case 0:
+					Sensores.Secuencia = 6;
 					Diagnostico("<DIAGN>",ComBuf);
 					Com_DtsTask_DIAG10++;
 				break;
@@ -258,6 +269,7 @@ void DtoTerminal(void)
 					Com_DtsTask_DIAG10 = 0;
 					Sensores.STS.B.DIAG = false;
 					Sensores.STS.B.DIAG_Ax = true;
+					Sensores.Secuencia = 0;
 				break;
 //			if(!Proceso.B.fDtsSat)
 //				{
@@ -265,13 +277,14 @@ void DtoTerminal(void)
 //				}
 			}
 		} 
-		else if (Sensores.STS.B.TX_SF1 && !Sensores.STS.B.SSF_Ax)
+		else if (Sensores.STS.B.TX_SF1 && !Sensores.STS.B.SSF_Ax && (!Sensores.Secuencia || Sensores.Secuencia == 7))
 		{
 			switch(Com_DtsTask_Sen010)
 			{	
 			default:	
 				Com_DtsTask_Sen010 = 0;	
 			case 0:
+				Sensores.Secuencia = 7;
 				MedSensores ("<MSSB1>",DtsComBus1,ComBuf,1);
 				Com_DtsTask_Sen010++;
 			break;
@@ -318,7 +331,8 @@ void DtoTerminal(void)
 			case 9:
 			//	TmrBusLin("<TLIN2>",TLin2,ComBuf,TDispLin2,TDispActLin2,TDispErrLin2);
 				TmrBusLin("<TLIN2>",TLin2,ComBuf);
-				Com_DtsTask_Sen010 = 0;		
+				Com_DtsTask_Sen010 = 0;	
+				Sensores.Secuencia = 0;	
 			break;			
 //---------------------------------------------------------------------------------------
 			}	
@@ -326,6 +340,7 @@ void DtoTerminal(void)
 		else
 		{
 			Sensores.STS.C.Aux = 0;
+			Sensores.Secuencia = 0;
 			return;
 		}
 	}

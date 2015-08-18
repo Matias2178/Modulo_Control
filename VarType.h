@@ -522,6 +522,7 @@ struct _Sensores{
 	BYTE tMOD;
 	BYTE tTRB;
 	BYTE tTOL;
+	BYTE Secuencia;
 };
 
 struct _MGPS
