@@ -66,7 +66,7 @@ SemLIN1:
 				}
 				else
 				{
-				//	Med_Sen_Bus1(Id,0);
+					Med_Sen_Bus1(Id,0);
 					BUS1.Sie[SenB1ID].Med = 0;
 					BUS1.Sie[SenB1ID].tMed = 0;
 			//		BUS1.Sie[SenB1ID].Sts.C.Aux = 0;

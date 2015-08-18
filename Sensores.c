@@ -56,6 +56,8 @@
 				BUS1.Sie[mID].tMed = tMed;
 				Sensores.STS.B.fSAct1 = true;
 			}
+			else 
+				return;
 			if(!MedValue)
 			{
 				if(!BUS1.Sie[mID].Sts.B.AuxTT)
@@ -63,16 +65,16 @@
 					BUS1.Sie[mID].Sts.B.AuxTT = true;
 					return;
 				}
-			//	else if(!BUS1.Sie[mID].Sts.B.AuxTT2)
-			//	{
-			//		BUS1.Sie[mID].Sts.B.AuxTT2 = true;
-			//		return;
-			//	}
-			//	else if(!BUS1.Sie[mID].Sts.B.AuxTT3)
-			//	{
-			///		BUS1.Sie[mID].Sts.B.AuxTT3 = true;
-			//		return;
-			//	}
+//				else if(!BUS1.Sie[mID].Sts.B.AuxTT2)
+//				{
+//					BUS1.Sie[mID].Sts.B.AuxTT2 = true;
+//					return;
+//				}
+//				else if(!BUS1.Sie[mID].Sts.B.AuxTT3)
+//				{
+//					BUS1.Sie[mID].Sts.B.AuxTT3 = true;
+//					return;
+//				}
 			}
 			else
 			{
@@ -124,11 +126,16 @@
 		else
 		{
 			//SENSOR INACTIVO
+			 if(!BUS1.Sie[mID].Sts.B.AuxTT2)
+			{
+				BUS1.Sie[mID].Sts.B.AuxTT2 = true;
+				return;
+			}
 			BUS1.Sie[mID].Med = 0;
 			BUS1.Sie[mID].Sts.B.Act = false;
-			BUS1.Sie[mID].Sts.B.AuxTT = false;
-			BUS1.Sie[mID].Sts.B.AuxTT2 = false;
-			BUS1.Sie[mID].Sts.B.AuxTT3 = false;
+//			BUS1.Sie[mID].Sts.B.AuxTT = false;
+//			BUS1.Sie[mID].Sts.B.AuxTT2 = false;
+//			BUS1.Sie[mID].Sts.B.AuxTT3 = false;
 		}
 	}
 	else if (mID <= 0x3F)
@@ -147,6 +154,8 @@
 				BUS1.Fer[mID].tMed = tMed;
 				Sensores.STS.B.fFAct1 = true;
 			}
+			else
+				return;
 			if(!MedValue)
 			{
 				if(!BUS1.Fer[mID].Sts.B.AuxTT)
@@ -216,11 +225,16 @@
 		else
 		{
 			//SENSOR INACTIVO
+			if(!BUS1.Fer[mID].Sts.B.AuxTT2)
+			{
+				BUS1.Fer[mID].Sts.B.AuxTT2 = true;
+				return;
+			}
 			BUS1.Fer[mID].Med = 0;
 			BUS1.Fer[mID].Sts.B.Act = false;
-			BUS1.Fer[mID].Sts.B.AuxTT = false;
-			BUS1.Fer[mID].Sts.B.AuxTT2 = false;
-			BUS1.Fer[mID].Sts.B.AuxTT3 = false;	
+//			BUS1.Fer[mID].Sts.B.AuxTT = false;
+//			BUS1.Fer[mID].Sts.B.AuxTT2 = false;
+//			BUS1.Fer[mID].Sts.B.AuxTT3 = false;	
 		}
 	}
 }
@@ -298,6 +312,8 @@ void Bus1aDtsCom(void)
 				BUS2.Sie[mID].tMed = tMed;
 				Sensores.STS.B.fSAct2 = true;
 			}
+			else
+				return;
 			if(!MedValue)
 			{
 				if(!BUS2.Sie[mID].Sts.B.AuxTT)
@@ -366,11 +382,16 @@ void Bus1aDtsCom(void)
 		else
 		{
 			//SENSOR INACTIVO
+			if(!BUS2.Sie[mID].Sts.B.AuxTT2)
+			{
+				BUS2.Sie[mID].Sts.B.AuxTT2 = true;
+				return;
+			}
 			BUS2.Sie[mID].Med = 0;
 			BUS2.Sie[mID].Sts.B.Act = false;
-			BUS2.Sie[mID].Sts.B.AuxTT = false;
-			BUS2.Sie[mID].Sts.B.AuxTT2 = false;
-			BUS2.Sie[mID].Sts.B.AuxTT3 = false;
+//			BUS2.Sie[mID].Sts.B.AuxTT = false;
+//			BUS2.Sie[mID].Sts.B.AuxTT2 = false;
+//			BUS2.Sie[mID].Sts.B.AuxTT3 = false;
 		}	
 	}
 	else if (mID <= 0x3F)
@@ -389,6 +410,8 @@ void Bus1aDtsCom(void)
 				BUS2.Fer[mID].tMed = tMed;
 				Sensores.STS.B.fFAct2 = true;
 			}
+			else
+				return;
 			if(!MedValue)
 			{
 				if(!BUS2.Fer[mID].Sts.B.AuxTT)
@@ -396,12 +419,12 @@ void Bus1aDtsCom(void)
 					BUS2.Fer[mID].Sts.B.AuxTT = true;
 					return;
 				}
-//				if(!BUS2.Fer[mID].Sts.B.AuxTT2)
+//				else if(!BUS2.Fer[mID].Sts.B.AuxTT2)
 //				{
 //					BUS2.Fer[mID].Sts.B.AuxTT2 = true;
 //					return;
 //				}
-//				if(!BUS2.Fer[mID].Sts.B.AuxTT3)
+//				else if(!BUS2.Fer[mID].Sts.B.AuxTT3)
 //				{
 //					BUS2.Fer[mID].Sts.B.AuxTT3 = true;
 //					return;
@@ -458,11 +481,16 @@ void Bus1aDtsCom(void)
 		else
 		{
 			//SENSOR INACTIVO
+			if(!BUS2.Fer[mID].Sts.B.AuxTT2)
+			{
+				BUS2.Fer[mID].Sts.B.AuxTT2 = true;
+				return;
+			}
 			BUS2.Fer[mID].Med = 0;
 			BUS2.Fer[mID].Sts.B.Act = false;
-			BUS2.Fer[mID].Sts.B.AuxTT = false;
-			BUS2.Fer[mID].Sts.B.AuxTT2 = false;
-			BUS2.Fer[mID].Sts.B.AuxTT3 = false;	
+//			BUS2.Fer[mID].Sts.B.AuxTT = false;
+//			BUS2.Fer[mID].Sts.B.AuxTT2 = false;
+//			BUS2.Fer[mID].Sts.B.AuxTT3 = false;	
 		}
 	}
 }	

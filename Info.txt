@@ -188,3 +188,5 @@ Version 1.1R9
 	Se paso la carga de datos de sensores de semilla y fertilizante desde la funcion ExeTask a Main
 Version 1.1R10
 	Correcciones en las funciones de procesamiento de datos de sensores para poner sensores como inactivos	
+Version 1.1R11
+	Espera un ciclo de lectura antes de dar tubo tapado para los sensores de semilla y fertilizante

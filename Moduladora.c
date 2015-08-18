@@ -266,8 +266,6 @@ char ModAjtSPKD0(unsigned char ID)
 			SW1_PortUserWrBuf(&LocUserDW00.UL.V,sizeof(LocUserDW00.UL.V));
 			Local1 = SW1_PortUserSend(true);
 			SW1PortSys.Sts.Value = 0;
-		//	Proceso.B.fConfPer = false;
-		//	return Local1; 
 		}
 		else
 		{
@@ -277,8 +275,6 @@ char ModAjtSPKD0(unsigned char ID)
 			SW2_PortUserWrBuf(&LocUserDW00.UL.V,sizeof(LocUserDW00.UL.V));
 			Local1 = SW2_PortUserSend(true);
 			SW2PortSys.Sts.Value = 0;
-		//	Proceso.B.fConfPer = false;
-		//	return Local1;
 		}
 		if (Local1)
 			break;
@@ -324,8 +320,6 @@ char ModLecSPKD0(unsigned char ID)
 			SW1_PortUserStart(Id,0x04 | SW1_cmdRd,4);
 			if(SW1_PortUserSend(true))
 			{
-			//	Proceso.B.fConfPer = false;
-			//	return false;
 				LocUserDW00.UL.V=*(unsigned long *)SW1PortUser.Data;
 				SW1PortSys.Sts.Value = 0;
 				break;
@@ -338,8 +332,6 @@ char ModLecSPKD0(unsigned char ID)
 			SW2_PortUserStart(Id,0x04 | SW2_cmdRd,4);
 			if(SW2_PortUserSend(true))
 			{
-			//	Proceso.B.fConfPer = false;
-			//	return false;
 				LocUserDW00.UL.V=*(unsigned long *)SW2PortUser.Data;
 				SW2PortSys.Sts.Value = 0;
 				break;
