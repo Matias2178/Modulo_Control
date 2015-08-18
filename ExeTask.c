@@ -512,7 +512,7 @@ void ExeTask(void)
 			DestWf.Duty = 30;
 			DestWf.Sec = 0x0333;
 			Sts_Tmr.CntWifi++;
-			if(Sts_Tmr.CntWifi > 300)
+			if(Sts_Tmr.CntWifi > 100)
 			{
 				Sts_Tmr.CntWifi = 0;
 				Pwr_Wifi 	= false;		//Alimentacion 3v3 Modulo WiFi
