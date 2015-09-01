@@ -54,7 +54,6 @@ void Adq_Proc_Lin2(void)
 		case 2:
 //Lectura de datos sensores de semilla
 SemLIN2:		
-//			Proceso.B.fAdqSie2 = false;
 			for(;SenB2ID<32;)
 			{
 				Id = SenB2ID;

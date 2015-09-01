@@ -317,10 +317,10 @@ void DtoTerminal(void)
 				StsSensores ("<SSFB2>",DtsComBus2,ComBuf,2);
 			//	Com_DtsTask_Sen010= 0;
 				Com_DtsTask_Sen010++;
-				Sensores.STS.B.TX_SF1 = false;
+//				Sensores.STS.B.TX_SF1 = false;
 		//		Sensores.STS.B.TX_SF2 = true;
-//				Sensores.STS.B.TX_SF2 = false;
-				Sensores.STS.B.SSF_Ax = true;
+//		//		Sensores.STS.B.TX_SF2 = false;
+//				Sensores.STS.B.SSF_Ax = true;
 			break;
 //--------------------------------------------------------------------------------------
 			case 8:
@@ -333,6 +333,8 @@ void DtoTerminal(void)
 				TmrBusLin("<TLIN2>",TLin2,ComBuf);
 				Com_DtsTask_Sen010 = 0;	
 				Sensores.Secuencia = 0;	
+				Sensores.STS.B.TX_SF1 = false;
+				Sensores.STS.B.SSF_Ax = true;
 			break;			
 //---------------------------------------------------------------------------------------
 			}	
@@ -1133,40 +1135,18 @@ void TmrBusLin (char *lb, struct _TLin Tmp,unsigned char *S)
 	S=S + strlen(lb);
 	*S = ',';
 	S++;
-
-//	*S = '(';
-//	S++;
-//	S = itos(Disp,S,2);
-//	*S = ')';
-//	S++;
-//	*S = ',';
-//	S++;
-//	*S = '(';
-//	S++;
-//	S = itos(Act,S,2);
-//	*S = ')';
-//	S++;
-//	*S = ',';
-//	S++;
-//	*S = '(';
-//	S++;
-//	S = itos(Err,S,2);
-//	*S = ')';
-//	S++;
-//	*S = ',';
-//	S++;
 	i = Tmp.ind;
 	Prom =0;
-	do{
-
+	do{	
+			if(!i)
+				i = 10;
+			i--;
 			Med = Tmp.Ult[i];
 			Prom = Prom + Med;
 			S = itos(Med,S,5);
 			*S = ',';
 			S++;
-			i++;
-			if(i>=10)
-				i = 0;
+			
 		
 	}while(i!= Tmp.ind);
 	S = itos(Prom,S,5);

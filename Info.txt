@@ -194,3 +194,6 @@ Version 1.1R12
 	Espera a que se transmita todo un bloque de datos antes de comenzar a transmitir otro
 Version 1.1R13
 	Ajuste de tiempo de apagado del RN-171 de 30 a 10 segundos
+Version 1.1R14
+	VSiembra -> antes si la velocidad era menor a 2.0 Km buscaba la velocidad en las moduladoras, ahora pone la velocidad a Cero.
+	Correcciones en la muestra del tiempo de TLIN 

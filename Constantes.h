@@ -19,16 +19,16 @@
 	#define kModMax		16
 	#define kROTMax		8
 	#define kTRBMax		3
-	#define kMaxEscan 	10
+	#define kMaxEscan 	5
 	
 //-----------------------------------------------------------------------------
 //Constantes del sistema
 
 	#define SoftVerH	1
 	#define SoftVerL	1
-	#define Relase		13
+	#define Relase		14
 
-	#define FVerD		18
+	#define FVerD		31
 	#define FVerM		8	
 	#define FVerA		2015
 	

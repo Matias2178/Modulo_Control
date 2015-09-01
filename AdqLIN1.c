@@ -43,7 +43,7 @@ void Adq_Proc_Lin1(void)
 		case 0:
 		
 //Control del tiempo de vuleta del bus lin
-			TLin1.Ult[TLin1.ind] = TLin1.Timer;
+		TLin1.Ult[TLin1.ind] = TLin1.Timer;
 			TLin1.Timer = 0;
 			TLin1.ind++;
 			if(TLin1.ind>=10)

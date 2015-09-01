@@ -338,9 +338,12 @@ void ExeTask(void)
 //-----------------------------------------------------------------------------	
 //Velocidad del GPS	
 //-----------------------------------------------------------------------------	
-		if((GPSdts.sys.act == 'A') && (GPSdts.pos.vel >= 2.0))
+		if(GPSdts.sys.act == 'A')
 		{
-			VSiembra = (unsigned int)(GPSdts.pos.vel*10);
+			if(GPSdts.pos.vel >= 2.0)
+				VSiembra = (unsigned int)(GPSdts.pos.vel*10);
+			else
+				VSiembra = 0;
 		}
 		else
 		{
