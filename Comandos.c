@@ -1171,6 +1171,7 @@ void Comando(unsigned char *S)
 			while(!U2STAbits.TRMT || !U3STAbits.TRMT) ExeTask();
 			if(Com)
 			{
+				Proceso.B.fStopDts = true;
 				SenRedetecion();
 				Dly_1_MiliSec(12);
 				EepromWRBuf(M_STS_CON_SEN,(unsigned char *)&SenDtsCon,sizeof(struct _SenDts));
@@ -1212,6 +1213,7 @@ void Comando(unsigned char *S)
 			P = QTxBuf;
 			strcpy((char *)P,">RCN,RDT,STOP<");
 			P = P + strlen(">RCN,RDT,STOP<");
+			Proceso.B.fStopDts = false;
 		}
 //-----------------------------------------------------------------------------
 //CARGA LA CONFIGURACION A LA MODULADORA

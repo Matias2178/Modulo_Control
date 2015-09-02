@@ -690,6 +690,10 @@ void GPSTMR(char *lb,unsigned char *S)
 	S  = ultos(RN171_Desc,S);
 	*S = ',';
 	S++;
+	S  = ultos(VSiembra,S);
+	*S = ',';
+	S++;
+	
 	CRNL(S);
 }
 	
