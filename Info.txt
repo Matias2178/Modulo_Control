@@ -200,4 +200,7 @@ Version 1.1R14
 Version 1.1R15
 	Transmision de la velocidad con la que se calcula la caida de semillas en <GPSTMR>
 	Cuando se esta haciendo una redeteccion bloquea la trasnmicion de datos hasta que no termina de trasnmitir las respuestas (Proceso.B.fStopDts)
-
+/////////////////////////////////////////////////////////
+Version 1.2R0
+	Version puesta en produccion
+/////////////////////////////////////////////////////////
