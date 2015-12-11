@@ -204,3 +204,6 @@ Version 1.1R15
 Version 1.2R0
 	Version puesta en produccion
 /////////////////////////////////////////////////////////
+Version 1.2R50
+	Se elimino el reenvio del SP y el KD a las moduladoras
+	Borrado de codigos comentados que no se utilizan

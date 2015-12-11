@@ -232,7 +232,6 @@ void ExeTask(void)
 			while(!WifiFIFOEmptyRX() && !Wifi.fCom)
 			{				
 				Dato = WifiFIFOReadRX();
-//				U4FIFOWRITETX(Dato);
 //-----------------------------------------------------------------------------
 // 	Comandos del modulo Wifi
 //-----------------------------------------------------------------------------
@@ -332,9 +331,6 @@ void ExeTask(void)
 				
 			}
 		}
-
-
-		
 //-----------------------------------------------------------------------------	
 //Velocidad del GPS	
 //-----------------------------------------------------------------------------	
@@ -417,7 +413,6 @@ void ExeTask(void)
 //Se resetea si la señal recibida es valida
 //-----------------------------------------------------------------------------	
 //		GPSdts.sys.tvid++;	
-
 		Sensores.tSIE ++;
 		Sensores.tROT ++;	
 		Sensores.tMOD ++;
@@ -523,11 +518,8 @@ void ExeTask(void)
 				Wifi.lMod = false;	
 				Wifi.fClose = false;
 				RN171_Desc++;
-				EepromWRBuf(M_RN171_OFF,&RN171_Desc,sizeof(RN171_Desc));
-
-					
+				EepromWRBuf(M_RN171_OFF,&RN171_Desc,sizeof(RN171_Desc));		
 			}
-			
 		}
 //El modulo esta encendido pero el puerto no esta abierto
 		else 
@@ -572,24 +564,11 @@ void ExeTask(void)
 			Sensores.STS.B.DIAG = true;
 			TLed = 0;			
 		}
-//		LED_POWER = IMPLEMENT_SW ? 1 : 0;
 //Si esta cargando Id de los sensores incrementa el timer sino no		
 	//	if(Proceso.B.fSetId)
 	//	{
 	//		SetId.TMR ++;
 	//	}
-
-//-----------------------------------------------------------------------------
-//	Reset de los bit de comunicacion para que no quede colgado el programa
-//-----------------------------------------------------------------------------
-//		if(Proceso.B.fComWf)
-//		{
-//			Proceso.B.fComWf = false;
-//		}
-//		if(Proceso.B.fComRS)
-//		{
-//			Proceso.B.fComRS = false;
-//		}
 //-----------------------------------------------------------------------------	
 //Calculo de las alarmas de los sensores de Turbina
 //-----------------------------------------------------------------------------	

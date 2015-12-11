@@ -10,11 +10,11 @@
  *****************************************************************************/
   	#include	"VarGlob.h"
 	#include	"Constantes.h"
-	#include 	"SW2master.h"
+	#include 	"sw2master.h"
 	#include	"Perifericos.h"
+	#include	"ES_Conf.h"
 	#include 	<p24Fxxxx.h>
 	
-
 _NEAR char ErrorB2;
 _NEAR int SenB2ID;
 
@@ -24,7 +24,6 @@ _NEAR int SenB2ID;
 *	Ingreso Datos:	Ninguno
 *	Salida Datos:	Ninguno
 ******************************************************************************/	
-
 void Adq_Proc_Lin2(void)
 {
 	unsigned int Id;
@@ -34,8 +33,7 @@ void Adq_Proc_Lin2(void)
 	if (SW2PortSys.Sts.B.fPend)	//Hay una comunicacion pendiente de ser atendida
 		return;
 		
-	switch(Adq_SelTask0021)
-	{
+	switch(Adq_SelTask0021){
 		default:
 			Adq_SelTask0021=0;
 
@@ -133,7 +131,6 @@ SemLIN2:
 			{
 				SenB2ID = 0;
 				Adq_SelTask0021=4;
-//				goto FerLIN2;
 			}	
 		case 4:
 //Lectura de datos sensores de fertilizante
@@ -159,7 +156,6 @@ FerLIN2:
 				}
 				SenB2ID++;
 			}
-			
 			if(SenB2ID>=32)
 			{
 				SenB2ID = 0;
@@ -217,11 +213,9 @@ FerLIN2:
 			else 
 			{
 				SenB2ID = 0;
-				Adq_SelTask0021=6;
 				Proceso.B.fAdqSie2 = true;
-	//			goto RotLIN2;
+				Adq_SelTask0021=6;
 			}
-//		break;
 		case 6:
 //Lectura de datos sensores de rotacion
 RotLIN2:
@@ -307,9 +301,7 @@ RotLIN2:
 				SenB2ID = 0;
 				Adq_SelTask0021=8;
 				Proceso.B.fAdqRot2 = true;
-	//			goto RPMLIN2;
 			}
-//		break;
 		case 8:
 //Lectura de datos sensores de rotacion
 TRBLIN2:
@@ -347,7 +339,6 @@ TRBLIN2:
 			}
 			ErrorB2=0;
 			Adq_SelTask0021++;
-			
 			SW2_PortSysStart(Id,0x00 | SW2_cmdRd,2);
 			SW2_PortSysSend();
 		break;
@@ -395,9 +386,7 @@ TRBLIN2:
 				SenB2ID = 0;
 				Adq_SelTask0021=10;
 				Proceso.B.fAdqTRB2 = true;
-//				goto ModLIN2;
 			}
-//		break;
 		case 10:
 //Lectura de datos de la moduladora
 ModLIN2:
@@ -409,8 +398,8 @@ ModLIN2:
 				{
 					if(Moduladora[SenB2ID].Sts.B.Hab && Moduladora[SenB2ID].Sts.B.Det)
 					{
-						Id = ModDirId(SenB2ID);	
 						//Sensor habilitado para lectura
+						Id = ModDirId(SenB2ID);	
 						break;
 					}
 					else 
@@ -425,7 +414,6 @@ ModLIN2:
 				}
 				SenB2ID++;
 			}
-			
 			if(SenB2ID>=16)
 			{
 				SenB2ID = 0;
@@ -441,10 +429,9 @@ ModLIN2:
 			SW2_PortSysSend();
 		break;
 		case 11:
-			
 			if (SW2PortSys.Sts.B.fOk)
 			{
-		//		Moduladora[SenB2ID].Al.Val = *(unsigned char*) &SW2.buf[0];
+//		Moduladora[SenB2ID].Al.Val = *(unsigned char*) &SW2.buf[0];
 				Moduladora[SenB2ID].Vel = *(unsigned int*)&SW2.buf[0];
 				Moduladora[SenB2ID].Sts.B.Con = true;
 				Moduladora[SenB2ID].Sts.B.FDs = false;
@@ -487,104 +474,16 @@ ModLIN2:
 				SenB2ID = 0;
 				Proceso.B.fAdqMod2 = true;
 				Adq_SelTask0021=12;
-//				goto TolLIN2;
 			}
-//		break;
-
-//Lectura de datos de la moduladora
+//Escribe SP kD una vez por segundo
 		case 12:
+		case 13:
 escModLIN2:
-			Proceso.B.fAdqMod2 = false;
-			if(Sts_Tmr.TMRModB2<5)
-			{
-				SenB2ID = 0;
-				Adq_SelTask0021=14;
-				Proceso.B.fAdqMod2 = true;
-				goto TolLIN2;
-				break;
-			}
-			Sts_Tmr.TMRModB1 = 2;
-			for(;SenB2ID<16;)
-			{
-//Moduladora[SenB2ID].Sts.B.Bus indica que esta en el bus 2
-				if(Moduladora[SenB2ID].Sts.B.Bus)
-				{
-					if(Moduladora[SenB2ID].Sts.B.Hab && Moduladora[SenB2ID].Sts.B.Det)
-					{
-						Id = ModDirId(SenB2ID);	
-						//Sensor habilitado para lectura
-						break;
-					}
-					else 
-					{
-						Moduladora[SenB2ID].Vel = 0;
-						Moduladora[SenB2ID].Dis = 0;
-						Moduladora[SenB2ID].Pul = 0;
-						Moduladora[SenB2ID].Al.Val = 0;
-						Moduladora[SenB2ID].Sts.B.Con = false;
-						Moduladora[SenB2ID].Sts.B.FDs = false;
-					}
-				}
-				SenB2ID++;
-			}
-			
-			if(SenB2ID>=16)
-			{
-				SenB2ID = 0;
-				Adq_SelTask0021=14;
-				Proceso.B.fAdqMod2 = true;
-				goto TolLIN2;
-				break;
-			}
-			ErrorB2=0;
-			Adq_SelTask0021++;
-			
-			LocUserDW00.UI.V[1] = Moduladora[SenB2ID].KD;
-			LocUserDW00.UI.V[0] = Moduladora[SenB2ID].SP;
-			SW2_PortUserStart(Id,0x04 | SW2_cmdWr,4);
-			SW2_PortUserWrBuf(&LocUserDW00.UL.V,sizeof(LocUserDW00.UL.V));
-			SW2_PortUserSend(false);
-		break;
-		case 13:	
-			if (SW2PortSys.Sts.B.fOk)
-			{
-				Moduladora[SenB2ID].Sts.B.Con = true;
-				Moduladora[SenB2ID].Sts.B.FDs = false;
-				Moduladora[SenB2ID].Sts.B.AxDesc = false;
-			}
-			else if(SW2PortSys.Sts.B.fErr && !Moduladora[SenB2ID].Sts.B.FDs)
-			{
-				if(ErrorB2>=2)
-				{
-					ErrorB2=0;					
-				}
-				else
-				{
-					ErrorB2++;
-					Id = ModDirId(SenB2ID);
-		
-					LocUserDW00.UI.V[1] = Moduladora[SenB2ID].KD;
-					LocUserDW00.UI.V[0] = Moduladora[SenB2ID].SP;
-					SW2_PortUserStart(Id,0x04 | SW2_cmdWr,4);
-					SW2_PortUserWrBuf(&LocUserDW00.UL.V,sizeof(LocUserDW00.UL.V));
-					SW2_PortUserSend(false);
-					break;
-				}
-			}
-			SenB2ID++;
-			if(SenB2ID<16)
-			{
-				Adq_SelTask0021=12;
-				break;	
-			}
-			else 
-			{
-				SenB2ID = 0;
-				Proceso.B.fAdqMod2 = true;
-				Adq_SelTask0021=14;
-//				goto TolLIN2;
-			}
-//		break;
+			SenB2ID = 0;
+			Adq_SelTask0021=14;
+			Proceso.B.fAdqMod2 = true;
+			Sts_Tmr.TMRModB2 = 0;
+
 		case 14:
 //Lectura de datos sensores de Nivel de tolva
 TolLIN2:
@@ -592,7 +491,6 @@ TolLIN2:
 			for(;SenB2ID<16;)
 			{
 				Id = 0x48 + SenB2ID;
-//!Turbina[SenB2ID].Sts.B.Bus indica que esta en el bus 1
 				if(Tolva[SenB2ID].Sts.B.Bus)
 				{
 					if(Tolva[SenB2ID].Sts.B.Hab && Tolva[SenB2ID].Sts.B.Det)
@@ -610,7 +508,6 @@ TolLIN2:
 				}
 				SenB2ID++;
 			}
-			
 			if(SenB2ID>=16)
 			{
 				SenB2ID = 0;

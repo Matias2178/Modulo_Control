@@ -407,18 +407,18 @@ unsigned long ArrtoLongHex(unsigned char *P)
 	return Dato;
 }
 /******************************************************************************
-*	Funcion:		ArrtoLongHex(unsigned char *P)
+*	Funcion:		ArrtoLongHex2(unsigned char *P,unsigned char *Dato)
 *	Descricpion:	Lee 8 caracters en ASCII que corresponden a un valor en
-*					Hexa y lo devuelve en una variable tipo Long
+*					Hexa y lo carga en la direccion que se le pasa
 *
 *	Ingreso Datos:	Puntero al array donde estan los caracteres
-*	Salida Datos:	Valor long en Hexa
+*					Puntero al dato donde tengo que cargar el valor
+*	Salida Datos:	verdadero
 ******************************************************************************/	
 unsigned int ArrtoLongHex2(unsigned char *P,unsigned char *Dato)
 {
 	unsigned char i;
 	unsigned char a;
-//	*Dato = 0;
 	Dato = Dato + 3;
 	for(i=0;i<4;i++)
 	{

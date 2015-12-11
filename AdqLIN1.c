@@ -15,9 +15,6 @@
 	#include	"ES_Conf.h"
 	#include 	<p24Fxxxx.h>
 	
-	
-_NEAR char SelTask0010;
-_NEAR char SelTask0011;	
 _NEAR char ErrorB1;
 _NEAR int SenB1ID;
 
@@ -27,7 +24,6 @@ _NEAR int SenB1ID;
 *	Ingreso Datos:	Ninguno
 *	Salida Datos:	Ninguno
 ******************************************************************************/	
-
 void Adq_Proc_Lin1(void)
 {
 	unsigned int Id;
@@ -40,10 +36,10 @@ void Adq_Proc_Lin1(void)
 	switch(Adq_SelTask0011){
 		default:
 			Adq_SelTask0011=0;
-		case 0:
 		
+		case 0:
 //Control del tiempo de vuleta del bus lin
-		TLin1.Ult[TLin1.ind] = TLin1.Timer;
+			TLin1.Ult[TLin1.ind] = TLin1.Timer;
 			TLin1.Timer = 0;
 			TLin1.ind++;
 			if(TLin1.ind>=10)
@@ -88,8 +84,7 @@ SemLIN1:
 			Adq_SelTask0011++;
 			
 			SW1_PortSysStart(Id,0x00 | SW1_cmdRd,2);
-			SW1_PortSysSend();
-		
+			SW1_PortSysSend();	
 		break;
 		case 3:
 			Id = SenB1ID;
@@ -125,7 +120,6 @@ SemLIN1:
 					break;
 				}
 			}
-///*			DtsComBus1.Sie.Sts[SenB1ID] = BUS1.Sie[SenB1ID].Sts.Val;
 			SenB1ID++;		
 			if(SenB1ID<32)
 			{
@@ -175,7 +169,6 @@ FerLIN1:
 			
 			SW1_PortSysStart(Id,0x00 | SW1_cmdRd,2);
 			SW1_PortSysSend();
-		
 		break;
 		case 5:
 			Id = 0x20 + SenB1ID;
@@ -211,7 +204,6 @@ FerLIN1:
 					break;
 				}
 			}
-			DtsComBus1.Fer.Sts[SenB1ID] = BUS1.Fer[SenB1ID].Sts.C.Val;
 			SenB1ID++;
 			if(SenB1ID<32)
 			{
@@ -224,10 +216,8 @@ FerLIN1:
 				Proceso.B.fAdqSie1 = true;
 				Adq_SelTask0011=6;
 			}
-	//	break;
 		case 6:
-			//Lectura de datos sensores de rotacion
-			//Controlar de aca en adelante
+//Lectura de datos sensores de rotacion
 RotLIN1:
 			Proceso.B.fAdqRot1 = false;
 			for(;SenB1ID<8;)
@@ -252,7 +242,6 @@ RotLIN1:
 				}
 				SenB1ID++;
 			}
-			
 			if(SenB1ID>=8)
 			{
 				SenB1ID = 0;
@@ -312,12 +301,9 @@ RotLIN1:
 				SenB1ID = 0;
 				Adq_SelTask0011=8;
 				Proceso.B.fAdqRot1 = true;
-
 			}
-//		break;
 		case 8:
-			//Lectura de datos sensores de rotacion
-			//Controlar de aca en adelante
+//Lectura de datos sensores de rotacion
 TRBLIN1:
 			Proceso.B.fAdqTRB1 = false;
 			for(;SenB1ID<3;)
@@ -353,7 +339,6 @@ TRBLIN1:
 			}
 			ErrorB1=0;
 			Adq_SelTask0011++;
-			
 			SW1_PortSysStart(Id,0x00 | SW1_cmdRd,2);
 			SW1_PortSysSend();
 		break;
@@ -402,14 +387,13 @@ TRBLIN1:
 				Adq_SelTask0011=10;
 				Proceso.B.fAdqTRB1 = true;
 			}
-//		break;
 		case 10:
 //Lectura de datos de la moduladora
 ModLIN1:
 			Proceso.B.fAdqMod1 = false;
 			for(;SenB1ID<16;)
 			{		
-			//!Moduladora[SenB1ID].Sts.B.Bus indica que esta en el bus 1
+//!Moduladora[SenB1ID].Sts.B.Bus indica que esta en el bus 1
 				if(!Moduladora[SenB1ID].Sts.B.Bus)
 				{
 					if(Moduladora[SenB1ID].Sts.B.Hab && Moduladora[SenB1ID].Sts.B.Det)
@@ -430,7 +414,6 @@ ModLIN1:
 				}
 				SenB1ID++;
 			}
-			
 			if(SenB1ID>=16)
 			{
 				SenB1ID = 0;
@@ -448,7 +431,7 @@ ModLIN1:
 		case 11:
 			if (SW1PortSys.Sts.B.fOk)
 			{
-		//		Moduladora[SenB1ID].Al.Val = *(unsigned char*) &SW1.buf[0];
+//Moduladora[SenB1ID].Al.Val = *(unsigned char*) &SW1.buf[0];
 				Moduladora[SenB1ID].Vel = *(unsigned int*)&SW1.buf[0];
 				Moduladora[SenB1ID].Sts.B.Con = true;
 				Moduladora[SenB1ID].Sts.B.FDs = false;
@@ -492,102 +475,15 @@ ModLIN1:
 				Proceso.B.fAdqMod1 = true;
 				Adq_SelTask0011=12;
 			}
-//		break;
 //Escribe SP kD una vez por segundo
-
 		case 12:
-escModLIN1:
-			Proceso.B.fAdqMod1 = false;
-			if(Sts_Tmr.TMRModB1<5)
-			{
-				SenB1ID = 0;
-				Adq_SelTask0011=14;
-				Proceso.B.fAdqMod1 = true;
-				goto TolLIN1;
-				break;
-			}
-			Sts_Tmr.TMRModB1 = 0;
-			for(;SenB1ID<16;)
-			{		
-			//!Moduladora[SenB1ID].Sts.B.Bus indica que esta en el bus 1
-				if(!Moduladora[SenB1ID].Sts.B.Bus)
-				{
-					if(Moduladora[SenB1ID].Sts.B.Hab && Moduladora[SenB1ID].Sts.B.Det)
-					{
-						//Sensor habilitado para lectura
-						Id = ModDirId(SenB1ID);
-						break;
-					}
-					else 
-					{
-						Moduladora[SenB1ID].Vel = 0;
-						Moduladora[SenB1ID].Dis = 0;
-						Moduladora[SenB1ID].Pul = 0;
-						Moduladora[SenB1ID].Al.Val = 0;
-						Moduladora[SenB1ID].Sts.B.Con = false;
-						Moduladora[SenB1ID].Sts.B.FDs = false;
-					}
-				}
-				SenB1ID++;
-			}
-			
-			if(SenB1ID>=16)
-			{
-				SenB1ID = 0;
-				Adq_SelTask0011=14;
-				Proceso.B.fAdqMod1 = true;
-				goto TolLIN1;
-				break;
-			}
-			ErrorB1=0;
-			Adq_SelTask0011++;
-			
-			LocUserDW00.UI.V[1] = Moduladora[SenB1ID].KD;
-			LocUserDW00.UI.V[0] = Moduladora[SenB1ID].SP;
-			SW1_PortUserStart(Id,0x04 | SW1_cmdWr,4);
-			SW1_PortUserWrBuf(&LocUserDW00.UL.V,sizeof(LocUserDW00.UL.V));
-			SW1_PortUserSend(false);
-			
-		break;
 		case 13:
-			if (SW1PortSys.Sts.B.fOk)
-			{
-				Moduladora[SenB1ID].Sts.B.Con = true;
-				Moduladora[SenB1ID].Sts.B.FDs = false;
-				Moduladora[SenB1ID].Sts.B.AxDesc = false;
-			}
-			else if(SW1PortSys.Sts.B.fErr && !Moduladora[SenB1ID].Sts.B.FDs)
-			{
-				if(ErrorB1>=2)
-				{
-					ErrorB1=0;					
-				}
-				else
-				{
-					ErrorB1++;
-					Id = ModDirId(SenB1ID);
-					
-					LocUserDW00.UI.V[1] = Moduladora[SenB1ID].KD;
-					LocUserDW00.UI.V[0] = Moduladora[SenB1ID].SP;
-					SW1_PortUserStart(Id,0x04 | SW1_cmdWr,4);
-					SW1_PortUserWrBuf(&LocUserDW00.UL.V,sizeof(LocUserDW00.UL.V));
-					SW1_PortUserSend(false);
-					break;
-				}
-			}
-			SenB1ID++;
-			if(SenB1ID<16)
-			{
-				Adq_SelTask0011=12;
-				break;	
-			}
-			else 
-			{
-				SenB1ID = 0;
-				Proceso.B.fAdqMod1 = true;
-				Adq_SelTask0011=14;
-			}
-//		break;
+escModLIN1:
+			SenB1ID = 0;
+			Adq_SelTask0011=14;
+			Proceso.B.fAdqMod1 = true;
+			Sts_Tmr.TMRModB1 = 0;
+				
 		case 14:
 //Lectura de datos sensores de Nivel de tolva
 TolLIN1:
@@ -595,7 +491,6 @@ TolLIN1:
 			for(;SenB1ID<16;)
 			{
 				Id = 0x48 + SenB1ID;
-//!Turbina[SenB1ID].Sts.B.Bus indica que esta en el bus 1
 				if(!Tolva[SenB1ID].Sts.B.Bus)
 				{
 					if(Tolva[SenB1ID].Sts.B.Hab && Tolva[SenB1ID].Sts.B.Det)

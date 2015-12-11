@@ -296,17 +296,10 @@ int main (void)
 			}
 			Proceso.B.fRxCom = false;
 			Wifi.fCom = false;
-			RS232.fCom = false;
-//Reseteo el buffer de recepcion para que no me joda
-	//		Rx232Ind = 0;
-	//		memset(Rx232Buf,0,sizeof(Rx232Buf));
-	//		Rx3Ind = 0;
-	//		memset(Rx3Buf,0,sizeof(Rx3Buf));
-			
+			RS232.fCom = false;		
 		}
 		if(Proceso.B.fConfSen)
 		{
-			//SenStart000();
 			SenConfig00();
 			Proceso.B.fConfSen = false;
 		}	

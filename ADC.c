@@ -26,7 +26,6 @@
 void ADConf(void)
 {
 	int ADCValue;
-//	LED1 = true;
 	AD1PCFGL = 0xFFFE; // AN0 as analog, all other pins are digital
 	AD1CON1  = 0x0000; // SAMP bit = 0 ends sampling and starts converting
 	AD1CHS   = 0x0000; // Connect AN2 as S/H+ input
@@ -45,7 +44,6 @@ void ADConf(void)
 		ExeTask(); // conversion done?
 	}
 	Tension = ADC1BUF0; // yes then get ADC value
-//	Valor = ADC1BUF0;
 
 	Tension = (Tension * 33)/1024;
 	Tension = Tension + (Tension * 9 /100); // 9 Factor de correccion de tension

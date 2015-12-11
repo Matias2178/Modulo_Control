@@ -75,8 +75,6 @@ void DtoTerminal(void)
 		break;	
 		case 1:
 			Dir = MemAddr + Com_DtsTask_ROT010;
-	//		EepromRDBuf(Dir,SAVE,128);
-	//		HextoArr(SAVE,ComBuf,128);
 			HextoArr(&SAVE[0],ComBuf,128);
 			
 			Com_DtsTask_ROT010++;
@@ -84,24 +82,18 @@ void DtoTerminal(void)
 		break;	
 		case 2:
 			Dir = MemAddr + (128 * Com_DtsTask_ROT010);
-	//		EepromRDBuf(Dir,SAVE,128);
-	//		HextoArr(SAVE,ComBuf,128);
 			HextoArr(&SAVE[128],ComBuf,128);
 			Com_DtsTask_ROT010++;
 					
 		break;
 		case 3:
 			Dir = MemAddr + (128 * Com_DtsTask_ROT010);
-	//		EepromRDBuf(Dir,SAVE,128);
-	//		HextoArr(SAVE,ComBuf,128);
 			HextoArr(&SAVE[256],ComBuf,128);
 			Com_DtsTask_ROT010++;
 					
 		break;
 		case 4:
 			Dir = MemAddr + (128 * Com_DtsTask_ROT010);
-	//		EepromRDBuf(Dir,SAVE,128);
-	//		HextoArr(SAVE,ComBuf,128);
 			HextoArr(&SAVE[384],ComBuf,128);
 		
 			ComBuf[256] = 0x0D;
@@ -184,8 +176,7 @@ void DtoTerminal(void)
 				Proceso.B.fGPSDtOk = false;
 				Proceso.B.fRePuto = false;
 				Sensores.Secuencia = 0;
-			}	
-				
+			}			
 		}
 		else if (Sensores.STS.B.TX_MOD && !Sensores.STS.B.MOD_Ax && (!Sensores.Secuencia || Sensores.Secuencia == 2))
 		{
@@ -244,7 +235,6 @@ void DtoTerminal(void)
 			Sensores.STS.B.TOL_Ax = true;
 			Sensores.Secuencia = 0;
 		}
-		
 //Esto se envia cada 5 segundos
 		else if(Sensores.STS.B.DIAG && !Sensores.STS.B.DIAG_Ax && (!Sensores.Secuencia || Sensores.Secuencia == 6))
 		{
@@ -271,10 +261,6 @@ void DtoTerminal(void)
 					Sensores.STS.B.DIAG_Ax = true;
 					Sensores.Secuencia = 0;
 				break;
-//			if(!Proceso.B.fDtsSat)
-//				{
-//					GPSSatGan("<GPSTG>",ComBuf);
-//				}
 			}
 		} 
 		else if (Sensores.STS.B.TX_SF1 && !Sensores.STS.B.SSF_Ax && (!Sensores.Secuencia || Sensores.Secuencia == 7))
@@ -324,12 +310,10 @@ void DtoTerminal(void)
 			break;
 //--------------------------------------------------------------------------------------
 			case 8:
-				//TmrBusLin("<TLIN1>",TLin1,ComBuf,TDispLin1,TDispActLin1,TDispErrLin1);
 				TmrBusLin("<TLIN1>",TLin1,ComBuf);
 				Com_DtsTask_Sen010++;	
 			break;		
 			case 9:
-			//	TmrBusLin("<TLIN2>",TLin2,ComBuf,TDispLin2,TDispActLin2,TDispErrLin2);
 				TmrBusLin("<TLIN2>",TLin2,ComBuf);
 				Com_DtsTask_Sen010 = 0;	
 				Sensores.Secuencia = 0;	
@@ -529,7 +513,6 @@ void MedPerifericos (char *lb, struct _DtsPerCom Datos,unsigned char *S,int T)
 			*S = ',';
 			S++;
 		}
-	
 	}	
 		CRNL(S);
 }
@@ -697,17 +680,6 @@ void GPSTMR(char *lb,unsigned char *S)
 	CRNL(S);
 }
 	
-//----------------------------------------------------------------------------
-//						ENCABEZADO DEL BLOQUE DE DATOS
-//	DESCRIPCION:Imprime el encabezado del bloque de datos que se envian 
-//				al modulo contien nombre del equipo fecha y hora del GPS
-//		
-//	
-//	ENTRADA:	Etiqueda de 
-//				Puntero al array a cargar
-//				
-//  RETORNO:	Direccion del puntero incrementada
-//----------------------------------------------------------------------------
 /******************************************************************************
 *	Funcion:		Encabezado()
 *	Descricpion:	Carga en el encabezado en el buffer de transmicion
@@ -721,8 +693,6 @@ void Encabezado(char *lb,unsigned char *S)
 	S=S + strlen(lb);
 	*S = ',';
 	S++;
-//	strcat((char*)S,lNombre);
-//	S=S + strlen(lNombre);
 	for(i=0;i<20;i++)
 	{
 		if(!Nombre[i])
@@ -742,8 +712,6 @@ void Encabezado(char *lb,unsigned char *S)
 	*S = ',';
 	S++;
 
-//	strcat(S,"FechaVer:");
-//	S=S + strlen("FechaVer:");
 	S  = itos(FVerD,S,2);
 	*S = '/';
 	S++;
@@ -778,9 +746,6 @@ void Encabezado(char *lb,unsigned char *S)
 	strcat((char*)S,"Bat:");
 	S=S + strlen("Bat:");
 	S  = ftos(Tension,S,2,2); 
-//	*S = ',';
-///	S++;
-//	S  = itos(Valor,S,5);
 	S++;
 	CRNL(S);
 	
@@ -809,10 +774,7 @@ void Diagnostico(char *lb,unsigned char *S)
 	*S = ',';
 	S++;
 //Numero de serie
-
 	S = CargaSN8(S);
-
-//	S = ultos(SerialNum,S);
 	*S = ',';
 	S++;
 //Tension en la ECU
@@ -1072,13 +1034,6 @@ void TxCheckSum(unsigned char * S)
 		
 	*S=ChSum;
 	S++;
-//	if(fin)
-//	{
-//		*S = 0x03;
-//		S++;
-//		*S = 0x04;
-//		S++;
-//	}
 //-------------------------------------------------
 	Secuenciometro ++;
 	*S = ',';
@@ -1091,7 +1046,6 @@ void TxCheckSum(unsigned char * S)
 	S++;
 	*S = 0x00;
 }
-
 
 /******************************************************************************
 *	Funcion:		FindelaCita()
@@ -1106,12 +1060,6 @@ void FindelaCita(unsigned char* S)
 {
 	while(*S && *S!=0x0A && *S!=0x0A)
 		S++;
-		
-//	*S = 0x03;
-//	S++;
-//	*S = 0x04;
-//	S++;
-//	S++;
 	*S = 0x0D;
 	S++;
 	*S = 0x0A;
