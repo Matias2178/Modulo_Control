@@ -210,3 +210,9 @@ Version 1.2R51
 	Borrado de codigos comentados que no se utilizan
 	Se corrigio la lectura/escritura de los apagados del modulo wifi
 	Se agrego un contador para contar los apagados de micro. 
+Version 1.2R52 
+	Borrado de variables comentadas que no se utilizan
+	Mejorado de la funcion de parpadeo de los LED
+	Se implemento un contador de errores de KAV
+	Se implemento funcon para borrar la memoria de los contadores de desconexiones 
+	Correccion de las funciones de apagado del Wifi y el manejo del led de estado del Wifi

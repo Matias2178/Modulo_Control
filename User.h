@@ -10,3 +10,4 @@
  *****************************************************************************/
 
  extern char Destello(int Sec,char Duty);
+ extern char Blink(struct _Destello *Dest);

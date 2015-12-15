@@ -1329,6 +1329,12 @@ lFallaCargaNum:
 	{
 		strcpy((char *)P,kCopyRight);
 		P = P + strlen(kCopyRight);
+		LocUserDW10.L.V = 0;
+		EepromWRBuf(M_RN171_OFF,&LocUserDW10,sizeof(union _UInt32));
+		EepromWRBuf(M_MIC_OFF,&LocUserDW10,sizeof(union _UInt32));
+		RN171_Desc = 0;
+		Mic_Desc = 0;
+		KAV_cont = 0;
 	}
 	else
 	{

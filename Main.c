@@ -41,6 +41,7 @@
 int main (void)
 {
 	union _UInt16 LocUserW00;
+	union _UInt32 LocUserDW01;
 //-----------------------------------------------------------------------------
 //Configuracion de Osciladores
 
@@ -85,7 +86,7 @@ int main (void)
 	Pwr_GPS 	= true;		//Alimentacion 3v3 GPS
 	GPSsts.B.fOn = true;	//Flag que indica que esta encendido el GPS
 	Nop();
-	Pwr_Wifi 	= true;		//Alimentacion 3v3 Modulo WiFi
+//	Pwr_Wifi 	= true;		//Alimentacion 3v3 Modulo WiFi
 	Nop();
 	Wifi_Reset 	= true;		//Reseteo modulo WiFi
 	Nop();
@@ -223,8 +224,9 @@ int main (void)
 	CGPS.GPRMC = 0;
 	
 	Mic_Desc ++;
-	EepromWRBuf(M_MIC_OFF,&Mic_Desc,sizeof(Mic_Desc));
-	KAV_cont = 0;
+	LocUserDW01.I.V[0] = Mic_Desc;
+	LocUserDW01.I.V[1] = KAV_cont;
+	EepromWRBuf(M_MIC_OFF,&LocUserDW01,sizeof(union _UInt32));
 
 
 //------------------------------------------------------------------------------
@@ -307,7 +309,16 @@ int main (void)
 		{
 			SenConfig00();
 			Proceso.B.fConfSen = false;
-		}	
+		}
+//------------------------------------------------------------
+// Para pruebas borrar 
+		if(Wifi.fKAVx)
+		{		
+			Wifi.fKAVx = false;
+			LocUserDW01.I.V[0] = Mic_Desc;
+			LocUserDW01.I.V[1] = KAV_cont;
+			EepromWRBuf(M_MIC_OFF,&LocUserDW01,sizeof(union _UInt32));	
+		}
 	}
 }
 

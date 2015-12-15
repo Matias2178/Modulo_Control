@@ -675,10 +675,10 @@ void GPSTMR(char *lb,unsigned char *S)
 	S  = ultos(RN171_Desc,S);
 	*S = ',';
 	S++;
-	S  = ultos(Mic_Desc,S);
+	S  = uitos(Mic_Desc,S);
 	*S = ',';
 	S++;
-	S  = ultos(KAV_cont,S);
+	S  = uitos(KAV_cont,S);
 	*S = '|';
 	S++;
 	*S = ',';

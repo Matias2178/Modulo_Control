@@ -397,9 +397,8 @@ void ExeTask(void)
 //-----------------------------------------------------------------------------			
 //Manejo del destelo de los LEDs
 //-----------------------------------------------------------------------------	
-//	LED_CAN = Destello(TMR_CAN,3);
-
-		LED_WIFI = Destello(DestWf.Sec, DestWf.Duty);
+//		LED_WIFI = Destello(DestWf.Sec, DestWf.Duty);
+		LED_WIFI = Blink(&Dest_WF);
 		LED_WIFI_E = LED_WIFI;	
 	}
 //*****************************************************************************
@@ -454,84 +453,102 @@ void ExeTask(void)
 //				Pwr_GPS 	=  true;
 //			}
 //		}
+
+
 //-----------------------------------------------------------------------------	
 //		Manejo del reset del Modulo WiFi
 //		El tiempo se maneja en decimas de segundo
 //-----------------------------------------------------------------------------
+//-----------------------------------------------
 //El modulo esta apagado
 		if(!Pwr_Wifi)
 		{
-			DestWf.Duty = 5;
-			DestWf.Sec = 0x0000;
+			Sts_Tmr.CntWifi++;
+			Dest_WF.Duty = 5;
+			Dest_WF.Sec = 0x0000;
 			Proceso.B.fApagadoRN = false;
 			Wifi.fConectado = false;	
-			Sts_Tmr.CntWifi++;
 			if(Sts_Tmr.CntWifi > 50)
 			{
 				Sts_Tmr.CntWifi = 0;
 				Pwr_Wifi 	= true;		//Alimentacion 3v3 Modulo WiFi			
 			}
 		}
+//-----------------------------------------------
+//Modulo Encendido Puerto Abierto
 		else if (Wifi.fMod)
 		{
-//Se abrio el puerto esta transmitiendo datos	
-			if(Wifi.fConectado)
-			{
-				DestWf.Duty = 25;
-				DestWf.Sec = 0x00AA;
-			}
+			Sts_Tmr.CntWifi++;
+//-------------------------------------
 //No recibe el KAV	
-			else if (Sts_Tmr.CntWifi >40)
+			if (Sts_Tmr.CntWifi >40)
 			{
-				DestWf.Duty = 6;
-				DestWf.Sec = 0x0033;
-				KAV_cont++;
+				Dest_WF.Duty = 6;
+				Dest_WF.Sec = 0x0033;
+				if(!Wifi.fKAV)
+				{
+					Wifi.fKAV = true;
+					Wifi.fKAVx = true;
+					KAV_cont++;
+				}
 			}
+//-------------------------------------
 //Se abrio el puerto esta transmitiendo datos
 			else
 			{
 				Proceso.B.fApagadoRN = false;
-				DestWf.Duty = 3;
-				DestWf.Sec = 0xAAAA;
+				Dest_WF.Duty = 3;
+				Dest_WF.Sec = 0xAAAA;
+				Wifi.fKAV = false;
 			}			
-			Sts_Tmr.CntWifi++;
 			if(Sts_Tmr.CntWifi > 900)
 			{
 				Sts_Tmr.CntWifi = 0;
 				Pwr_Wifi 	= false;		//Alimentacion 3v3 Modulo WiFi
 				RN171_Desc++;
-				Wifi.fMod = false;
 				Wifi.lMod = false;		
 			}
 		}
+//-----------------------------------------------
 //Se Abrio y se cerro el puerto
 		else if (Wifi.fClose && !Wifi.fMod)
 		{
+			Sts_Tmr.CntWifi++;
 			LED_CAN = true;
 			Proceso.B.fApagadoRN = true;
-			DestWf.Duty = 30;
-			DestWf.Sec = 0x0333;
-			Sts_Tmr.CntWifi++;
+			Dest_WF.Duty = 30;
+			Dest_WF.Sec = 0x0333;
 			if(Sts_Tmr.CntWifi > 100)
 			{
 				Sts_Tmr.CntWifi = 0;
 				Pwr_Wifi 	= false;		//Alimentacion 3v3 Modulo WiFi
-				Wifi.fMod = false;
 				Wifi.lMod = false;	
 				Wifi.fClose = false;
 				RN171_Desc++;
 				EepromWRBuf(M_RN171_OFF,&RN171_Desc,sizeof(RN171_Desc));		
 			}
 		}
-//El modulo esta encendido pero el puerto no esta abierto
+//-----------------------------------------------
+//Se conecto un dispositivo al modulo	
+		else if(Wifi.fConectado)
+		{
+			Dest_WF.Duty = 25;
+			Dest_WF.Sec = 0x00AA;
+		}
+//-----------------------------------------------
+//El modulo esta encendido 
+//No hay dispositivos conectados
 		else 
 		{
 			LED_CAN = LED_CAN ? true : false;
-			DestWf.Duty = 25;
-			DestWf.Sec = 0x0F0F;
+			Dest_WF.Duty = 25;
+			Dest_WF.Sec = 0x0F0F;
 		}
-
+//-----------------------------------------------------------------------------
+		
+//-----------------------------------------------------------------------------
 //Envio el dato Wait cada 500 mseg
+//-----------------------------------------------------------------------------
 		if((Proceso.B.fInicio || Proceso.B.fConfPer) && Sts_Tmr.B.WaitPls)	
 		{
 			DtoTerminal();	

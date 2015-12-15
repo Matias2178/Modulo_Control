@@ -12,25 +12,8 @@
   	#include "EEPROM_address.h"
 //----------------------------------------------------------------------------
 //	VARIABLES TEMPORALES PARA PRUEBAS BORRAR DESPUES DE UTILIZAR
-//	extern char ModDir;
-//	extern char ModNum;
-//	extern char DispLin1;
-//	extern char DispActLin1;
-//	extern char DispErrLin1;
-//	extern char DispLin2;
-//	extern char DispActLin2;
-//	extern char DispErrLin2;
-//	extern char TDispLin1;
-//	extern char TDispActLin1;
-//	extern char TDispErrLin1;
-//	extern char TDispLin2;
-//	extern char TDispActLin2;
-//	extern char TDispErrLin2;
 	extern int	tlecgpstx;
-//	extern int	Medicion;
 	extern int  Checksum;
-	extern int	TMR_CAN;
-//	extern int espera;
 	extern int	Secuenciometro;
 //----------------------------------------------------------------------------
 //	VARIABLES PARA LA LECTURA DE LOS PUERTOS
@@ -46,15 +29,14 @@
 	extern int Adq_SelTask0011;
 	extern int Adq_SelTask0020;
 	extern int Adq_SelTask0021;
-	extern int contador;
 	extern unsigned char IDSen;
 //	extern int Valor;
-	
-//	extern char Comunic;
+
 	extern int VSiembra;	
 	extern int TimeZone;
 	extern unsigned long RN171_Desc;
-	extern unsigned long Mic_Desc;
+	extern unsigned int Mic_Desc;
+	extern unsigned int KAV_cont;
 	extern unsigned int MemAddr;
 	extern unsigned int MemDatos;
 	extern unsigned int fifoADDR;
@@ -62,10 +44,6 @@
 	extern unsigned int failcont;
 	extern unsigned int BaudiosUART2;
 	extern unsigned int BaudiosUART3;
-	extern unsigned int KAV_cont;
-//	unsigned int TMRLIN;
-//	unsigned int TMRLINx;
-	extern unsigned long Aux1;
 	
 	extern float Tension;
 //	extern float VelTest; //Borrar solo para pruebas
@@ -101,7 +79,6 @@
 
 	extern struct _SetId SetId;
 
-//	extern struct _DispSts DispSts;
 	extern struct _SenDts SenDtsHab;
 	extern struct _SenDts SenDtsCon;
 	extern struct _SenDts SenDtsMod;	//Modo de funcionamiento del sensor
@@ -125,5 +102,6 @@
 	extern struct _Sensores Sensores;
 	extern struct _MGPS MGPS;
 	extern struct _CGPS CGPS;
-	extern struct _Dest DestWf;
+//	extern struct _Dest DestWf;
 	extern struct _ModWf ModuloWf;
+	extern struct _Destello Dest_WF;

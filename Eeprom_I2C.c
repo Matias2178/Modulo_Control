@@ -128,6 +128,7 @@ void MemInit(void)
 void MemLoad(void)
 {	
 	union _UInt32 LocUserDW00;
+	union _UInt32 LocUserDW01;
 	LocUserDW00.BIT.B0 = EepromRDBuf(M_STS_HAB_SEN,(unsigned char *)&SenDtsHab,sizeof(struct _SenDts));
 	
 	LocUserDW00.BIT.B1 = EepromRDBuf(M_STS_CON_SEN,(unsigned char *)&SenDtsCon,sizeof(struct _SenDts));
@@ -148,7 +149,9 @@ void MemLoad(void)
 	
 	LocUserDW00.BIT.B8 = EepromRDBuf(M_RN171_OFF,&RN171_Desc,sizeof(RN171_Desc));
 //Borrar solo para test	
-	LocUserDW00.BIT.B9 = EepromRDBuf(M_MIC_OFF,&Mic_Desc,sizeof(Mic_Desc));
+	LocUserDW00.BIT.B9 = EepromRDBuf(M_MIC_OFF,&LocUserDW01,sizeof(union _UInt32));
+	Mic_Desc = LocUserDW01.I.V[0];
+	KAV_cont = LocUserDW01.I.V[1];
 	Nop();
 	
 	

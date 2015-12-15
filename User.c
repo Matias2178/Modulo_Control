@@ -65,3 +65,24 @@ double Distance(double lat1, double lon1, double lat2, double lon2, char unit) {
 	
 	 return false;
  }
+ 
+   char Blink(struct _Destello *Dest)
+ {
+	 if (!Dest->S)
+	 {
+	 	Dest->S = 1;
+	 	Dest->Dty = Dest->Duty;
+	 }
+	 if(!Dest->Dty)
+	 {
+		 Dest->Dty = Dest->Duty;
+		 Dest->S= Dest->S<<1;
+	 }
+	 else
+	 	Dest->Dty--;
+	 	
+	 if(Dest->Sec & Dest->S)
+		 return true;
+	
+	 return false;
+ }

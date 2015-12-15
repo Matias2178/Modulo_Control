@@ -455,16 +455,18 @@ struct _GPS
 };
 struct _SCom
 {
-	unsigned char lMod	:1;	//lectura estado modulo
-	unsigned char fMod	:1;	//Estado del modulo	
-	unsigned char lCom	:1;	//Inicio de lectura del comando
-	unsigned char fCom	:1;	//Comando Listo
-	unsigned char fClose:1;	//Comunicacion RS-232 Wifi directo
-	unsigned char IniDato:1;	//Dato Falla
-	unsigned char EscDato:1;
-	unsigned char LeeDato:1;	//Carga dato en memoria
+	unsigned char lMod		:1;	//lectura estado modulo
+	unsigned char fMod		:1;	//Estado del modulo	1 Puerto Abierto 0 Puerto Cerrado
+	unsigned char lCom		:1;	//Inicio de lectura del comando
+	unsigned char fCom		:1;	//Comando Listo
+	unsigned char fClose	:1;	//Comunicacion RS-232 Wifi directo
+	unsigned char IniDato	:1;	//Dato Falla
+	unsigned char EscDato	:1;
+	unsigned char LeeDato	:1;	//Carga dato en memoria
 	unsigned char fConectado:1;
-	unsigned char f2	:7;
+	unsigned char fKAV		:1;
+	unsigned char fKAVx		:1;
+	unsigned char f2		:5;
 	
 };
 
@@ -547,6 +549,13 @@ struct _Dest
 	unsigned char Duty;
 };
 
+struct _Destello
+{
+	unsigned int Sec;
+	unsigned char Duty;
+	unsigned int S;
+	unsigned char Dty;
+};
 
 struct _ModWf
 {
