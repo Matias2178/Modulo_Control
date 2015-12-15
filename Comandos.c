@@ -694,7 +694,7 @@ void Comando(unsigned char *S)
 				if(Check(Cmd,"RN171",sizeof("RN171")))
 				{
 					RN171_Desc = 0;
-					EepromWRBuf(M_RN171_OFF,&RN171_Desc,sizeof(RN171_Desc));
+					EepromRDBuf(M_RN171_OFF,&RN171_Desc,sizeof(RN171_Desc));
 				}	
 			}
 			P  = ultos(RN171_Desc,P);	//CANTIDAD DE DESCONEXIONES

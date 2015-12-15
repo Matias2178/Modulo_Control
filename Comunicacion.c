@@ -670,7 +670,17 @@ void GPSTMR(char *lb,unsigned char *S)
 	S  = uitos(ModuloWf.cont,S);
 	*S = ',';
 	S++;
+	*S = '|';
+	S++;
 	S  = ultos(RN171_Desc,S);
+	*S = ',';
+	S++;
+	S  = ultos(Mic_Desc,S);
+	*S = ',';
+	S++;
+	S  = ultos(KAV_cont,S);
+	*S = '|';
+	S++;
 	*S = ',';
 	S++;
 	S  = ultos(VSiembra,S);

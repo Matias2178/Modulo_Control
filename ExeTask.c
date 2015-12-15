@@ -485,6 +485,7 @@ void ExeTask(void)
 			{
 				DestWf.Duty = 6;
 				DestWf.Sec = 0x0033;
+				KAV_cont++;
 			}
 //Se abrio el puerto esta transmitiendo datos
 			else
@@ -498,6 +499,7 @@ void ExeTask(void)
 			{
 				Sts_Tmr.CntWifi = 0;
 				Pwr_Wifi 	= false;		//Alimentacion 3v3 Modulo WiFi
+				RN171_Desc++;
 				Wifi.fMod = false;
 				Wifi.lMod = false;		
 			}

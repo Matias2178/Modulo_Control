@@ -82,6 +82,16 @@ enum{M_RN171_OFF=0x0024									//long
 
 };
 
+//-----------------------------------------------
+//CONTADOR DE RESETEOS DEL FORRO DEL MICRO
+//0x0028 - 0x002B - (4)
+enum{M_MIC_OFF=0x0028									//long
+	,M_MIC_OFF_0=M_RN171_OFF
+	,M_MIC_OFF_1
+	,M_MIC_OFF_2
+	,M_MIC_OFF_3
+
+};
 	
 //-----------------------------------------------
 //PARAMETROS SENSORES

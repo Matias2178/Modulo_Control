@@ -207,11 +207,11 @@ int main (void)
 	GuardaPar();	//Guarda los parametros de los perifericos
 //------------------------------------------------------------------------------
 // LECTURA DEL NOMBRE DEL EQUIPO
-	Dly_10_MiliSec(50);
+	Dly_10_MiliSec(10);
 
 	EepromRDBuf(M_NOMBRE_SEMB,(unsigned char *)Nombre,20);
 
-
+	Dly_10_MiliSec(10);
 //--------------Finaliza el proceso de inicializacion del sistema---------------
 	Proceso.B.fInicio = false;
 	
@@ -221,13 +221,18 @@ int main (void)
 	CGPS.GPGGA = 0;
 	CGPS.GPGSV = 0;
 	CGPS.GPRMC = 0;
+	
+	Mic_Desc ++;
+	EepromWRBuf(M_MIC_OFF,&Mic_Desc,sizeof(Mic_Desc));
+	KAV_cont = 0;
+
 
 //------------------------------------------------------------------------------
 //Loop principal
 
 	while(1)
 	{ 
-				asm("CLRWDT");
+		asm("CLRWDT");
 		ExeTask();
 		if(!Sts_Tmr.B.ADCInit)
 		{		

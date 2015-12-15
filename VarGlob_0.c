@@ -61,6 +61,7 @@
 	int	tlecgpstx;
 	int TimeZone;
 	unsigned long RN171_Desc;
+	unsigned long Mic_Desc;
 	unsigned int MemAddr;
 	unsigned int MemDatos;
 	unsigned int fifoADDR;
@@ -68,6 +69,7 @@
 	unsigned int failcont;
 	unsigned int BaudiosUART2;
 	unsigned int BaudiosUART3;
+	unsigned int KAV_cont;
 //	unsigned int TMRLIN;
 //	unsigned int TMRLINx;
 	float Tension;
@@ -88,6 +90,7 @@
 	char TLed;
 	unsigned long SerialNum;
 	char Nombre[20];
+	
 //----------------------------------------------------------------------------
 //	CONTADORES PARA TAREAS SECUENCIALES
 //	char Com_DtsTask010;

@@ -146,8 +146,9 @@ void MemLoad(void)
 	
 	LocUserDW00.BIT.B8 = EepromRDBuf(M_FAC_AJS_ALTA_DENS,(unsigned char *)&CorrAlDen,sizeof(union _UInt32));
 	
-	LocUserDW00.BIT.B8 = EepromRDBuf(M_RN171_OFF,(unsigned char *)&CorrAlDen,sizeof(TimeZone));
-	
+	LocUserDW00.BIT.B8 = EepromRDBuf(M_RN171_OFF,&RN171_Desc,sizeof(RN171_Desc));
+//Borrar solo para test	
+	LocUserDW00.BIT.B9 = EepromRDBuf(M_MIC_OFF,&Mic_Desc,sizeof(Mic_Desc));
 	Nop();
 	
 	

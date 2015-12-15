@@ -54,6 +54,7 @@
 	extern int VSiembra;	
 	extern int TimeZone;
 	extern unsigned long RN171_Desc;
+	extern unsigned long Mic_Desc;
 	extern unsigned int MemAddr;
 	extern unsigned int MemDatos;
 	extern unsigned int fifoADDR;
@@ -61,6 +62,7 @@
 	extern unsigned int failcont;
 	extern unsigned int BaudiosUART2;
 	extern unsigned int BaudiosUART3;
+	extern unsigned int KAV_cont;
 //	unsigned int TMRLIN;
 //	unsigned int TMRLINx;
 	extern unsigned long Aux1;
@@ -74,6 +76,7 @@
 	extern char TLed;
 	extern unsigned long SerialNum;
 	extern char Nombre[20];
+	
 //----------------------------------------------------------------------------
 //	CONTADORES PARA TAREAS SECUENCIALES
 	extern	char Com_DtsTask_Sen010;
