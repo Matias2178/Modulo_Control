@@ -216,3 +216,5 @@ Version 1.2R52
 	Se implemento un contador de errores de KAV
 	Se implemento funcon para borrar la memoria de los contadores de desconexiones 
 	Correccion de las funciones de apagado del Wifi y el manejo del led de estado del Wifi
+Version 1.2R53
+	El reset del temporizador de desconexion se resetea cuando llega un comando no solo con el KAV

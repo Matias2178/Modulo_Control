@@ -282,16 +282,19 @@ void ExeTask(void)
 //-----------------------------------------------------------------------------	
 					if((Dato == '>')||(Rx3Ind >=256))
 					{
+						Sts_Tmr.CntWifi = 0;
 						Rx3Ind = 0;
 						Wifi.lCom = true;		
 					}
 					if(Wifi.lCom)
 					{
+						Sts_Tmr.CntWifi = 0;
 						Rx3Buf[Rx3Ind] = Dato;	
 						Rx3Ind++;
 					}
 					if(Dato =='<')
 					{
+						Sts_Tmr.CntWifi = 0;
 						Proceso.B.fRxCom = true;	//Fin del bloque	
 						Wifi.lCom = false;
 						Wifi.fCom = true;
