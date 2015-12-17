@@ -218,3 +218,5 @@ Version 1.2R52
 	Correccion de las funciones de apagado del Wifi y el manejo del led de estado del Wifi
 Version 1.2R53
 	El reset del temporizador de desconexion se resetea cuando llega un comando no solo con el KAV
+Version 1.2R54
+	El envio del <WAIT> se realiza en menos tiempo que antes.

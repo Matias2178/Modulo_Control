@@ -345,6 +345,8 @@ int main (void)
 		{
 			Sts_Tmr.Cnt0100 = 0;
 			Sts_Tmr.B.Pls0100  = true;
+			Sts_Tmr.B.WaitPls = true;
+
 			if (TMRdly0100_0) TMRdly0100_0--;
 
 			Sts_Tmr.Cnt1000++;
@@ -354,13 +356,13 @@ int main (void)
 				Sts_Tmr.B.Pls1000  = true;
 				Sts_Tmr.B.SetID0500 = true;
 			}
+
 			Sts_Tmr.Cnt0500++;
 			if(Sts_Tmr.Cnt0500>=5)
 			{
 				Sts_Tmr.Cnt0500 = 0;
 				Sts_Tmr.B.ROTPls = true;
-				Sts_Tmr.B.WaitPls = true;
-
+				
 			}
 			if(!Sts_Tmr.B.GPS5Hz)
 			{
