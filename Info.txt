@@ -224,3 +224,9 @@ Version 1.2R54
 Version 1.3R0
 	Version puesta en produccion
 /////////////////////////////////////////////////////////
+Version 1.3R50
+	Solucion apagado por perdida de señal de GPS, asi como tambien que se sobre escribian los valores
+		de Latitud y hemisferio donde se encuentra el GPS.
+	Esta falla se daba en la funcion de lectura de datos de los satelites captados, GPGSV, que 
+		el string que se procesaba era incorrecto, aunque pasaba el control del checksum, lo que probocaba
+		que se realicen escrituras en lugares no deceados, por lo tanto probocaba el reseteo del micro.

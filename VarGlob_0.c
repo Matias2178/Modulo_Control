@@ -39,6 +39,7 @@
 	unsigned long RN171_Desc;
 	unsigned int Mic_Desc;
 	unsigned int KAV_cont;
+	unsigned int IDSatelites;
 	unsigned int MemAddr;
 	unsigned int MemDatos;
 	unsigned int fifoADDR;

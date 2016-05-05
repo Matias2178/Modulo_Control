@@ -686,7 +686,13 @@ void GPSTMR(char *lb,unsigned char *S)
 	S  = ultos(VSiembra,S);
 	*S = ',';
 	S++;
-	
+	*S = '#';
+	S++;
+	S  = uitos(IDSatelites,S);
+	*S = '#';
+	S++;
+	*S = ',';
+	S++;	
 	CRNL(S);
 }
 	

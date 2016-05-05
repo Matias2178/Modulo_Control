@@ -336,10 +336,12 @@ void GPSInfo(unsigned char *S)
 		GPSdts.sys.t5hrz = 0;
 		if(GPSdts.sys.act !='A')
 			return;
-
+			
+		memset(&Cmd,0x00,15);
 		S += (MovtoInt(&Cmd,S,15) + 1);
 		Msg = atoi((const char*)Cmd);
-
+		
+		memset(&Cmd,0x00,15);
 		S += (MovtoInt(&Cmd,S,15) + 1);
 		AcMsg = atoi((const char*)Cmd);
 		
@@ -347,28 +349,50 @@ void GPSInfo(unsigned char *S)
 		{
 			memset(&SatInfo2,0x00,sizeof(struct _SatInfo2));
 		}
+		
+		if(Msg == AcMsg)
+			Aux = GPSdts.pos.NS;
+			
 		S += (MovtoInt(&Cmd,S,15));
 		GPSdts.sys.satview = atoi((const char*)Cmd);
 		while(*S!='*' && *S)
 		{
+			memset(&Cmd,0x00,15);
 			S++;
 			S += (MovtoInt(&Cmd,S,15) + 1);
 			Sat = atoi((const char*)Cmd);
 			
 			Sat--;
-			
+//---------------------------------------------------------
+//	Si leo mal el ID del satelite salgo y no calculo nada
+			if(Sat>31)
+			{
+				IDSatelites =  Sat;
+				return;
+			}
+			memset(&Cmd,0x00,15);
 			S += (MovtoInt(&Cmd,S,15) + 1);
 			Aux = atoi((const char*)Cmd);
 			SatInfo2[Sat].Elv = Aux; 
 			
+			memset(&Cmd,0x00,15);
 			S += (MovtoInt(&Cmd,S,15) + 1);
 			Aux = atoi((const char*)Cmd);
 			SatInfo2[Sat].Azt = Aux;
 			
+			memset(&Cmd,0x00,15);
 			S += (MovtoInt(&Cmd,S,15));
 			
 			Aux = atoi((const char*)Cmd);	
 			SatInfo2[Sat].Gan = Aux;
+			if ((GPSdts.pos.NS == 0x53)||(GPSdts.pos.NS == 0x73)||(GPSdts.pos.NS == 0x6E)||(GPSdts.pos.NS == 0x4E))
+			{
+				Aux = GPSdts.pos.NS;				//Emisferio
+			}
+			else
+			{
+				Aux = GPSdts.pos.NS;				//Emisferio
+			}
 		}
 				
 		if(Msg == AcMsg)

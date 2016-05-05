@@ -37,6 +37,7 @@
 	extern unsigned long RN171_Desc;
 	extern unsigned int Mic_Desc;
 	extern unsigned int KAV_cont;
+	extern unsigned int IDSatelites;
 	extern unsigned int MemAddr;
 	extern unsigned int MemDatos;
 	extern unsigned int fifoADDR;
