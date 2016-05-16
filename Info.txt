@@ -229,4 +229,9 @@ Version 1.3R50
 		de Latitud y hemisferio donde se encuentra el GPS.
 	Esta falla se daba en la funcion de lectura de datos de los satelites captados, GPGSV, que 
 		el string que se procesaba era incorrecto, aunque pasaba el control del checksum, lo que probocaba
-		que se realicen escrituras en lugares no deceados, por lo tanto probocaba el reseteo del micro.
+		que se realicen escrituras en lugares no deseados, por lo tanto probocaba el reseteo del micro.
+
+/////////////////////////////////////////////////////////
+Version 1.4R0	
+	Version para produccion
+/////////////////////////////////////////////////////////
