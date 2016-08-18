@@ -235,3 +235,9 @@ Version 1.3R50
 Version 1.4R0	
 	Version para produccion
 /////////////////////////////////////////////////////////
+Version 1.4R1
+	Correccion en la falla de la lectura de la velocidad de la moduladora
+
+	AdqLIN1 y 2 	Cuando se lee una velocidad de la moduladora es mayor a 50.0Km/h aproximadamente envia a leer 
+					nuevamente y carga la nueva lectura 
+	ExeTask			Borrado de codigo no utilizado

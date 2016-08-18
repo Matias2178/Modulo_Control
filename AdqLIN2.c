@@ -432,6 +432,24 @@ ModLIN2:
 			if (SW2PortSys.Sts.B.fOk)
 			{
 //		Moduladora[SenB2ID].Al.Val = *(unsigned char*) &SW2.buf[0];
+//				if(SW2.buf[1] <= 1)
+//				{
+//					Moduladora[SenB2ID].Vel = *(unsigned int*)&SW2.buf[0];
+//				}
+//				else
+				if (SW2.buf[1] > 1 && !Moduladora[SenB2ID].Aux.B.FLecB2)
+				{
+					LED_CAN = LED_CAN ? 0 : 1;
+					Moduladora[SenB2ID].Aux.B.FLecB2 = true;
+					Id = ModDirId(SenB2ID);
+					SW2_PortSysStart(Id,0x00 | SW2_cmdRd,2);
+					SW2_PortSysSend();
+					break;
+				}
+				else if(SW2.buf[1] <= 1)
+				{
+					Moduladora[SenB2ID].Aux.B.FLecB2 = false;
+				}
 				Moduladora[SenB2ID].Vel = *(unsigned int*)&SW2.buf[0];
 				Moduladora[SenB2ID].Sts.B.Con = true;
 				Moduladora[SenB2ID].Sts.B.FDs = false;

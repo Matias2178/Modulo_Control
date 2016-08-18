@@ -161,6 +161,19 @@ struct _Mod{
 		}B;
 		BYTE Val;
 	}Al;
+	union{
+		struct{
+			BYTE FLecB1	:1;		//Auxiliar Fallo Lectura
+			BYTE FLecB2	:1;
+			BYTE Ax3	:1;
+			BYTE Ax4	:1;
+			BYTE Ax5	:1;		//
+			BYTE Ax6	:1;		//
+			BYTE Ax7	:1;		//
+			BYTE Ax8	:1;		//
+		}B;
+		BYTE Val;
+	}Aux;
 };
 
 struct _BUS_MED{

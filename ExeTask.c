@@ -34,10 +34,10 @@ void ExeTask(void)
 	float Resto;
 	union _UInt16 Datos;
 	asm("CLRWDT");
-	if(Wifi_RTS)
-	{
-		LED_CAN = true;
-	}
+//	if(Wifi_RTS)
+//	{
+//		LED_CAN = true;
+//	}
 //*****************************************************************************	
 //	Tareas que se ejecutan cada 1ms
 //*****************************************************************************
@@ -360,12 +360,7 @@ void ExeTask(void)
 				}
 			}	
 		}
-//		else
-//		{
-//		//	VSiembra = 80; 	//solo para probador estatico
-//			VSiembra = 0;	//Para final
-//		}
-//		VSiembra = (unsigned int)(GPSdts.pos.vel*10);	//solo para probador estatico
+
 
 
 
@@ -517,7 +512,7 @@ void ExeTask(void)
 		else if (Wifi.fClose && !Wifi.fMod)
 		{
 			Sts_Tmr.CntWifi++;
-			LED_CAN = true;
+//			LED_CAN = true;
 			Proceso.B.fApagadoRN = true;
 			Dest_WF.Duty = 30;
 			Dest_WF.Sec = 0x0333;
@@ -543,7 +538,7 @@ void ExeTask(void)
 //No hay dispositivos conectados
 		else 
 		{
-			LED_CAN = LED_CAN ? true : false;
+//			LED_CAN = LED_CAN ? true : false;
 			Dest_WF.Duty = 25;
 			Dest_WF.Sec = 0x0F0F;
 		}
