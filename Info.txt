@@ -241,3 +241,9 @@ Version 1.4R1
 	AdqLIN1 y 2 	Cuando se lee una velocidad de la moduladora es mayor a 50.0Km/h aproximadamente envia a leer 
 					nuevamente y carga la nueva lectura 
 	ExeTask			Borrado de codigo no utilizado
+	
+Version 1.4R2
+	Correccion del calculo de la semilla cuando se tiene un parametro de velocidad muy alta.
+	
+	Sensores.c		En el calculo de las semillas por metro si el calculo de semillas da cero (tiene que haber medicion de semilla y velociedad)
+					no carga el valor de semillas por metro (queda con el anterior), pero si la medicion sigue dando cero carga el valor en cero.

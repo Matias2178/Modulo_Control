@@ -432,11 +432,6 @@ ModLIN1:
 			if (SW1PortSys.Sts.B.fOk)
 			{
 //		Moduladora[SenB1ID].Al.Val = *(unsigned char*) &SW1.buf[0];
-//				if(SW1.buf[1] <= 1)
-//				{
-//					Moduladora[SenB1ID].Vel = *(unsigned int*)&SW1.buf[0];
-//				}
-//				else
 				if (SW1.buf[1] > 1 && !Moduladora[SenB1ID].Aux.B.FLecB1)
 				{
 					Moduladora[SenB1ID].Aux.B.FLecB1 = true;
