@@ -54,13 +54,14 @@
 	extern int	TiempoDatosL1;
 	extern char TLed;
 	extern unsigned long SerialNum;
-	extern char Nombre[20];
-	
+	extern char Nombre[20]__attribute__ ((far));
+	extern	unsigned char SAVE[512] __attribute__ ((far));
 //----------------------------------------------------------------------------
 //	CONTADORES PARA TAREAS SECUENCIALES
 	extern	char Com_DtsTask_Sen010;
 	extern	char Com_DtsTask_Mod010;
 	extern	char Com_DtsTask_TRB010;
+	extern	char Com_DtsTask_PRE010;
 	extern	char Com_DtsTask_ROT010;
 	extern	char Com_DtsTask_DIAG10;
 	extern	char Com_DtsTask_MEM010;	
@@ -89,6 +90,7 @@
 	extern struct _DtsSiembra DtsSiembra;
 	extern struct _SenRot	Rotacion[8];
  	extern struct _SenRot	Turbina[3];
+ 	extern struct _SenRot	Presion[9];
 	extern struct _Mod		Moduladora[16];
 	extern struct _SenTol	Tolva[16];	
 	extern struct _LIN232 LIN1_232;	

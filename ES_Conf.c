@@ -32,11 +32,11 @@ void Config_ES()
 	//Mapeo de Entrada Salida Puerto Serie
     //        
 		//Uart2 Pin 49 RP24
-			RPINR19bits.U2RXR = RP3;
-	//		RPINR19bits.U2RXR = RP24;	//Placa Adaptadora
+	//		RPINR19bits.U2RXR = RP3;
+			RPINR19bits.U2RXR = RP24;	//Placa Adaptadora
  		//Uart 2 Pin 50 RP23
-			RPOR6bits.RP12R  = U2TX_IO;
-	//		RPOR5bits.RP11R  = U2TX_IO;	//Placa Adaptadora
+	//		RPOR6bits.RP12R  = U2TX_IO;
+			RPOR5bits.RP11R  = U2TX_IO;	//Placa Adaptadora
   
 //----------------------------------------------------------------------              
         //Uart1 Pin 42 RP2

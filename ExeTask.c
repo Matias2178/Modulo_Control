@@ -415,6 +415,7 @@ void ExeTask(void)
 		Sensores.tMOD ++;
 		Sensores.tTRB ++;
 		Sensores.tTOL ++;
+		Sensores.tPRE ++;
 //-----------------------------------------------------------------------------		
 // Calculos de los metros recorridos
 // Solo si la velocidad es mayor a 2.0 km/h

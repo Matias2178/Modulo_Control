@@ -19,6 +19,8 @@
 	#define kModMax		16
 	#define kROTMax		8
 	#define kTRBMax		3
+	#define kTOLMax		16
+	#define kPREMax		9
 	#define kMaxEscan 	5
 	
 //-----------------------------------------------------------------------------
@@ -26,10 +28,10 @@
 
 	#define SoftVerH	1
 	#define SoftVerL	5
-	#define Relase		0
+	#define Relase		1
 
-	#define FVerD		29
-	#define FVerM		8
+	#define FVerD		12
+	#define FVerM		10
 	#define FVerA		2016
 	
 	#define true	1
@@ -52,7 +54,7 @@
 	#define k_FinaTD	15		//Tiempo Stop deteccion (Fina / Fertilizante)
 	#define k_FinaCS	10		//Cantidad Start medicion	(Fina / Fertilizante)
 	
-	#define k_MEM_CHECK 4
+	#define k_MEM_CHECK 52
 	
 	#define Near __attribute__((near))
 	

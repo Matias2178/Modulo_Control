@@ -42,6 +42,7 @@
  extern void GrabaConfPer(void);
  extern void GrabaConfMod(void);
  extern void GrabaConfROT(void);
+ extern void GrabaConfPRE(void);
  extern void GrabaConfRPM(void);
  extern void GrabaConfTol(void);
 
@@ -64,6 +65,12 @@
  extern char TRBLecPar00(unsigned char ID);
  extern char TRBEscPar00(unsigned char ID);
  extern char TRBChekAl00(unsigned char ID); 
+ 
+ extern void PREStart000(void);
+ extern char PRELecPar00(unsigned char ID);
+ extern char PREEscPar00(unsigned char ID);
+ extern char PREChekAl00(unsigned char ID); 
+ 
  
  extern void TOLStart000(void);
  

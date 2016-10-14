@@ -208,6 +208,10 @@ struct _DtsPerCom{
 		unsigned char	Sts[3];
 	}TRB;
 	struct{
+		unsigned int 	Med[9];
+		unsigned char	Sts[9];
+	}PRE;
+	struct{
 		unsigned char	Sts[16];
 	}TOL;
 };
@@ -240,14 +244,16 @@ union _Proc{
 		BYTE fAdqMod1  	: 1;
 		BYTE fAdqTRB1  	: 1;
 		BYTE fAdqNTL1	: 1;
-		BYTE fAdqAx11	: 1;
-		BYTE fAdqAx12	: 1;//Ingreso de un nuevo SP y KD para las cajas
-		BYTE fAjMod		: 1;//Indica que se envio un ajuste a la moduladora y no escribir los datos de sensores
+		BYTE fAdqPRE1	: 1;
+	
 		BYTE fAdqSie2	: 1;//Fin de la lectura de los sensores y se los carga en el buffer de transmicion
 		BYTE fAdqRot2  	: 1;
 		BYTE fAdqMod2  	: 1;
 		BYTE fAdqTRB2  	: 1;
 		BYTE fAdqNTL2	: 1;
+		BYTE fAdqPRE2	: 1;//Ingreso de un nuevo SP y KD para las cajas
+
+		BYTE fAjMod		: 1;//Indica que se envio un ajuste a la moduladora y no escribir los datos de sensores
 		BYTE fLecturaOk	: 1;
 		BYTE fDosis		: 1;// Flag de cambio de dosis	
 		BYTE fApagadoRN	: 1;
@@ -274,7 +280,8 @@ struct _DtsPer{
 	unsigned int	MOD;	//Moduladoras
 	unsigned char	ROT;	//Modulos de Rotacion
 	unsigned char	TRB;	//Sensores de Turbina/RPM
-	unsigned int	TOL;		//Sensores de Nivel
+	unsigned int	TOL;	//Sensores de Nivel
+	unsigned int	PRE;	//Sensores de Presion
 };
 
 struct _ConfSen{
@@ -492,7 +499,7 @@ struct _Sensores{
 			BYTE TX_MOD	:1;	//Lectura Moduladoras Listo
 			BYTE TX_TRB	:1;	//Lectura Turbina Listo
 			BYTE TX_TOL	:1;	//Lectura Tovla Listo
-			BYTE TX_B5	:1;
+			BYTE TX_PRE	:1; //Lectura Pesion Listo
 			BYTE TX_B6	:1;
 			BYTE DIAG	:1;
 			
@@ -502,7 +509,7 @@ struct _Sensores{
 			BYTE RX_MOD	:1;
 			BYTE RX_TRB	:1;
 			BYTE RX_TOL	:1;
-			BYTE RX_B6	:1;
+			BYTE RX_PRE	:1;
 			BYTE RX_B7	:1;
 			
 			BYTE fSAct1	:1;//Libre
@@ -519,7 +526,7 @@ struct _Sensores{
 			BYTE MOD_Ax	:1;//Libre
 			BYTE TRB_Ax	:1;//Libre
 			BYTE TOL_Ax	:1;//Libre
-			BYTE Ax5	:1;//Libre
+			BYTE PRE_Ax	:1;//Libre
 			BYTE Ax6	:1;//Libre
 			BYTE DIAG_Ax:1;//Libre
 			
@@ -537,6 +544,7 @@ struct _Sensores{
 	BYTE tMOD;
 	BYTE tTRB;
 	BYTE tTOL;
+	BYTE tPRE;
 	BYTE Secuencia;
 };
 

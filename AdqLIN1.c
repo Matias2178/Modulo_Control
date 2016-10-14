@@ -523,8 +523,9 @@ TolLIN1:
 			if(SenB1ID>=16)
 			{
 				SenB1ID = 0;
-				Adq_SelTask0011=0;
+				Adq_SelTask0011=16;
 				Proceso.B.fAdqNTL1 = true;
+				goto PRELIN1;
 				break;
 			}
 			ErrorB1=0;
@@ -591,10 +592,94 @@ TolLIN1:
 			else 
 			{
 				SenB1ID = 0;
-				Adq_SelTask0011=0;
+				Adq_SelTask0011++;
 				Proceso.B.fAdqNTL1 = true;
 			}
 		break;
+		case 16:
+//Lectura de datos sensores de rotacion
+PRELIN1:
+			Proceso.B.fAdqPRE1 = false;
+			for(;SenB1ID<9;)
+			{
+				Id = 0x80 + SenB1ID;
+//!Turbina[SenB1ID].Sts.B.Bus indica que esta en el bus 1
+				if( !Presion[SenB1ID].Sts.B.Bus)
+				{
+					if(Presion[SenB1ID].Sts.B.Hab && Presion[SenB1ID].Sts.B.Det)
+					{
+						//Sensor habilitado para lectura
+						break;
+					}
+					else
+					{
+						Presion[SenB1ID].Med = 0;
+						Presion[SenB1ID].Sts.B.Con = false;
+						Presion[SenB1ID].Sts.B.FMin = false;
+						Presion[SenB1ID].Sts.B.FMax = false;
+						Presion[SenB1ID].Sts.B.FDs = false;
+					}
+				}
+				SenB1ID++;
+			}
+			
+			if(SenB1ID>=9)
+			{
+				SenB1ID = 0;
+				Adq_SelTask0011=0;
+				Proceso.B.fAdqPRE1 = true;
+				break;
+			}
+			ErrorB1=0;
+			Adq_SelTask0011++;
+			SW1_PortSysStart(Id,0x00 | SW1_cmdRd,2);
+			SW1_PortSysSend();
+		break;
+		case 17:
+			Id = 0x80 + SenB1ID;
+			if (SW1PortSys.Sts.B.fOk)
+			{
+				Presion[SenB1ID].Med = *(unsigned int*)&SW1.buf[0];
+				Presion[SenB1ID].Sts.B.Con = true;
+				Presion[SenB1ID].Sts.B.FDs = false;
+				Presion[SenB1ID].Sts.B.AxDesc = false;
+			}
+			else if(SW1PortSys.Sts.B.fErr && !Presion[SenB1ID].Sts.B.FDs)
+			{
+				if(ErrorB1>=2)
+				{
+					if(Presion[SenB1ID].Sts.B.AxDesc)
+					{
+						ErrorB1=0;					
+						Presion[SenB1ID].Med = 0;
+						Presion[SenB1ID].Sts.B.Con = false;
+						Presion[SenB1ID].Sts.B.FDs = true;
+					}
+					else
+					{
+						Presion[SenB1ID].Sts.B.AxDesc = true;
+					}
+				}
+				else
+				{
+					ErrorB1++;
+					SW1_PortSysStart(Id,0x00 | SW1_cmdRd,2);
+					SW1_PortSysSend();
+					break;
+				}
+			}
+			SenB1ID++;
+			if(SenB1ID<9)
+			{
+				Adq_SelTask0011=16;
+				break;	
+			}
+			else 
+			{
+				SenB1ID = 0;
+				Adq_SelTask0011=0;
+				Proceso.B.fAdqPRE1 = true;
+			}
 	}		
 }
 

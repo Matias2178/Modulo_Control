@@ -207,14 +207,34 @@ void DtoTerminal(void)
 			break;
 			}			
 		}
-		else if (Sensores.STS.B.TX_ROT && !Sensores.STS.B.ROT_Ax && (!Sensores.Secuencia || Sensores.Secuencia == 4))
+		else if (Sensores.STS.B.TX_PRE && !Sensores.STS.B.PRE_Ax && (!Sensores.Secuencia || Sensores.Secuencia == 4))
+		{
+			switch(Com_DtsTask_PRE010)
+			{	
+			default:
+				Com_DtsTask_PRE010 = 0;		
+			case 0:
+				Sensores.Secuencia = 4;
+				MedPerifericos ("<MPPRE>",DtsPerCom,ComBuf,5);
+				Com_DtsTask_PRE010++;
+			break;
+			case 1:
+				StsPerifericos ("<SPPRE>",DtsPerCom,ComBuf,5);
+				Sensores.STS.B.TX_PRE = false;
+				Com_DtsTask_PRE010 = 0;
+				Sensores.STS.B.PRE_Ax = true;
+				Sensores.Secuencia = 0;
+			break;
+			}			
+		}
+		else if (Sensores.STS.B.TX_ROT && !Sensores.STS.B.ROT_Ax && (!Sensores.Secuencia || Sensores.Secuencia == 5))
 		{
 			switch(Com_DtsTask_ROT010)
 			{
 			default:
 				Com_DtsTask_ROT010 = 0;		
 			case 0:
-				Sensores.Secuencia = 4;
+				Sensores.Secuencia = 5;
 				MedPerifericos ("<MPROT>",DtsPerCom,ComBuf,2);
 				Com_DtsTask_ROT010++;
 			break;
@@ -227,23 +247,23 @@ void DtoTerminal(void)
 			break;
 			}	
 		}
-		else if(Sensores.STS.B.TX_TOL && !Sensores.STS.B.TOL_Ax && (!Sensores.Secuencia || Sensores.Secuencia == 5))
+		else if(Sensores.STS.B.TX_TOL && !Sensores.STS.B.TOL_Ax && (!Sensores.Secuencia || Sensores.Secuencia == 6))
 		{
-			Sensores.Secuencia = 5;
+			Sensores.Secuencia = 6;
 			Sensores.STS.B.TX_TOL = false;
 			StsPerifericos ("<SNTOL>",DtsPerCom,ComBuf,4);
 			Sensores.STS.B.TOL_Ax = true;
 			Sensores.Secuencia = 0;
 		}
 //Esto se envia cada 5 segundos
-		else if(Sensores.STS.B.DIAG && !Sensores.STS.B.DIAG_Ax && (!Sensores.Secuencia || Sensores.Secuencia == 6))
+		else if(Sensores.STS.B.DIAG && !Sensores.STS.B.DIAG_Ax && (!Sensores.Secuencia || Sensores.Secuencia == 7))
 		{
 			switch(Com_DtsTask_DIAG10)
 			{	
 				default:
 					Com_DtsTask_DIAG10 = 0;		
 				case 0:
-					Sensores.Secuencia = 6;
+					Sensores.Secuencia = 7;
 					Diagnostico("<DIAGN>",ComBuf);
 					Com_DtsTask_DIAG10++;
 				break;
@@ -263,14 +283,14 @@ void DtoTerminal(void)
 				break;
 			}
 		} 
-		else if (Sensores.STS.B.TX_SF1 && !Sensores.STS.B.SSF_Ax && (!Sensores.Secuencia || Sensores.Secuencia == 7))
+		else if (Sensores.STS.B.TX_SF1 && !Sensores.STS.B.SSF_Ax && (!Sensores.Secuencia || Sensores.Secuencia == 8))
 		{
 			switch(Com_DtsTask_Sen010)
 			{	
 			default:	
 				Com_DtsTask_Sen010 = 0;	
 			case 0:
-				Sensores.Secuencia = 7;
+				Sensores.Secuencia = 8;
 				MedSensores ("<MSSB1>",DtsComBus1,ComBuf,1);
 				Com_DtsTask_Sen010++;
 			break;
@@ -503,7 +523,7 @@ void MedPerifericos (char *lb, struct _DtsPerCom Datos,unsigned char *S,int T)
 			S++;
 		}
 	}
-	else
+	else if(T==2)
 	{	
 		//Sensores Turbina
 		for(i=0;i<3;i++)
@@ -513,8 +533,22 @@ void MedPerifericos (char *lb, struct _DtsPerCom Datos,unsigned char *S,int T)
 			*S = ',';
 			S++;
 		}
-	}	
-		CRNL(S);
+	}
+	else if(T==5)
+	{	
+		//Sensores Presion
+		for(i=0;i<9;i++)
+		{
+			Med = Datos.PRE.Med[i];
+			S = uitos(Med,S);
+			*S = ',';
+			S++;
+		}
+	}
+	else 
+		return;
+			
+	CRNL(S);
 }
 
 
@@ -580,8 +614,22 @@ void StsPerifericos (char *lb, struct _DtsPerCom Datos,unsigned char *S,int T)
 			*S = ',';
 			S++;
 		}
-	}		
-		CRNL(S);
+	}
+	else if(T==5)
+	{	
+		//Sensores de Presion
+		for(i=0;i<9;i++)
+		{
+			Med = Datos.PRE.Sts[i];
+			S = uitos(Med,S);
+			*S = ',';
+			S++;
+		}
+	}
+	else 
+		return;
+				
+	CRNL(S);
 }
 
 /******************************************************************************
@@ -903,7 +951,7 @@ void SetNumId(char *lb,unsigned char *S)
 	S = Dispositivo(S,SetId.Id);
 	*S = ',';
 	S++;
-	if((SetId.IdMax | SetId.IdMin)&(SetId.IdMax!=0xFF | SetId.IdMin!=0xFF))
+	if((SetId.IdMax || SetId.IdMin)&&(SetId.IdMax!=0xFF || SetId.IdMin!=0xFF))
 	{
 		if( SetId.Id == SetId.VoidId)
 		{
@@ -980,11 +1028,17 @@ unsigned char * Dispositivo(unsigned char *S,unsigned char Id)
 		strcpy((char*)S,"TLV");
 		S=S + strlen("TLV");
 	}
-	//Sensor de nivel de turbina
+	//Sensor de turbina
 	else if((Id>=0xD3 && Id<=0xD5))
 	{	
 		strcpy((char*)S,"TRB");
 		S=S + strlen("TRB");
+	}
+	//Sensor de Presion
+	else if((Id>=0x80 && Id<=0x88))
+	{	
+		strcpy((char*)S,"PRE");
+		S=S + strlen("PRE");
 	}
 	else
 	{
