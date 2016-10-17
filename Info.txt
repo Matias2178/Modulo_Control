@@ -282,3 +282,10 @@ Version 1.5R1
 	UART:			Se movieron todos los buffer de transmicion y los indices a la parte alta de la memoria porque se generaba un error al momento de la compilacion.
 	VarGlob:		Agregado de variables para los sensores de presion.
 	VarType:		Agregado de flags en la estructura de estado de la ECU.						
+
+Version 1.5R2
+	Correccion de funciones para el sensor de presion.
+	
+	Comandos:		Agregado del sensor de presion en la habilitacion de sensores.
+	Sensores:		Correccion de la lectura de los datos guardados de los sensores de presion.
+	

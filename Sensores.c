@@ -743,9 +743,9 @@ unsigned long Mask;
 		Mask = 1;
 		Mask = Mask << i;
 		
-		Presion[i].Sts.B.Hab = (Mask & HabPer.TOL)>>i;
-		Presion[i].Sts.B.Det = (Mask & ConPer.TOL)>>i;		
-		Presion[i].Sts.B.Bus = (Mask & BusPer.TOL)>>i;		
+		Presion[i].Sts.B.Hab = (Mask & HabPer.PRE)>>i;
+		Presion[i].Sts.B.Det = (Mask & ConPer.PRE)>>i;		
+		Presion[i].Sts.B.Bus = (Mask & BusPer.PRE)>>i;		
 	}
 }
 

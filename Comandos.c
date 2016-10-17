@@ -524,8 +524,8 @@ void Comando(unsigned char *S)
 		}
 //-----------------------------------------------------------------------------
 //Habilitacion de los Perifericos Moduladora, Rotacion, Tolva, Turbina
-//>SAJ,HSF,Moduladora,Rotacion,Tolva,Turbina<
-//>SAJ,HSF,00000000,0000FFFF,00000000,0000FFFF<
+//>SAJ,HPR,Moduladora,Rotacion,Tolva,Turbina,Presion<
+//>SAJ,HPR,00000000,0000FFFF,00000000,0000FFFF,000001FF<
 		else if(Check(Cmd,"HPR",sizeof("HPR")) )
 		{			
 			if(Com)
@@ -558,6 +558,14 @@ void Comando(unsigned char *S)
 				LocUserDW10.L.V = 0;	
 				ArrtoLongHex2(Cmd,&LocUserDW10.L.V);
 				HabPer.TRB = LocUserDW10.B.V[0];
+//Presion
+				memset(Cmd,0x00,10);
+				S += Movstr(Cmd,S);
+				S++;
+				LocUserDW10.L.V = 0;	
+				ArrtoLongHex2(Cmd,&LocUserDW10.L.V);
+				HabPer.PRE = LocUserDW10.B.V[0];
+								
 				CargaConfPer();
 				GrabaConfPer();
 			}
@@ -583,6 +591,12 @@ void Comando(unsigned char *S)
 //Turbina
 			LocUserDW10.L.V = 0;
 			LocUserDW10.B.V[0] = HabPer.TRB;
+			P = LongHextoArr(LocUserDW10.L.V, P);
+			*P = ',';
+			P++; 
+//Presion
+			LocUserDW10.L.V = 0;
+			LocUserDW10.B.V[0] = HabPer.PRE;
 			P = LongHextoArr(LocUserDW10.L.V, P);
 			*P = ',';
 			P++; 	
