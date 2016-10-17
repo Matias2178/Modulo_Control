@@ -564,7 +564,7 @@ void Comando(unsigned char *S)
 				S++;
 				LocUserDW10.L.V = 0;	
 				ArrtoLongHex2(Cmd,&LocUserDW10.L.V);
-				HabPer.PRE = LocUserDW10.B.V[0];
+				HabPer.PRE = LocUserDW10.UI.V[0];
 								
 				CargaConfPer();
 				GrabaConfPer();
@@ -1013,11 +1013,11 @@ void Comando(unsigned char *S)
 			}
 			if(Com)
 			{	
-				//Factor K
-				memset(Cmd,0x00,10);
-				S += Movstr(Cmd,S);
-				S++;
-				Presion[Sen].FK = atol((char*)Cmd);
+//				//Factor K
+//				memset(Cmd,0x00,10);
+//				S += Movstr(Cmd,S);
+//				S++;
+//				Presion[Sen].FK = atol((char*)Cmd);
 				
 				//Nivel Alarma Minima
 				memset(Cmd,0x00,10);
@@ -1049,9 +1049,9 @@ void Comando(unsigned char *S)
 				P = (unsigned char*)EstadosCN("OK",P);
 			}
 			//Numero de Sensor
-			P  = (unsigned char*)ultos(Presion[Sen].FK,P);	
-			*P = ',';
-			P++;
+	//		P  = (unsigned char*)ultos(Presion[Sen].FK,P);	
+	//		*P = ',';
+	//		P++;
 			P  = (unsigned char*)ultos(Presion[Sen].AlMin,P);	
 			*P = ',';
 			P++;

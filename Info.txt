@@ -288,4 +288,8 @@ Version 1.5R2
 	
 	Comandos:		Agregado del sensor de presion en la habilitacion de sensores.
 	Sensores:		Correccion de la lectura de los datos guardados de los sensores de presion.
+
+Version 1.5R3
+	Correccion comando lectura y escritura de parametros
 	
+	Comandos: 		Correccion comando lectura y escritura de parametros maximos y minimos en el sensor.	
