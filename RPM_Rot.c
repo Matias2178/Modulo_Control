@@ -355,7 +355,8 @@ char TRBEscPar00(unsigned char ID)
 	
 	SenId = ID;
 	Id = 0xD3 + SenId;
-		
+	Turbina[SenId].TmMin = kTempAlTRB;
+	Turbina[SenId].TmMax = kTempAlTRB;	
 	if(!Turbina[SenId].Sts.B.Bus)
 	{
 		
@@ -517,8 +518,8 @@ char TRBChekAl00(unsigned char ID)
 		Turbina[SenId].TMinAux++;
 		if(Turbina[SenId].TMinAux >= Turbina[SenId].TmMin)
 		{
-			Turbina[SenId].Sts.B.FMin = false;
-			Turbina[SenId].Sts.B.FMax = true;
+			Turbina[SenId].Sts.B.FMin = true;
+			Turbina[SenId].Sts.B.FMax = false;
 		}
 	}
 //Si el valor medido es mayor al valor de alarma minimo, y la alarma esta activa
@@ -535,8 +536,6 @@ char TRBChekAl00(unsigned char ID)
 //Si el valor medido no esta en alarma reseteo los bits y los temporizadores	
 	else 
 	{
-		Turbina[SenId].Sts.B.FMin = false;
-		Turbina[SenId].Sts.B.FMax = false;
 		Turbina[SenId].TMinAux = 0;
 		Turbina[SenId].TMaxAux = 0;
 	}
@@ -703,18 +702,6 @@ char PRELecPar00(unsigned char ID)
 		if(Error>=3)
 			return false;
 	}
-	if( Presion[SenId].AlMin != LocUserDW00.UI.V[0] ||
-		Presion[SenId].TmMin != LocUserDW00.UI.V[1] ||
-		Presion[SenId].AlMax != LocUserDW01.UI.V[0] ||
-		Presion[SenId].TmMax != LocUserDW01.UI.V[1])
-	{
-		Presion[SenId].AlMin = LocUserDW00.UI.V[0];
-		Presion[SenId].TmMin = LocUserDW00.UI.V[1];
-		Presion[SenId].AlMax = LocUserDW01.UI.V[0];
-		Presion[SenId].TmMax = LocUserDW01.UI.V[1];
-		return 2;
-	}
-	
 	Presion[SenId].AlMin = LocUserDW00.UI.V[0];
 	Presion[SenId].TmMin = LocUserDW00.UI.V[1];
 	Presion[SenId].AlMax = LocUserDW01.UI.V[0];
@@ -738,7 +725,8 @@ char PREEscPar00(unsigned char ID)
 	
 	SenId = ID;
 	Id = 0x80 + SenId;
-		
+	Presion[SenId].TmMin = kTempAlPRE;
+	Presion[SenId].TmMax = kTempAlPRE; 	
 	if(!Presion[SenId].Sts.B.Bus)
 	{
 		
@@ -855,22 +843,13 @@ char PREChekAl00(unsigned char ID)
 	unsigned int Min, AuxMin;
 
 	SenId = ID;	
-	if(!Presion[SenId].AlMax || !Presion[SenId].TmMax || !Presion[SenId].AlMin || !Presion[SenId].TmMin)
+	if(!Presion[SenId].AlMax || !Presion[SenId].AlMin || !Presion[SenId].Med)
 	{
 		Presion[SenId].Sts.B.FMin = false;
 		Presion[SenId].Sts.B.FMax = false;
 		Presion[SenId].TMinAux = 0;
 		Presion[SenId].TMaxAux = 0;
-		return false;
-	}
-//Si no Mido RPM		
-	if(!Turbina[SenId].Med)
-	{
-		Presion[SenId].Sts.B.FMin = false;
-		Presion[SenId].Sts.B.FMax = false;
-		Presion[SenId].TMaxAux = 0;
-		Presion[SenId].TMinAux = 0;
-	}
+	}	
 //Si el valor medido es mayor al valor de alarma maximo, y la alarma no esta activa
 //realizo el conteo y despues desactivo la alarma y reseteo el timer
 	else if((Presion[SenId].Med > Presion[SenId].AlMax) && !Presion[SenId].Sts.B.FMax)
@@ -901,8 +880,8 @@ char PREChekAl00(unsigned char ID)
 		Presion[SenId].TMinAux++;
 		if(Presion[SenId].TMinAux >= Presion[SenId].TmMin)
 		{
-			Presion[SenId].Sts.B.FMin = false;
-			Presion[SenId].Sts.B.FMax = true;
+			Presion[SenId].Sts.B.FMin = true;
+			Presion[SenId].Sts.B.FMax = false;
 		}
 	}
 //Si el valor medido es mayor al valor de alarma minimo, y la alarma esta activa
@@ -919,8 +898,6 @@ char PREChekAl00(unsigned char ID)
 //Si el valor medido no esta en alarma reseteo los bits y los temporizadores	
 	else 
 	{
-		Presion[SenId].Sts.B.FMin = false;
-		Presion[SenId].Sts.B.FMax = false;
 		Presion[SenId].TMinAux = 0;
 		Presion[SenId].TMaxAux = 0;
 	}

@@ -293,3 +293,14 @@ Version 1.5R3
 	Correccion comando lectura y escritura de parametros
 	
 	Comandos: 		Correccion comando lectura y escritura de parametros maximos y minimos en el sensor.	
+
+Version 1.5R4
+	Correccion activacion de alarmas sensores de presion.
+	
+	Constantes:		Constante de cantidad de ciclos antes de activar o desactivar una alarma en los sensores de turbina y presion
+	ExeTask:		Se saco la funcion de activancion de alarma de turbina.
+	RPM_Rot:		Correccion en la activacion de la alarma minima turbina.
+					En la escritura de alarmas, se escribe el tiempo de espera segun el valor definido en la constante.
+					Correccion en la activacion de la alarma minima de presion.
+					
+	

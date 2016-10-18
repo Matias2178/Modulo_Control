@@ -28,7 +28,7 @@
 
 	#define SoftVerH	1
 	#define SoftVerL	5
-	#define Relase		3
+	#define Relase		4
 
 	#define FVerD		17
 	#define FVerM		10
@@ -53,6 +53,9 @@
 	#define k_FinaTM	20		//Tiempo de medicion (Fina / Fertilizante)
 	#define k_FinaTD	15		//Tiempo Stop deteccion (Fina / Fertilizante)
 	#define k_FinaCS	10		//Cantidad Start medicion	(Fina / Fertilizante)
+	
+	#define kTempAlTRB 	3		//Lecturas antes de generar o apagar la alarma de turbina
+	#define kTempAlPRE	3		//Lecturas antes de generar o apagar la alarma de presion
 	
 	#define k_MEM_CHECK 53
 	

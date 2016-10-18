@@ -1013,8 +1013,12 @@ void TRB2DtsCom(void)
 
 	for(i=0;i<3;i++)
 	{
+		
 		DtsPerCom.TRB.Med[i]= Turbina[i].Med ;
 		DtsPerCom.TRB.Sts[i]= Turbina[i].Sts.Val ;
+		
+		TRBChekAl00(i);
+		
 		if(Turbina[i].Sts.B.Det)
 			cont ++;
 	}
@@ -1045,6 +1049,7 @@ void PRE2DtsCom(void)
 
 	for(i=0;i<kPREMax;i++)
 	{
+		PREChekAl00(i);
 		DtsPerCom.PRE.Med[i]= Presion[i].Med ;
 		DtsPerCom.PRE.Sts[i]= Presion[i].Sts.Val ;
 		if(Presion[i].Sts.B.Det)
