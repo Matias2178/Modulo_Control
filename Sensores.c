@@ -1267,12 +1267,14 @@ void MaxMinId(unsigned char Id)
 	{	
 		SetId.IdMin = 0xD3;
 		SetId.IdMax = 0xD5;	
+		SetId.VoidId = 0xD3;
 	}
 //Sensor de Presion
 	else if(Id>=0x80 && Id<=0x88)
 	{	
 		SetId.IdMin = 0x80;
 		SetId.IdMax = 0x88;	
+		SetId.VoidId = 0x80;
 	}
 //Sensor conectado no modifica ID
 	else

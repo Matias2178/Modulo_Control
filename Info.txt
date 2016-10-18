@@ -307,3 +307,9 @@ Version 1.5R5
 	Eliminacion borrado de memoria, porque se genera una falla al realizar el borrado.
 						
 	Eeprom_I2C:		Eliminacion del borrado de memoria, porque causa un desbordamiento que borra todo.
+	
+Version 1.5R6
+	Correccion en el cambio de ID para los sensores de tolva turbina y rotacion. Cuando se ingresa ID = 0 cargaba el valor de sensor 
+	virgen, para los senroes de turbina y presion podia cargar cualquier numero (pero el periferico bloquea los ID fuera de rango)
+	
+	Sensores:		Carga de valor en el registro de IDvirgen para los sensores de turbina y presion.
