@@ -73,18 +73,18 @@ void MemInit(void)
 		return;
 	if(Control != k_MEM_CHECK)
 	{
-		EepromRDBuf(M_BAUDRATE,LocUserW00.B.V,sizeof(union _UInt16));
-		memset(SAVE,0x00,512);
-		LocUserDW00.BIT.B0 = EepromWRBuf(0x00018,(unsigned char *)SAVE,512);
-		Dly_1_MiliSec(12);
-		for(Control = 0x100; Control<0x1000;Control+=0x0100)
-		{
-			LocUserDW00.BIT.B0 = EepromWRBuf(Control,(unsigned char *)SAVE,512);
-			Dly_1_MiliSec(12);
-		}
-		
-		Dly_1_MiliSec(12);
-		EepromWRBuf(M_BAUDRATE,(unsigned char *)&LocUserW00,sizeof(union _UInt16));
+//		EepromRDBuf(M_BAUDRATE,LocUserW00.B.V,sizeof(union _UInt16));
+//		memset(SAVE,0x00,512);
+//		LocUserDW00.BIT.B0 = EepromWRBuf(0x00018,(unsigned char *)SAVE,512);
+//		Dly_1_MiliSec(12);
+//		for(Control = 0x100; Control<0x1000;Control+=0x0100)
+//		{
+//			LocUserDW00.BIT.B0 = EepromWRBuf(Control,(unsigned char *)SAVE,512);
+//			Dly_1_MiliSec(12);
+//		}
+//		
+//		Dly_1_MiliSec(12);
+//		EepromWRBuf(M_BAUDRATE,(unsigned char *)&LocUserW00,sizeof(union _UInt16));
 		
 		memset(Cmd,0x00,10);
 		ultos(SerialNum,Cmd);

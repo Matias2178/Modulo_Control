@@ -302,5 +302,8 @@ Version 1.5R4
 	RPM_Rot:		Correccion en la activacion de la alarma minima turbina.
 					En la escritura de alarmas, se escribe el tiempo de espera segun el valor definido en la constante.
 					Correccion en la activacion de la alarma minima de presion.
-					
-	
+
+Version 1.5R5
+	Eliminacion borrado de memoria, porque se genera una falla al realizar el borrado.
+						
+	Eeprom_I2C:		Eliminacion del borrado de memoria, porque causa un desbordamiento que borra todo.
