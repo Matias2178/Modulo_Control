@@ -313,3 +313,8 @@ Version 1.5R6
 	virgen, para los senroes de turbina y presion podia cargar cualquier numero (pero el periferico bloquea los ID fuera de rango)
 	
 	Sensores:		Carga de valor en el registro de IDvirgen para los sensores de turbina y presion.
+
+Version 1.5R7
+	Carga de datos en el StartUp en los sensores de turbina y presion
+	
+	RPM_Rot:		Modificacion de las funciones de starup de los sensores de turbina y de presion para cargar los niveles de alarmas maximo minimo y los tiempo de espera.

@@ -170,7 +170,8 @@ void TRBStart000(void)
 	unsigned char Id;
 //	unsigned int Medicion;
 	unsigned char SenId;
-	
+	union _UInt32 LocUserDW00;
+	union _UInt32 LocUserDW01;
 	for(SenId=0;SenId<3;SenId++)
 	{
 		Id = 0xD3 + SenId;
@@ -193,9 +194,9 @@ void TRBStart000(void)
 			Turbina[SenId].Sts.B.Bus = false;
 //			Turbina[SenId].Sts.B.Det = true;
 			
-			Sw1_RdReg(Id,0x06,&Turbina[SenId].AlMin);
+			Sw1_RdReg(Id,0x06,&LocUserDW00.UL.V);
 			
-			Sw1_RdReg(Id,0x07,&Turbina[SenId].AlMax);
+			Sw1_RdReg(Id,0x07,&LocUserDW01.UL.V);
 		}
 		else if (SW2PortUser.Sts.B.fOk)
 		{
@@ -204,9 +205,9 @@ void TRBStart000(void)
 			Turbina[SenId].Sts.B.Bus = true;
 //			Turbina[SenId].Sts.B.Det = true;
 			
-			Sw2_RdReg(Id,0x06,&Turbina[SenId].AlMin);
+			Sw2_RdReg(Id,0x06,&LocUserDW00.UL.V);
 			
-			Sw2_RdReg(Id,0x07,&Turbina[SenId].AlMax);
+			Sw2_RdReg(Id,0x07,&LocUserDW01.UL.V);
 		}
 		else
 		{
@@ -214,6 +215,10 @@ void TRBStart000(void)
 		//	Turbina[SenId].Sts.B.Bus = false;
 		//	Turbina[SenId].Sts.B.Det = false;
 		}
+	Turbina[SenId].AlMin = LocUserDW00.UI.V[0];
+	Turbina[SenId].TmMin = LocUserDW00.UI.V[1];
+	Turbina[SenId].AlMax = LocUserDW01.UI.V[0];
+	Turbina[SenId].TmMax = LocUserDW01.UI.V[1];
 	}
 	GrabaConfTRB();
 }
@@ -556,6 +561,8 @@ void PREStart000(void)
 {
 	unsigned char Id;
 	unsigned char SenId;
+	union _UInt32 LocUserDW00;
+	union _UInt32 LocUserDW01;
 	
 	for(SenId=0;SenId<9;SenId++)
 	{
@@ -579,9 +586,9 @@ void PREStart000(void)
 			Presion[SenId].Sts.B.Bus = false;
 
 			
-			Sw1_RdReg(Id,0x06,&Presion[SenId].AlMin);
+			Sw1_RdReg(Id,0x06,&LocUserDW00.UL.V);
 			
-			Sw1_RdReg(Id,0x07,&Presion[SenId].AlMax);
+			Sw1_RdReg(Id,0x07,&LocUserDW01.UL.V);
 		}
 		else if (SW2PortUser.Sts.B.fOk)
 		{
@@ -589,14 +596,18 @@ void PREStart000(void)
 			Presion[SenId].Sts.B.Con = true;
 			Presion[SenId].Sts.B.Bus = true;
 			
-			Sw2_RdReg(Id,0x06,&Presion[SenId].AlMin);
+			Sw2_RdReg(Id,0x06,&LocUserDW00.UL.V);
 			
-			Sw2_RdReg(Id,0x07,&Presion[SenId].AlMax);
+			Sw2_RdReg(Id,0x07,&LocUserDW01.UL.V);
 		}
 		else
 		{
 			Presion[SenId].Sts.B.Con = false;
 		}
+		Presion[SenId].AlMin = LocUserDW00.UI.V[0];
+		Presion[SenId].TmMin = LocUserDW00.UI.V[1];
+		Presion[SenId].AlMax = LocUserDW01.UI.V[0];
+		Presion[SenId].TmMax = LocUserDW01.UI.V[1];
 	}
 	GrabaConfPRE();
 }
