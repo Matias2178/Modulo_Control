@@ -318,3 +318,8 @@ Version 1.5R7
 	Carga de datos en el StartUp en los sensores de turbina y presion
 	
 	RPM_Rot:		Modificacion de las funciones de starup de los sensores de turbina y de presion para cargar los niveles de alarmas maximo minimo y los tiempo de espera.
+
+Version 1.5R8
+	Correccion en el envio de datos de los sensores de turbina
+	
+	Comunicacion:	Correccion del envio de datos de los sensores de turbina.

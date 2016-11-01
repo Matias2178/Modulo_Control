@@ -523,7 +523,7 @@ void MedPerifericos (char *lb, struct _DtsPerCom Datos,unsigned char *S,int T)
 			S++;
 		}
 	}
-	else if(T==2)
+	else if(T==3)
 	{	
 		//Sensores Turbina
 		for(i=0;i<3;i++)

@@ -28,10 +28,10 @@
 
 	#define SoftVerH	1
 	#define SoftVerL	5
-	#define Relase		7
+	#define Relase		8
 
-	#define FVerD		18
-	#define FVerM		10
+	#define FVerD		1
+	#define FVerM		11
 	#define FVerA		2016
 	
 	#define true	1
