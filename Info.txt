@@ -255,4 +255,6 @@ Version 1.5R01
 	
 Version 1.5R2
 	Se modifico el apagado del modulo  Wifi cada 60 segundos independientemente de si se abre el puerto o no
-	
+
+Version 1.5R3	
+	Si esta en modo configuracion del modulo wifi no se resetea el modulo

@@ -477,7 +477,7 @@ void ExeTask(void)
 		{
 //-----------------------------------------------
 //Modulo Encendido
-			if(Sts_Tmr.CntWifi > 600)
+			if((!Proceso.B.fWifiConf)&&(Sts_Tmr.CntWifi > 600))
 			{
 				Sts_Tmr.CntWifi = 0;
 				Pwr_Wifi 	= false;		//Alimentacion 3v3 Modulo WiFi
