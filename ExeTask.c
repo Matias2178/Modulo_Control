@@ -479,7 +479,7 @@ void ExeTask(void)
 			Sts_Tmr.CntWifi++;
 //-------------------------------------
 //No recibe el KAV	
-			if (Sts_Tmr.CntWifi >40)
+			if (Sts_Tmr.CntWifi >100)
 			{
 				Dest_WF.Duty = 6;
 				Dest_WF.Sec = 0x0033;

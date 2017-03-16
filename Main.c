@@ -165,6 +165,9 @@ int main (void)
 	LED_GPS = true;	
 	LED_WIFI = true;
 	LED_POWER = true;
+// Enciendo el modulo Wifi despues de  inicializar los puertos serie	
+	Pwr_Wifi = true;
+	
 	Dly_100_MiliSec(10);			
 		
 	MemInit();

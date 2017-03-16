@@ -249,3 +249,6 @@ Version 1.4R2
 					no carga el valor de semillas por metro (queda con el anterior), pero si la medicion sigue dando cero carga el valor en cero.
 Version 1.5R0
 	Actualizacion para produccion.
+
+Version 1.5R01
+	Enciendo el modulo Wifi despues de configurar los puertos series, y el tiempo de espera pasa a 1000 mseg.
