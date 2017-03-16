@@ -262,6 +262,7 @@ void ExeTask(void)
 					}
 					else
 					{
+						Sts_Tmr.CntWifi = 0;
 						Wifi.lMod = true;
 	//					memset(WFcmd,0,sizeof(WFcmd));
 						WFind = 0;
@@ -514,11 +515,16 @@ void ExeTask(void)
 					Dest_WF.Duty = 3;
 					Dest_WF.Sec = 0xAAAA;
 					Wifi.fKAV = false;
-				}			
-			
+				}
+				if((!Proceso.B.fWifiConf)&&(Sts_Tmr.CntWifi > 33))
+				{
+					Sts_Tmr.CntWifi = 0;
+					Pwr_Wifi 	= false;		//Alimentacion 3v3 Modulo WiFi
+					RN171_Desc++;
+					Wifi.lMod = false;
+					Wifi.fMod = false;		
+				}
 			}
-			
-	
 			else if (Wifi.fClose && !Wifi.fMod)
 			{
 	//-----------------------------------------------

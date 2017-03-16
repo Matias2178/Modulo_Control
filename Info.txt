@@ -258,3 +258,6 @@ Version 1.5R2
 
 Version 1.5R3	
 	Si esta en modo configuracion del modulo wifi no se resetea el modulo
+
+Version 1.5R4
+	Se agrego el reseteo del modulo en 3,3 segundos si hay un puerto abierto y no se recibieron datos en ese tiempo
