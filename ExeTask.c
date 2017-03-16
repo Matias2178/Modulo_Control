@@ -458,89 +458,102 @@ void ExeTask(void)
 //		El tiempo se maneja en decimas de segundo
 //-----------------------------------------------------------------------------
 //-----------------------------------------------
-//El modulo esta apagado
+		Sts_Tmr.CntWifi++;
 		if(!Pwr_Wifi)
 		{
-			Sts_Tmr.CntWifi++;
+//El modulo esta apagado
+		//	Sts_Tmr.CntWifi++;
 			Dest_WF.Duty = 5;
 			Dest_WF.Sec = 0x0000;
 			Proceso.B.fApagadoRN = false;
 			Wifi.fConectado = false;	
-			if(Sts_Tmr.CntWifi > 50)
+			if(Sts_Tmr.CntWifi > 10)
 			{
 				Sts_Tmr.CntWifi = 0;
 				Pwr_Wifi 	= true;		//Alimentacion 3v3 Modulo WiFi			
 			}
 		}
-//-----------------------------------------------
-//Modulo Encendido Puerto Abierto
-		else if (Wifi.fMod)
-		{
-			Sts_Tmr.CntWifi++;
-//-------------------------------------
-//No recibe el KAV	
-			if (Sts_Tmr.CntWifi >100)
-			{
-				Dest_WF.Duty = 6;
-				Dest_WF.Sec = 0x0033;
-				if(!Wifi.fKAV)
-				{
-					Wifi.fKAV = true;
-					Wifi.fKAVx = true;
-					KAV_cont++;
-				}
-			}
-//-------------------------------------
-//Se abrio el puerto esta transmitiendo datos
-			else
-			{
-				Proceso.B.fApagadoRN = false;
-				Dest_WF.Duty = 3;
-				Dest_WF.Sec = 0xAAAA;
-				Wifi.fKAV = false;
-			}			
-			if(Sts_Tmr.CntWifi > 900)
-			{
-				Sts_Tmr.CntWifi = 0;
-				Pwr_Wifi 	= false;		//Alimentacion 3v3 Modulo WiFi
-				RN171_Desc++;
-				Wifi.lMod = false;		
-			}
-		}
-//-----------------------------------------------
-//Se Abrio y se cerro el puerto
-		else if (Wifi.fClose && !Wifi.fMod)
-		{
-			Sts_Tmr.CntWifi++;
-//			LED_CAN = true;
-			Proceso.B.fApagadoRN = true;
-			Dest_WF.Duty = 30;
-			Dest_WF.Sec = 0x0333;
-			if(Sts_Tmr.CntWifi > 100)
-			{
-				Sts_Tmr.CntWifi = 0;
-				Pwr_Wifi 	= false;		//Alimentacion 3v3 Modulo WiFi
-				Wifi.lMod = false;	
-				Wifi.fClose = false;
-				RN171_Desc++;
-				EepromWRBuf(M_RN171_OFF,&RN171_Desc,sizeof(RN171_Desc));		
-			}
-		}
-//-----------------------------------------------
-//Se conecto un dispositivo al modulo	
-		else if(Wifi.fConectado)
-		{
-			Dest_WF.Duty = 25;
-			Dest_WF.Sec = 0x00AA;
-		}
-//-----------------------------------------------
-//El modulo esta encendido 
-//No hay dispositivos conectados
 		else 
 		{
-//			LED_CAN = LED_CAN ? true : false;
-			Dest_WF.Duty = 25;
-			Dest_WF.Sec = 0x0F0F;
+//-----------------------------------------------
+//Modulo Encendido
+			if(Sts_Tmr.CntWifi > 600)
+			{
+				Sts_Tmr.CntWifi = 0;
+				Pwr_Wifi 	= false;		//Alimentacion 3v3 Modulo WiFi
+				RN171_Desc++;
+				Wifi.lMod = false;
+				Wifi.fMod = false;		
+			}
+		
+			if (Wifi.fMod)
+			{
+	//Puerto Abierto
+			//	Sts_Tmr.CntWifi++;
+		
+				if (Sts_Tmr.CntWifi >50)
+				{
+	//-------------------------------------
+	//No recibe el KAV	
+	   				Dest_WF.Duty = 6;
+					Dest_WF.Sec = 0x0033;
+					if(!Wifi.fKAV)
+					{
+						Wifi.fKAV = true;
+						Wifi.fKAVx = true;
+						KAV_cont++;
+					}
+				}
+	
+				else
+				{
+	//-------------------------------------
+	//Se abrio el puerto esta transmitiendo datos
+	
+					Proceso.B.fApagadoRN = false;
+					Dest_WF.Duty = 3;
+					Dest_WF.Sec = 0xAAAA;
+					Wifi.fKAV = false;
+				}			
+			
+			}
+			
+	
+			else if (Wifi.fClose && !Wifi.fMod)
+			{
+	//-----------------------------------------------
+	//Se Abrio y se cerro el puerto
+				Sts_Tmr.CntWifi++;
+	//			LED_CAN = true;
+				Proceso.B.fApagadoRN = true;
+				Dest_WF.Duty = 30;
+				Dest_WF.Sec = 0x0333;
+				if(Sts_Tmr.CntWifi > 100)
+				{
+					Sts_Tmr.CntWifi = 0;
+					Pwr_Wifi 	= false;		//Alimentacion 3v3 Modulo WiFi
+					Wifi.lMod = false;	
+					Wifi.fClose = false;
+					RN171_Desc++;
+					EepromWRBuf(M_RN171_OFF,&RN171_Desc,sizeof(RN171_Desc));		
+				}
+			}
+	//-----------------------------------------------
+	//Se conecto un dispositivo al modulo	
+			else if(Wifi.fConectado)
+			{
+				Dest_WF.Duty = 25;
+				Dest_WF.Sec = 0x00AA;
+			}
+	//-----------------------------------------------
+	//El modulo esta encendido 
+	//No hay dispositivos conectados
+			else 
+			{
+	//			LED_CAN = LED_CAN ? true : false;
+				Dest_WF.Duty = 25;
+				Dest_WF.Sec = 0x0F0F;
+			}
 		}
 //-----------------------------------------------------------------------------
 		

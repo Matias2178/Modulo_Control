@@ -32,11 +32,11 @@ void Config_ES()
 	//Mapeo de Entrada Salida Puerto Serie
     //        
 		//Uart2 Pin 49 RP24
-			RPINR19bits.U2RXR = RP3;
-	//		RPINR19bits.U2RXR = RP24;	//Placa Adaptadora
+	//		RPINR19bits.U2RXR = RP3;
+			RPINR19bits.U2RXR = RP24;	//Placa Adaptadora
  		//Uart 2 Pin 50 RP23
-			RPOR6bits.RP12R  = U2TX_IO;
-	//		RPOR5bits.RP11R  = U2TX_IO;	//Placa Adaptadora
+	//		RPOR6bits.RP12R  = U2TX_IO;
+			RPOR5bits.RP11R  = U2TX_IO;	//Placa Adaptadora
   
 //----------------------------------------------------------------------              
         //Uart1 Pin 42 RP2
@@ -44,7 +44,7 @@ void Config_ES()
 	//		RPINR18bits.U1RXR = RP11;	//Puerto Auxiliar
  		//Uart 1 Pin 43 RP4
     		RPOR2bits.RP4R = U1TX_IO; 
-    //		RPOR12bits.RP24R = U1TX_IO; //Puerto Auxiliar   
+   // 		RPOR12bits.RP24R = U1TX_IO; //Puerto Auxiliar   
             
         //Uart3 Pin 42 RP2
 			RPINR17bits.U3RXR = RPI45;

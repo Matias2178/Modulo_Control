@@ -252,3 +252,7 @@ Version 1.5R0
 
 Version 1.5R01
 	Enciendo el modulo Wifi despues de configurar los puertos series, y el tiempo de espera pasa a 1000 mseg.
+	
+Version 1.5R2
+	Se modifico el apagado del modulo  Wifi cada 60 segundos independientemente de si se abre el puerto o no
+	
