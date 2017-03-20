@@ -63,7 +63,8 @@
 	extern	char Com_DtsTask_TRB010;
 	extern	char Com_DtsTask_ROT010;
 	extern	char Com_DtsTask_DIAG10;
-	extern	char Com_DtsTask_MEM010;	
+	extern	char Com_DtsTask_MEM010;
+	extern	char Com_DtsTask_RNConf;	
 	
 	extern struct _BUS_MED BUS1;
 	extern struct _BUS_MED BUS2;
@@ -98,8 +99,8 @@
 	
 	extern struct _GPS Lat;
 	extern struct _GPS Lon;
-	extern struct _SCom Wifi;
-	extern struct _SCom RS232;
+	extern union  _SCom Wifi;
+	extern union  _SCom RS232;
 	extern struct _Sensores Sensores;
 	extern struct _MGPS MGPS;
 	extern struct _CGPS CGPS;

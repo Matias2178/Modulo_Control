@@ -86,3 +86,8 @@ double Distance(double lat1, double lon1, double lat2, double lon2, char unit) {
 	
 	 return false;
  }
+ 
+ void RN_Soft_Reset(void)
+ {
+	 
+ }

@@ -1235,8 +1235,8 @@ lFallaCargaNum:
 			S++;
 			MemDatos = atoi((char*)Cmd);
 			MemAddr = M_DTS_SEM_B00 + (MemDatos * 512);
-			Wifi.EscDato = true;
-			Wifi.IniDato = false;
+			Wifi.B.EscDato = true;
+			Wifi.B.IniDato = false;
 			return;
 			
 		}
@@ -1247,7 +1247,7 @@ lFallaCargaNum:
 			S++;
 			MemDatos = atoi((char*)Cmd);
 			MemAddr = M_DTS_SEM_B00 + (MemDatos * 512);
-			Wifi.LeeDato = true;
+			Wifi.B.LeeDato = true;
 			Com_DtsTask_ROT010 = 0;
 			Checksum = 0;
 			return;

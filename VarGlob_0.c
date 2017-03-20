@@ -70,6 +70,7 @@
 	char Com_DtsTask_ROT010;
 	char Com_DtsTask_DIAG10;
 	char Com_DtsTask_MEM010;
+	char Com_DtsTask_RNConf;
 
 	struct _SetId SetId;
 	struct _BUS_MED BUS1;
@@ -97,8 +98,8 @@
 	union _UInt32 CorrAlDen;
 	struct _GPS Lat;
 	struct _GPS Lon;
-	struct _SCom Wifi;
-	struct _SCom RS232;
+	union _SCom Wifi;
+	union _SCom RS232;
 	struct _Sensores Sensores;
 	struct _MGPS MGPS;
 	struct _CGPS CGPS;

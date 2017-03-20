@@ -261,3 +261,7 @@ Version 1.5R3
 
 Version 1.5R4
 	Se agrego el reseteo del modulo en 3,3 segundos si hay un puerto abierto y no se recibieron datos en ese tiempo
+
+Version 1.5R5
+	Se agrego el reseteo por software del modulo RN-171. Si la cantidad de reintentos es mayor a 3 realiza el reseteo por 
+	hardware.

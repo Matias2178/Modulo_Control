@@ -40,7 +40,44 @@ void DtoTerminal(void)
 	S = ComBuf;
 	if(!U2STAbits.TRMT || !U3STAbits.TRMT)
 			return;
-	if(Wifi.LeeDato)
+	
+	if(Proceso.B.fRN_SoftRst)
+	{
+//---------------------------------------------------------
+//Ingreso al modo de comando y envio el comando de reset
+		if(Sts_Tmr.TMRWifiRst)
+		{
+		// Espero a que se cumpla el tiempo de espera entre comando y comando
+			return;
+		}
+		switch(Com_DtsTask_RNConf)
+		{
+			default:
+				Com_DtsTask_RNConf  = 0;
+			case 0:
+				S +=  Movstr(S,"$$$");
+				Com_DtsTask_RNConf ++;
+				Sts_Tmr.TMRWifiRst = 50;
+			break;
+			case 1:
+				S +=  Movstr(S,"reboot");
+				*S = 0x0D;
+				S++;
+				Com_DtsTask_RNConf ++;
+				Sts_Tmr.TMRWifiRst = 50;
+			break;
+			case 2:
+				S +=  Movstr(S,"reboot");
+				*S = 0x0D;
+				S++;
+				Com_DtsTask_RNConf = 0;
+				Sts_Tmr.TMRWifiRst = 50;
+				Sts_Tmr.CntWifiRst ++;	//Incremento el contador de reinicios por soft
+			break;
+		}
+		goto lComSinCheck;	
+	}
+	else if(Wifi.B.LeeDato)
 	{
 		
 		switch(Com_DtsTask_ROT010)
@@ -101,7 +138,7 @@ void DtoTerminal(void)
 			
 			//Com_DtsTask_ROT010++;	
 			Com_DtsTask_ROT010=0;
-			Wifi.LeeDato = false;
+			Wifi.B.LeeDato = false;
 		break;	
 		}
 		goto lComSinCheck;					

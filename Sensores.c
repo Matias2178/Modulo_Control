@@ -1233,9 +1233,9 @@ void Adq_Rotacion(void)
 				Proceso.B.fAdqRot2 = true;
 // Poner el reset del llamado a asta funcion
 				Sts_Tmr.B.ROTPls = false;
-				RLectCnt ++;
-				if(RLectCnt >20)
-				{	Proceso.B.fDosis = false;	}
+//				RLectCnt ++;
+//				if(RLectCnt >20)
+//				{	Proceso.B.fDosis = false;	}
 				break;
 			}
 			ErrorRot=0;
@@ -1313,9 +1313,9 @@ void Adq_Rotacion(void)
 				RotRLect=200;
 				Sts_Tmr.B.ROTPls = false;
 //Poner el reseteo de la funcion
-				RLectCnt ++;
-				if(RLectCnt >20)
-				{	Proceso.B.fDosis = false;	}
+//				RLectCnt ++;
+//				if(RLectCnt >20)
+//				{	Proceso.B.fDosis = false;	}
 				break;	
 			}
 			else 

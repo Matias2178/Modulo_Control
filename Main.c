@@ -102,6 +102,11 @@ int main (void)
 	Dly_10_MiliSec(25);	
 	HabMen 		= false;		//Bloqueo la escritura de memoria
 	PORTFbits.RF0 = true;
+	
+//Inicio de los datos de manejo de los puertos de wifi y RS232
+	Wifi.val = 0;
+	RS232.val = 0;
+	
 
 //-----------------------------------------------------------------------------
 //	Inicializacion de I2C para la lectura/escritura de memoria
@@ -218,6 +223,7 @@ int main (void)
 	Dly_10_MiliSec(10);
 //--------------Finaliza el proceso de inicializacion del sistema---------------
 	Proceso.B.fInicio = false;
+	Sts_Tmr.CntWifiRst = 0;
 	
 	CGPS.Correctas = 0;
 	CGPS.Sentencias = 0;
@@ -294,19 +300,19 @@ int main (void)
 		}
 //----------------------------------------------------------------------------
 //	ENVIO DE DATOS DESDE EL MODULO DE SIEMBRA AL TERMINAL		
-		if(Proceso.B.fRxCom && !Wifi.LeeDato)
+		if(Proceso.B.fRxCom && !Wifi.B.LeeDato)
 		{
-			if(RS232.fCom)
+			if(RS232.B.fCom)
 			{
 				Comando(Rx232Buf);	
 			}
-			if(Wifi.fCom)
+			if(Wifi.B.fCom)
 			{
 				Comando(Rx3Buf);
 			}
 			Proceso.B.fRxCom = false;
-			Wifi.fCom = false;
-			RS232.fCom = false;		
+			Wifi.B.fCom = false;
+			RS232.B.fCom = false;		
 		}
 		if(Proceso.B.fConfSen)
 		{
@@ -315,9 +321,9 @@ int main (void)
 		}
 //------------------------------------------------------------
 // Para pruebas borrar 
-		if(Wifi.fKAVx)
+		if(Wifi.B.fKAVx)
 		{		
-			Wifi.fKAVx = false;
+			Wifi.B.fKAVx = false;
 			LocUserDW01.I.V[0] = Mic_Desc;
 			LocUserDW01.I.V[1] = KAV_cont;
 			EepromWRBuf(M_MIC_OFF,&LocUserDW01,sizeof(union _UInt32));	
@@ -342,6 +348,12 @@ int main (void)
 		Sts_Tmr.Cnt0010 = 0;
 		Sts_Tmr.B.Pls0010  = true;
 		if (TMRdly0010_0) TMRdly0010_0--;
+		
+		if(Sts_Tmr.TMRWifiRst)
+		{
+			Sts_Tmr.TMRWifiRst --;
+		}
+		
 	
 		Sts_Tmr.Cnt0100++;
 		if(Sts_Tmr.Cnt0100>=10)	

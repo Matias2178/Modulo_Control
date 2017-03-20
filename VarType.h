@@ -51,6 +51,8 @@
 		BYTE	CntGPS5;
 		BYTE 	TMRModB1;
 		BYTE 	TMRModB2;
+		BYTE	TMRWifiRst;
+		BYTE	CntWifiRst;
 		WORD	CntWifi;
 		WORD	TMRImpSw;
 	};
@@ -249,7 +251,7 @@ union _Proc{
 		BYTE fAdqTRB2  	: 1;
 		BYTE fAdqNTL2	: 1;
 		BYTE fLecturaOk	: 1;
-		BYTE fDosis		: 1;// Flag de cambio de dosis	
+		BYTE fRN_SoftRst: 1;// Activacion de envio de comando de reseteo
 		BYTE fApagadoRN	: 1;
 		
 	}B;
@@ -466,21 +468,24 @@ struct _GPS
 	float Act;
 	float Ant;
 };
-struct _SCom
-{
-	unsigned char lMod		:1;	//lectura estado modulo
-	unsigned char fMod		:1;	//Estado del modulo	1 Puerto Abierto 0 Puerto Cerrado
-	unsigned char lCom		:1;	//Inicio de lectura del comando
-	unsigned char fCom		:1;	//Comando Listo
-	unsigned char fClose	:1;	//Comunicacion RS-232 Wifi directo
-	unsigned char IniDato	:1;	//Dato Falla
-	unsigned char EscDato	:1;
-	unsigned char LeeDato	:1;	//Carga dato en memoria
-	unsigned char fConectado:1;
-	unsigned char fKAV		:1;
-	unsigned char fKAVx		:1;
-	unsigned char f2		:5;
-	
+union _SCom{
+	struct 
+	{
+		unsigned char lMod		:1;	//lectura estado modulo
+		unsigned char fMod		:1;	//Estado del modulo	1 Puerto Abierto 0 Puerto Cerrado
+		unsigned char lCom		:1;	//Inicio de lectura del comando
+		unsigned char fCom		:1;	//Comando Listo
+		unsigned char fClose	:1;	//Comunicacion RS-232 Wifi directo
+		unsigned char IniDato	:1;	//Dato Falla
+		unsigned char EscDato	:1;
+		unsigned char LeeDato	:1;	//Carga dato en memoria
+		unsigned char fConectado:1;
+		unsigned char fKAV		:1;
+		unsigned char fKAVx		:1;
+		unsigned char f2		:5;
+		
+	}B;
+	unsigned int val;
 };
 
 struct _Sensores{

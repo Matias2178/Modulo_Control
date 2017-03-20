@@ -113,15 +113,15 @@ void ExeTask(void)
 //-----------------------------------------------------------------------------
 //Lectura de datos desde el puerto RS-232
 
-		while(!RSFIFOEmptyRX() && !RS232.fCom)
+		while(!RSFIFOEmptyRX() && !RS232.B.fCom)
 		{	
 			Dato = RSFIFOReadRX();
 			if ((Dato == '>')||(Rx232Ind>=256))
 			{
 				Rx232Ind = 0;
-				RS232.lCom = true;
+				RS232.B.lCom = true;
 			}
-			if(RS232.lCom)
+			if(RS232.B.lCom)
 			{
 				Rx232Buf[Rx232Ind] = Dato;	
 				Rx232Ind++;
@@ -129,8 +129,8 @@ void ExeTask(void)
 			if(Dato =='<')
 			{
 				Proceso.B.fRxCom = true;	//Fin del bloque
-				RS232.fCom = true;
-				RS232.lCom = false;
+				RS232.B.fCom = true;
+				RS232.B.lCom = false;
 				Rx232Buf[Rx232Ind] = 0x00;	
 				Rx232Ind++;	
 				break;		
@@ -139,12 +139,12 @@ void ExeTask(void)
 //-----------------------------------------------------------------------------
 // Escritura de datos desde el modulo a la pantalla
 //-----------------------------------------------------------------------------		
-		if(Wifi.EscDato)
+		if(Wifi.B.EscDato)
 		{
 			Sts_Tmr.CntWifi = 0;
-			if(!Wifi.IniDato)
+			if(!Wifi.B.IniDato)
 			{
-				Wifi.IniDato = true;
+				Wifi.B.IniDato = true;
 				memset(SAVE,0x00,512);
 				for(i=0;i<512;i=i+128)
 				{
@@ -219,7 +219,7 @@ void ExeTask(void)
 					Dir = MemAddr + i;
 					EepromRDBuf(Dir,&SAVE[i],128);		
 				}
-				Wifi.EscDato = false;
+				Wifi.B.EscDato = false;
 				Proceso.B.fGrabaDts = true;
 			}	
 		}
@@ -229,7 +229,7 @@ void ExeTask(void)
 		else
 		{
 			
-			while(!WifiFIFOEmptyRX() && !Wifi.fCom)
+			while(!WifiFIFOEmptyRX() && !Wifi.B.fCom)
 			{				
 				Dato = WifiFIFOReadRX();
 //-----------------------------------------------------------------------------
@@ -237,38 +237,45 @@ void ExeTask(void)
 //-----------------------------------------------------------------------------
 				if (Dato =='*')
 				{
-					if (Wifi.lMod)
+					if (Wifi.B.lMod)
 					{
-						Wifi.lMod = false;
+						Wifi.B.lMod = false;
 						if(Check(WFcmd,"OPEN",5))
 						{
 							Sts_Tmr.CntWifi = 0;
-							Wifi.fMod = true;
-							Wifi.fClose = false;
+							Wifi.B.fMod = true;
+							Wifi.B.fClose = false;
 							
 						}
 						else if(Check(WFcmd,"CLOSE",6) ||Check(WFcmd,"CLOS",5))
 						{
-							Wifi.fMod = false;
-							Wifi.fClose = true;
+							Wifi.B.fMod = false;
+							Wifi.B.fClose = true;
 							Sts_Tmr.CntWifi = 0;
 							ModuloWf.cont++;
 						}
 						if(Check(WFcmd,"HELLO",5))
 						{
 							Sts_Tmr.CntWifi = 0;
-							Wifi.fConectado = true;
+							Wifi.B.fConectado = true;
+						}
+						if(Check(WFcmd,"Reboot",6))
+						{
+							Proceso.B.fRN_SoftRst = false;
+							Sts_Tmr.CntWifi = 0;
+							Wifi.val = 0;
+							Com_DtsTask_RNConf = 0;
 						}
 					}
 					else
 					{
 						Sts_Tmr.CntWifi = 0;
-						Wifi.lMod = true;
+						Wifi.B.lMod = true;
 	//					memset(WFcmd,0,sizeof(WFcmd));
 						WFind = 0;
 					}
 				}
-				else if(Wifi.lMod)
+				else if(Wifi.B.lMod)
 				{
 					WFcmd[WFind] = Dato;
 					WFind++;
@@ -285,9 +292,9 @@ void ExeTask(void)
 					{
 						Sts_Tmr.CntWifi = 0;
 						Rx3Ind = 0;
-						Wifi.lCom = true;		
+						Wifi.B.lCom = true;		
 					}
-					if(Wifi.lCom)
+					if(Wifi.B.lCom)
 					{
 						Sts_Tmr.CntWifi = 0;
 						Rx3Buf[Rx3Ind] = Dato;	
@@ -297,8 +304,8 @@ void ExeTask(void)
 					{
 						Sts_Tmr.CntWifi = 0;
 						Proceso.B.fRxCom = true;	//Fin del bloque	
-						Wifi.lCom = false;
-						Wifi.fCom = true;
+						Wifi.B.lCom = false;
+						Wifi.B.fCom = true;
 						break;
 					}
 				}
@@ -361,10 +368,6 @@ void ExeTask(void)
 				}
 			}	
 		}
-
-
-
-
 //-----------------------------------------------------------------------------
 // Transferencia de datos para comunicacion
 //-----------------------------------------------------------------------------	
@@ -467,7 +470,7 @@ void ExeTask(void)
 			Dest_WF.Duty = 5;
 			Dest_WF.Sec = 0x0000;
 			Proceso.B.fApagadoRN = false;
-			Wifi.fConectado = false;	
+			Wifi.B.fConectado = false;	
 			if(Sts_Tmr.CntWifi > 10)
 			{
 				Sts_Tmr.CntWifi = 0;
@@ -480,55 +483,76 @@ void ExeTask(void)
 //Modulo Encendido
 			if((!Proceso.B.fWifiConf)&&(Sts_Tmr.CntWifi > 600))
 			{
-				Sts_Tmr.CntWifi = 0;
-				Pwr_Wifi 	= false;		//Alimentacion 3v3 Modulo WiFi
-				RN171_Desc++;
-				Wifi.lMod = false;
-				Wifi.fMod = false;		
+//-------------------------------------------------------------------------
+//Apagado del modulo si en 60 segundos no se abrio el puerto y recibe datos	
+				Proceso.B.fRN_SoftRst = true; //Activo el reset por software
+				if (Sts_Tmr.CntWifiRst >= 3)
+				{
+					Sts_Tmr.CntWifi = 0;
+					Pwr_Wifi 	= false;		//Alimentacion 3v3 Modulo WiFi
+					RN171_Desc++;
+					Wifi.B.lMod = false;
+					Wifi.B.fMod = false;
+					Proceso.B.fRN_SoftRst = false;
+					Sts_Tmr.CntWifiRst = 0;
+					Com_DtsTask_RNConf = 0;
+				}			
 			}
 		
-			if (Wifi.fMod)
+			if (Wifi.B.fMod)
 			{
-	//Puerto Abierto
-			//	Sts_Tmr.CntWifi++;
+//Puerto Abierto
+//Sts_Tmr.CntWifi++;
 		
 				if (Sts_Tmr.CntWifi >50)
 				{
-	//-------------------------------------
-	//No recibe el KAV	
+//-------------------------------------
+//No recibe el KAV	
 	   				Dest_WF.Duty = 6;
 					Dest_WF.Sec = 0x0033;
-					if(!Wifi.fKAV)
+					if(!Wifi.B.fKAV)
 					{
-						Wifi.fKAV = true;
-						Wifi.fKAVx = true;
+						Wifi.B.fKAV = true;
+						Wifi.B.fKAVx = true;
 						KAV_cont++;
 					}
 				}
 	
 				else
 				{
-	//-------------------------------------
-	//Se abrio el puerto esta transmitiendo datos
+//-------------------------------------
+//Se abrio el puerto esta transmitiendo datos
 	
 					Proceso.B.fApagadoRN = false;
 					Dest_WF.Duty = 3;
 					Dest_WF.Sec = 0xAAAA;
-					Wifi.fKAV = false;
+					Wifi.B.fKAV = false;
 				}
 				if((!Proceso.B.fWifiConf)&&(Sts_Tmr.CntWifi > 33))
 				{
-					Sts_Tmr.CntWifi = 0;
-					Pwr_Wifi 	= false;		//Alimentacion 3v3 Modulo WiFi
-					RN171_Desc++;
-					Wifi.lMod = false;
-					Wifi.fMod = false;		
-				}
+//-----------------------------------------------------------------------------
+//Apagado del modulo si en 3,3 seg con el puerto abierto no recibio datos
+					//Activo el reinicio por software
+					Proceso.B.fRN_SoftRst = true;				
+					Sts_Tmr.CntWifi = 33;	//para que no halla desbordamiento mientras hago el reset
+					if (Sts_Tmr.CntWifiRst >= 3)
+					{
+						Sts_Tmr.CntWifiRst = 0;
+						RN171_Desc++;
+						Wifi.B.lMod = false;
+						Wifi.B.fMod = false;
+						Sts_Tmr.CntWifi = 0;
+						Pwr_Wifi 	= false;		//Alimentacion 3v3 Modulo WiFi	
+						Proceso.B.fRN_SoftRst = false;	//No se pudo resetear por soft
+						Sts_Tmr.CntWifiRst = 0;	
+						Com_DtsTask_RNConf = 0;
+					}
+				}	
 			}
-			else if (Wifi.fClose && !Wifi.fMod)
+			else if (Wifi.B.fClose && !Wifi.B.fMod)
 			{
-	//-----------------------------------------------
-	//Se Abrio y se cerro el puerto
+//-----------------------------------------------
+//Se Abrio y se cerro el puerto
 				Sts_Tmr.CntWifi++;
 	//			LED_CAN = true;
 				Proceso.B.fApagadoRN = true;
@@ -538,24 +562,26 @@ void ExeTask(void)
 				{
 					Sts_Tmr.CntWifi = 0;
 					Pwr_Wifi 	= false;		//Alimentacion 3v3 Modulo WiFi
-					Wifi.lMod = false;	
-					Wifi.fClose = false;
+					Wifi.B.lMod = false;	
+					Wifi.B.fClose = false;
 					RN171_Desc++;
 					EepromWRBuf(M_RN171_OFF,&RN171_Desc,sizeof(RN171_Desc));		
 				}
 			}
-	//-----------------------------------------------
-	//Se conecto un dispositivo al modulo	
-			else if(Wifi.fConectado)
+	
+			else if(Wifi.B.fConectado)
 			{
+//-----------------------------------------------
+//Se conecto un dispositivo al modulo
 				Dest_WF.Duty = 25;
 				Dest_WF.Sec = 0x00AA;
 			}
-	//-----------------------------------------------
-	//El modulo esta encendido 
-	//No hay dispositivos conectados
+
 			else 
 			{
+//-----------------------------------------------
+//El modulo esta encendido 
+	//No hay dispositivos conectados				
 	//			LED_CAN = LED_CAN ? true : false;
 				Dest_WF.Duty = 25;
 				Dest_WF.Sec = 0x0F0F;
