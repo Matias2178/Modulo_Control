@@ -110,34 +110,41 @@ enum{M_MIC_OFF=0x0028									//long
 
 //-----------------------------------------------
 //ESTADO DE LOS SENSORES DE SEMILLA FERTILIZANTE
-//0x004A - 0x0057 - (14)
-enum{M_STS_HAB_PER=0x004A				//unsigned long
+//0x0030 - 0x0047 - (24)
+enum{M_STS_HAB_PER=0x0030				//unsigned long
 
 	
-	,M_STS_HAB_MOD	= M_STS_HAB_PER	//2
-	,M_STS_HAB_MOD0 = M_STS_HAB_MOD
-	,M_STS_HAB_MOD1
-	
+	,M_STS_HAB_MOD	= M_STS_HAB_PER		//(8)
+	,M_STS_HAB_MOD0 = M_STS_HAB_MOD	//1
+	,M_STS_HAB_MOD1					//1
 	,M_STS_HAB_ROT 					//1
 	,M_STS_HAB_TRB					//1	
+	,M_STS_HAB_TOL0					//1	
+	,M_STS_HAB_TOL1					//1	
+	,M_STS_HAB_PRE0					//1	
+	,M_STS_HAB_PRE1					//1	
 
-	,M_STS_CON_PER
-	,M_STS_CON_MOD	= M_STS_CON_PER	//2
-	,M_STS_CON_MOD0 = M_STS_CON_MOD
-	,M_STS_CON_MOD1
-	
+	,M_STS_CON_PER						//(8)
+	,M_STS_CON_MOD	= M_STS_CON_PER	
+	,M_STS_CON_MOD0 = M_STS_CON_MOD	//1
+	,M_STS_CON_MOD1					//1
 	,M_STS_CON_ROT 					//1
 	,M_STS_CON_TRB					//1
-	,M_STS_CON_TOL					//1
+	,M_STS_CON_TOL0					//1
+	,M_STS_CON_TOL1					//1
+	,M_STS_CON_PRE0					//1
+	,M_STS_CON_PRE1					//1
 
-	,M_STS_BUS_PER
-	,M_STS_BUS_MOD = M_STS_BUS_PER	//2
-	,M_STS_BUS_MOD0 = M_STS_BUS_MOD
-	,M_STS_BUS_MOD1
-	
+	,M_STS_BUS_PER						//(8)
+	,M_STS_BUS_MOD = M_STS_BUS_PER	
+	,M_STS_BUS_MOD0 = M_STS_BUS_MOD	//1
+	,M_STS_BUS_MOD1					//1
 	,M_STS_BUS_ROT 					//1	
 	,M_STS_BUS_TRB					//1
-	,M_STS_BUS_TOL					//1		
+	,M_STS_BUS_TOL0					//1	
+	,M_STS_BUS_TOL1					//1	
+	,M_STS_BUS_PRE0					//1	
+	,M_STS_BUS_PRE1					//1		
 	
 
 };

@@ -524,8 +524,8 @@ void Comando(unsigned char *S)
 		}
 //-----------------------------------------------------------------------------
 //Habilitacion de los Perifericos Moduladora, Rotacion, Tolva, Turbina
-//>SAJ,HSF,Moduladora,Rotacion,Tolva,Turbina<
-//>SAJ,HSF,00000000,0000FFFF,00000000,0000FFFF<
+//>SAJ,HPR,Moduladora,Rotacion,Tolva,Turbina,Presion<
+//>SAJ,HPR,00000000,0000FFFF,00000000,0000FFFF,000001FF<
 		else if(Check(Cmd,"HPR",sizeof("HPR")) )
 		{			
 			if(Com)
@@ -558,6 +558,14 @@ void Comando(unsigned char *S)
 				LocUserDW10.L.V = 0;	
 				ArrtoLongHex2(Cmd,&LocUserDW10.L.V);
 				HabPer.TRB = LocUserDW10.B.V[0];
+//Presion
+				memset(Cmd,0x00,10);
+				S += Movstr(Cmd,S);
+				S++;
+				LocUserDW10.L.V = 0;	
+				ArrtoLongHex2(Cmd,&LocUserDW10.L.V);
+				HabPer.PRE = LocUserDW10.UI.V[0];
+								
 				CargaConfPer();
 				GrabaConfPer();
 			}
@@ -583,6 +591,12 @@ void Comando(unsigned char *S)
 //Turbina
 			LocUserDW10.L.V = 0;
 			LocUserDW10.B.V[0] = HabPer.TRB;
+			P = LongHextoArr(LocUserDW10.L.V, P);
+			*P = ',';
+			P++; 
+//Presion
+			LocUserDW10.L.V = 0;
+			LocUserDW10.B.V[0] = HabPer.PRE;
 			P = LongHextoArr(LocUserDW10.L.V, P);
 			*P = ',';
 			P++; 	
@@ -781,6 +795,11 @@ void Comando(unsigned char *S)
 			while(!U2STAbits.TRMT || !U3STAbits.TRMT) ExeTask();
 			
 			P = QTxBuf;
+			StsPer16 ("PRE",P,ConPer.PRE);
+			CBuffersTx();
+			while(!U2STAbits.TRMT || !U3STAbits.TRMT) ExeTask();
+			
+			P = QTxBuf;
 			StsPer16 ("TOL",P,ConPer.TOL);
 			CBuffersTx();
 			while(!U2STAbits.TRMT || !U3STAbits.TRMT) ExeTask();
@@ -920,7 +939,7 @@ void Comando(unsigned char *S)
 			*P = ',';
 			P++;
 			Sen--;
-			if(!Turbina[Sen].Sts.B.Det || Sen > kModMax)
+			if(!Turbina[Sen].Sts.B.Det || Sen > kTRBMax)
 			{
 			//	P = TXTError(P);
 				P = (unsigned char*)EstadosCN("HAB",P);
@@ -975,6 +994,72 @@ void Comando(unsigned char *S)
 			P++;	
 		}
 //-----------------------------------------------------------------------------
+		//CONFIGURACION MODULO PRE (Presion)
+		else if(Check(Cmd,"PRE",sizeof("PRE")))
+		{
+			//Numero de Sensor
+			memset(Cmd,0x00,10);
+			S += Movstr(Cmd,S);
+			S++;
+			Sen = atoi((char*)Cmd);
+			P  = (unsigned char*)uitos(Sen,P);
+			*P = ',';
+			P++;
+			Sen--;
+			if(!Presion[Sen].Sts.B.Det || Sen > kPREMax)
+			{
+				P = (unsigned char*)EstadosCN("HAB",P);
+				goto lFinComando;
+			}
+			if(Com)
+			{	
+//				//Factor K
+//				memset(Cmd,0x00,10);
+//				S += Movstr(Cmd,S);
+//				S++;
+//				Presion[Sen].FK = atol((char*)Cmd);
+				
+				//Nivel Alarma Minima
+				memset(Cmd,0x00,10);
+				S += Movstr(Cmd,S);
+				S++;
+				Presion[Sen].AlMin = atol((char*)Cmd);
+				
+				//Nivel Alarma Maxima
+				memset(Cmd,0x00,10);
+				S += Movstr(Cmd,S);
+				S++;
+				Presion[Sen].AlMax = atol((char*)Cmd);
+				
+				PREEscPar00(Sen);
+			}
+			Error = PRELecPar00(Sen);
+			if(!Error)
+			{
+				P = (unsigned char*)EstadosCN("COM",P);
+				goto lFinComando;	
+			}
+			else if (Error ==2)
+			{
+				P = (unsigned char*)EstadosCN("ESC",P);
+			}
+			else
+			{
+			//Estado 
+				P = (unsigned char*)EstadosCN("OK",P);
+			}
+			//Numero de Sensor
+	//		P  = (unsigned char*)ultos(Presion[Sen].FK,P);	
+	//		*P = ',';
+	//		P++;
+			P  = (unsigned char*)ultos(Presion[Sen].AlMin,P);	
+			*P = ',';
+			P++;
+			P  = (unsigned char*)ultos(Presion[Sen].AlMax,P);	
+			*P = ',';
+			P++;	
+		}
+//-----------------------------------------------------------------------------
 //CONFIGURACION DE VELOCIDAD DE TRASMICION DE LA UART-232 Y DEL MODULO WIFI
 		else if(Check(Cmd,"UART",sizeof("UART")))
 		{
@@ -1009,7 +1094,10 @@ void Comando(unsigned char *S)
 					Sen = atoi((char*)Cmd);
 				//	Sen--;
 					if(Sen <= 6 )
+					{
 						LocUserW00.B.V[0] = Sen;
+						LocUserW00.B.V[1] = Sen; 
+					}	
 					else
 					{
 						P = TXTError(P);
@@ -1024,7 +1112,10 @@ void Comando(unsigned char *S)
 					Sen = atoi((char*)Cmd);
 					//CONVIEN ESTO O EL VALOR DEL BAUDRATE????
 					if(Sen <= 6 )
+					{
+						LocUserW00.B.V[0] = Sen; 
 						LocUserW00.B.V[1] = Sen; 
+					}	
 					else
 					{
 						P = TXTError(P);
@@ -1179,6 +1270,13 @@ void Comando(unsigned char *S)
 					P = P + strlen("TRB,");
 					if( SetId.IdMin != 0xD3)
 						goto lFallaCargaNum;	
+				}
+				else if(Check(Cmd,"PRE",sizeof("PRE")))
+				{
+					strcpy((char *)P,"PRE,");
+					P = P + strlen("PRE,");
+					if( SetId.IdMin != 0x80)
+						goto lFallaCargaNum;	
 				}			
 				memset(Cmd,0x00,10);
 				S += Movstr(Cmd,S);
@@ -1213,8 +1311,6 @@ lFallaCargaNum:
 				goto lFinComando;
 			}	
 		}
-
- 		
 //-----------------------------------------------------------------------------
 		else
 		{

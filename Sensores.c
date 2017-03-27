@@ -738,6 +738,15 @@ unsigned long Mask;
 		Tolva[i].Sts.B.Det = (Mask & ConPer.TOL)>>i;		
 		Tolva[i].Sts.B.Bus = (Mask & BusPer.TOL)>>i;		
 	}
+	for(i=0;i<9;i++)
+	{
+		Mask = 1;
+		Mask = Mask << i;
+		
+		Presion[i].Sts.B.Hab = (Mask & HabPer.PRE)>>i;
+		Presion[i].Sts.B.Det = (Mask & ConPer.PRE)>>i;		
+		Presion[i].Sts.B.Bus = (Mask & BusPer.PRE)>>i;		
+	}
 }
 
 /******************************************************************************
@@ -791,7 +800,16 @@ void GrabaConfPer(void)
 		ConPer.TOL |= ((Mask & Tolva[i].Sts.B.Det)<< i);
 		BusPer.TOL |= ((Mask & Tolva[i].Sts.B.Bus)<< i);			
 	}
-
+	
+//Presion
+	for(i=0;i<9;i++)
+	{
+		Mask = 1;
+		
+		HabPer.PRE |= ((Mask & Presion[i].Sts.B.Hab)<< i);
+		ConPer.PRE |= ((Mask & Presion[i].Sts.B.Det)<< i);
+		BusPer.PRE |= ((Mask & Presion[i].Sts.B.Bus)<< i);			
+	}
 	EepromWRBuf(M_STS_HAB_PER,(unsigned char *)&HabPer,sizeof(struct _DtsPer));
 	Dly_1_MiliSec(12);
 	EepromWRBuf(M_STS_CON_PER,(unsigned char *)&ConPer,sizeof(struct _DtsPer));
@@ -872,6 +890,31 @@ void GrabaConfTRB(void)
 	BusPer.TRB &= 0x07;
 }
 
+/******************************************************************************
+*	Funcion:		GrabaConfPRE()
+*	Descricpion:	Guarda los datos de configuracion del sensor de Presion  
+*					en la memoria
+*					RS232
+*	Ingreso Datos:	Ninguno
+*	Salida Datos:	Ninguno
+******************************************************************************/	
+void GrabaConfPRE(void)
+{
+	int i;
+	unsigned long Mask;
+
+	for(i=0;i<9;i++)
+	{
+		Mask = 1;
+		
+		HabPer.PRE |= ((Mask & Presion[i].Sts.B.Hab)<< i);
+		ConPer.PRE |= ((Mask & Presion[i].Sts.B.Det)<< i);
+		BusPer.PRE |= ((Mask & Presion[i].Sts.B.Bus)<< i);			
+	}
+	HabPer.PRE&= 0x1FF;
+	ConPer.PRE &= 0x1FF;
+	BusPer.PRE &= 0x1FF;
+}
 /******************************************************************************
 *	Funcion:		GrabaConfTol()
 *	Descricpion:	Guarda los datos de configuracion de la moduladora en la 
@@ -957,8 +1000,9 @@ void ROT2DtsCom(void)
 }
 
 /******************************************************************************
-*	Funcion:		Bus1aDtsCom()
-*	Descricpion:	Transfiere los datos del Bus2 LIN a bus de comunicaciones RS232
+*	Funcion:		TRB2DtsCom()
+*	Descricpion:	Transfiere los datos de los sensores de turbina al bus de 
+*					comunicaciones RS232
 *	Ingreso Datos:	Ninguno
 *	Salida Datos:	Ninguno
 ******************************************************************************/
@@ -969,8 +1013,12 @@ void TRB2DtsCom(void)
 
 	for(i=0;i<3;i++)
 	{
+		
 		DtsPerCom.TRB.Med[i]= Turbina[i].Med ;
 		DtsPerCom.TRB.Sts[i]= Turbina[i].Sts.Val ;
+		
+		TRBChekAl00(i);
+		
 		if(Turbina[i].Sts.B.Det)
 			cont ++;
 	}
@@ -987,7 +1035,37 @@ void TRB2DtsCom(void)
 	
 }
 
+/******************************************************************************
+*	Funcion:		PRE2DtsCom()
+*	Descricpion:	Transfiere los datos de los sensores de presion al bus de 
+*					comunicaciones RS232
+*	Ingreso Datos:	Ninguno
+*	Salida Datos:	Ninguno
+******************************************************************************/
+void PRE2DtsCom(void)
+{
+	int i;
+	int cont = 0;
 
+	for(i=0;i<kPREMax;i++)
+	{
+		PREChekAl00(i);
+		DtsPerCom.PRE.Med[i]= Presion[i].Med ;
+		DtsPerCom.PRE.Sts[i]= Presion[i].Sts.Val ;
+		if(Presion[i].Sts.B.Det)
+			cont ++;
+	}
+	if(cont)
+	{
+		Sensores.STS.B.TX_PRE = true;
+		Sensores.tPRE = 0;
+	}
+	else if(Sensores.tPRE >= kMaxEscan)
+	{
+		Sensores.STS.B.TX_PRE = true;
+		Sensores.tPRE = 0;	
+	}
+}
 /******************************************************************************
 *	Funcion:		TOL2DtsCom()
 *	Descricpion:	Transfiere los datos del LIN a bus de comunicaciones RS232
@@ -1027,7 +1105,6 @@ void TOL2DtsCom(void)
 ******************************************************************************/
 void CargaId(void)
 {
-
 //Hay una comunicacion pendiente de ser atendida
 	if (SW1PortSys.Sts.B.fPend)
 		return;
@@ -1045,16 +1122,22 @@ void CargaId(void)
 			SetId.StsBus.SenLec = false;	
 			SetId.StsBus.Ocupado = true;
 			SetId.IdMax = 0xFF;
-			SetId.IdMin = 0xFF;		
+			SetId.IdMin = 0xFF;	
+			SetId.NuevoId = 0;	
 		}
 		else
 		{
-			SetId.StsBus.Ocupado = false;
-			SetId.StsBus.SenLec = false;	
-			SetId.StsBus.SenEsc = false;
-			SetId.StsBus.Libre = true;
-			SetId.IdMax = 0x00;
-			SetId.IdMin = 0x00;
+			SetId.NuevoId ++;
+			if(SetId.NuevoId > 5)
+			{
+				SetId.StsBus.Ocupado = false;
+				SetId.StsBus.SenLec = false;	
+				SetId.StsBus.SenEsc = false;
+				SetId.StsBus.Libre = true;
+				SetId.IdMax = 0x00;
+				SetId.IdMin = 0x00;
+				SetId.NuevoId = 0x00;
+			}
 		}
 	}
 //A ver para cuando conecta el nuevo sensor
@@ -1184,6 +1267,14 @@ void MaxMinId(unsigned char Id)
 	{	
 		SetId.IdMin = 0xD3;
 		SetId.IdMax = 0xD5;	
+		SetId.VoidId = 0xD3;
+	}
+//Sensor de Presion
+	else if(Id>=0x80 && Id<=0x88)
+	{	
+		SetId.IdMin = 0x80;
+		SetId.IdMax = 0x88;	
+		SetId.VoidId = 0x80;
 	}
 //Sensor conectado no modifica ID
 	else

@@ -35,36 +35,33 @@
  Correct values in main.h and uart2.h files.
 #endif
 
-unsigned int U1TxInd;
-unsigned int U2TxInd;
-unsigned int U3TxInd;
-
-unsigned char RxBuf[256];
-unsigned int RxInd;
+unsigned int U1TxInd __attribute__ ((far));
+unsigned int U2TxInd __attribute__ ((far));
+unsigned int U3TxInd __attribute__ ((far));
 
 
-unsigned char Rx232Buf[256];
-unsigned int Rx232Ind;
+unsigned char Rx232Buf[256] __attribute__ ((far));
+unsigned int Rx232Ind __attribute__ ((far));
 			 
 
-unsigned char Rx3Buf[256];
-unsigned int Rx3Ind;
+unsigned char Rx3Buf[256] __attribute__ ((far));
+unsigned int Rx3Ind __attribute__ ((far));
 
-unsigned char U1RxBuf[80];
-unsigned int U1RxInd;
-unsigned int U1RxBf;
+unsigned char U1RxBuf[80] __attribute__ ((far));
+unsigned int U1RxInd __attribute__ ((far));
+unsigned int U1RxBf __attribute__ ((far));
 
-unsigned char U1TxBuf[80];
-unsigned char U2TxBuf[260];
-unsigned char U3TxBuf[260];
+unsigned char U1TxBuf[80] __attribute__ ((far));
+unsigned char U2TxBuf[260] __attribute__ ((far));
+unsigned char U3TxBuf[260] __attribute__ ((far));
 
-unsigned char SAVE[512];
 
-unsigned char QTxBuf[256];
-unsigned char ComBuf[260];
 
-unsigned char WFcmd[6];
-unsigned char WFind;
+unsigned char QTxBuf[256] __attribute__ ((far));
+unsigned char ComBuf[260] __attribute__ ((far));
+
+unsigned char WFcmd[6] __attribute__ ((far));
+unsigned char WFind __attribute__ ((far));
 
 /******************************************************************************
 *	Funcion:		UART2Init()

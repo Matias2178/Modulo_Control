@@ -567,6 +567,50 @@ lErrorLectTolva:
 		}
 	}
 	GrabaConfTol();
+//-----------------------------------------------------------------------------
+//	Redeteccion Sensores de Presion
+	for(SenId=0;SenId<9;SenId++)
+	{
+		Error1 = 0;
+
+lErrorLectPresion:
+		Id = 0x80 + SenId;
+		SInd = SenId;
+		SW1_PortUserStart(Id,0x07 | SW1_cmdRd,1);
+		SW2_PortUserStart(Id,0x07 | SW2_cmdRd,1);
+		
+		SW1PortUser.Sts.B.fPend=true;
+		SW2PortUser.Sts.B.fPend=true;
+		
+		while(SW1PortUser.Sts.B.fPend ||SW2PortUser.Sts.B.fPend) ExeTask();	
+		
+		if (SW1PortUser.Sts.B.fOk)
+		{
+			Presion[SInd].Sts.B.Con = true;
+			Presion[SInd].Sts.B.Bus = false;
+			Presion[SInd].Sts.B.Det = true;
+			Presion[SInd].Sts.B.FDs = false;
+		}
+		else if (SW2PortUser.Sts.B.fOk)
+		{
+			Presion[SInd].Sts.B.Con = true;
+			Presion[SInd].Sts.B.Bus = true;
+			Presion[SInd].Sts.B.Det = true;
+			Presion[SInd].Sts.B.FDs = false;
+		}
+		else
+		{
+			Error1 ++;
+			if(Error1 < 3)
+				goto lErrorLectPresion;
+				
+			Presion[SInd].Sts.B.Con = false;
+			Presion[SInd].Sts.B.Bus = false;
+			Presion[SInd].Sts.B.Det = false;
+			Presion[SInd].Sts.B.FDs = false;
+		}
+	}
+	GrabaConfPer();
 	Proceso.B.fConfPer = false;
 }
 

@@ -60,13 +60,14 @@
 	int	TiempoDatosL1;
 	char TLed;
 	unsigned long SerialNum;
-	char Nombre[20];
-	
+	char Nombre[20]__attribute__ ((far));
+	unsigned char SAVE[512] __attribute__ ((far));
 //----------------------------------------------------------------------------
 //	CONTADORES PARA TAREAS SECUENCIALES
 	char Com_DtsTask_Sen010;
 	char Com_DtsTask_Mod010;
 	char Com_DtsTask_TRB010;
+	char Com_DtsTask_PRE010;
 	char Com_DtsTask_ROT010;
 	char Com_DtsTask_DIAG10;
 	char Com_DtsTask_MEM010;
@@ -92,6 +93,7 @@
 	struct _DtsSiembra DtsSiembra;
 	struct _SenRot	Rotacion[8];
 	struct _SenRot	Turbina[3];
+	struct _SenRot	Presion[9];
 	struct _Mod		Moduladora[16];	
 	struct _SenTol	Tolva[16];
 	
@@ -103,6 +105,5 @@
 	struct _Sensores Sensores;
 	struct _MGPS MGPS;
 	struct _CGPS CGPS;
-//	struct _Dest DestWf;
 	struct _ModWf ModuloWf;
 	struct _Destello Dest_WF;

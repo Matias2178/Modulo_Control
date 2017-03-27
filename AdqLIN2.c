@@ -525,6 +525,7 @@ TolLIN2:
 				SenB2ID = 0;
 				Adq_SelTask0021=16;
 				Proceso.B.fAdqNTL2 = true;
+				goto PRELIN2;
 				break;
 			}
 			ErrorB2=0;
@@ -595,6 +596,90 @@ TolLIN2:
 				Proceso.B.fAdqNTL2 = true;
 			}
 		break;
+		case 16:
+//Lectura de datos sensores de presion
+PRELIN2:
+			Proceso.B.fAdqPRE2 = false;
+			for(;SenB2ID<9;)
+			{
+				Id = 0x80 + SenB2ID;
+//!Turbina[SenB2ID].Sts.B.Bus indica que esta en el bus 1
+				if(Presion[SenB2ID].Sts.B.Bus)
+				{
+					if(Presion[SenB2ID].Sts.B.Hab && Presion[SenB2ID].Sts.B.Det)
+					{
+						//Sensor habilitado para lectura
+						break;
+					}
+					else
+					{
+						Presion[SenB2ID].Med = 0;
+						Presion[SenB2ID].Sts.B.Con = false;
+						Presion[SenB2ID].Sts.B.FMin = false;
+						Presion[SenB2ID].Sts.B.FMax = false;
+						Presion[SenB2ID].Sts.B.FDs = false;
+					}
+				}
+				SenB2ID++;
+			}
+			
+			if(SenB2ID>=9)
+			{
+				SenB2ID = 0;
+				Adq_SelTask0021=0;
+				Proceso.B.fAdqPRE2 = true;
+				break;
+			}
+			ErrorB2=0;
+			Adq_SelTask0021++;
+			SW2_PortSysStart(Id,0x00 | SW2_cmdRd,2);
+			SW2_PortSysSend();
+		break;
+		case 17:
+			Id = 0x80 + SenB2ID;
+			if (SW2PortSys.Sts.B.fOk)
+			{
+				Presion[SenB2ID].Med = *(unsigned int*)&SW2.buf[0];
+				Presion[SenB2ID].Sts.B.Con = true;
+				Presion[SenB2ID].Sts.B.FDs = false;
+				Presion[SenB2ID].Sts.B.AxDesc = false;
+			}
+			else if(SW2PortSys.Sts.B.fErr && !Presion[SenB2ID].Sts.B.FDs)
+			{
+				if(ErrorB2>=2)
+				{
+					if( Presion[SenB2ID].Sts.B.AxDesc)
+					{
+						ErrorB2=0;					
+						Presion[SenB2ID].Med = 0;
+						Presion[SenB2ID].Sts.B.Con = false;
+						Presion[SenB2ID].Sts.B.FDs = true;
+					}
+					else
+					{
+						Presion[SenB2ID].Sts.B.AxDesc = true;
+					}
+				}
+				else
+				{
+					ErrorB2++;
+					SW2_PortSysStart(Id,0x00 | SW2_cmdRd,2);
+					SW2_PortSysSend();
+					break;
+				}
+			}
+			SenB2ID++;
+			if(SenB2ID<9)
+			{
+				Adq_SelTask0021=16;
+				break;	
+			}
+			else 
+			{
+				SenB2ID = 0;
+				Adq_SelTask0021=0;
+				Proceso.B.fAdqPRE2 = true;
+			}
 	}		
 }
 

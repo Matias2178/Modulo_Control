@@ -19,6 +19,8 @@
 	#define kModMax		16
 	#define kROTMax		8
 	#define kTRBMax		3
+	#define kTOLMax		16
+	#define kPREMax		9
 	#define kMaxEscan 	5
 	
 //-----------------------------------------------------------------------------
@@ -26,11 +28,12 @@
 
 	#define SoftVerH	1
 	#define SoftVerL	5
-	#define Relase		5
+	#define Relase		13
 
 	#define FVerD		17
 	#define FVerM		3
 	#define FVerA		2017
+
 	
 	#define true	1
 	#define True	1
@@ -52,7 +55,10 @@
 	#define k_FinaTD	15		//Tiempo Stop deteccion (Fina / Fertilizante)
 	#define k_FinaCS	10		//Cantidad Start medicion	(Fina / Fertilizante)
 	
-	#define k_MEM_CHECK 4
+	#define kTempAlTRB 	3		//Lecturas antes de generar o apagar la alarma de turbina
+	#define kTempAlPRE	3		//Lecturas antes de generar o apagar la alarma de presion
+	
+	#define k_MEM_CHECK 53
 	
 	#define Near __attribute__((near))
 	

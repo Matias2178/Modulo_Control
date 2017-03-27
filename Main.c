@@ -190,15 +190,6 @@ int main (void)
 	
 	LED_POWER = true;
 	LED_POWER_E = true;
-//	SenDtsMod.SemB1 = 0xFFFFFFFF;
-//	SenDtsMod.SemB2 = 0xFFFFFFFF;
-//	SenDtsMod.FerB1 = 0x00000000;
-//	SenDtsMod.FerB2 = 0x00000000;
-	
-//	SenDtsHab.FerB1 = 0xFFFFFFFF;
-//	SenDtsHab.FerB2 = 0xFFFFFFFF;
-//	SenDtsHab.SemB2 = 0xFFFFFFFF;
-//	SenDtsHab.SemB1 = 0xFFFFFFFF;
 
 	CargaConfSen();	
 	CargaConfPer();
@@ -210,6 +201,7 @@ int main (void)
 	ModStart000();	//Lectura inicial de las Moduladoras
 	TRBStart000();	//Lectura inicial de los sensores de RPM
 	RotStart000();	//Lectura inicial de los sensores de Rotacion
+	PREStart000();	//Lectura inicial de los sensores de Presion
 	TOLStart000();	//Lectuta inicial de los sensores de Tolva
 	SenTuboSucio();
 
@@ -267,6 +259,12 @@ int main (void)
 			TRB2DtsCom();
 			Proceso.B.fAdqTRB1 = false;
 			Proceso.B.fAdqTRB2 = false;	
+		}
+		if(Proceso.B.fAdqPRE1 && Proceso.B.fAdqPRE2)
+		{
+			PRE2DtsCom();
+			Proceso.B.fAdqPRE1 = false;
+			Proceso.B.fAdqPRE2 = false;	
 		}
 		if(Proceso.B.fAdqNTL1 && Proceso.B.fAdqNTL2)
 		{

@@ -419,6 +419,7 @@ void ExeTask(void)
 		Sensores.tMOD ++;
 		Sensores.tTRB ++;
 		Sensores.tTOL ++;
+		Sensores.tPRE ++;
 //-----------------------------------------------------------------------------		
 // Calculos de los metros recorridos
 // Solo si la velocidad es mayor a 2.0 km/h
@@ -634,14 +635,24 @@ void ExeTask(void)
 //-----------------------------------------------------------------------------	
 //Calculo de las alarmas de los sensores de Turbina
 //-----------------------------------------------------------------------------	
-		for(i=0;i++;i<kTRBMax)
-		{
-			SenId = i;
-			if(Turbina[SenId].Sts.B.Hab && Turbina[SenId].Sts.B.Det)
-			{
-				TRBChekAl00(SenId);
-			}
-		}
+//		for(i=0;i++;i<kTRBMax)
+//		{
+//			SenId = i;
+//			if(Turbina[SenId].Sts.B.Hab && Turbina[SenId].Sts.B.Det)
+//			{
+//				TRBChekAl00(SenId);
+//			}
+//		}
+//		i = 0;
+//		for(i=0;i++;i<kPREMax)
+//		{
+//			SenId = i;
+//			if(Presion[SenId].Sts.B.Hab && Presion[SenId].Sts.B.Det)
+//			{
+//				PREChekAl00(SenId);
+//			}
+//		}
+		
 //-----------------------------------------------------------------------------	
 //Control de los led del GPS
 //-----------------------------------------------------------------------------	

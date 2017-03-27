@@ -250,6 +250,7 @@ Version 1.4R2
 Version 1.5R0
 	Actualizacion para produccion.
 
+<<<<<<< HEAD
 Version 1.5R01
 	Enciendo el modulo Wifi despues de configurar los puertos series, y el tiempo de espera pasa a 1000 mseg.
 	
@@ -265,3 +266,78 @@ Version 1.5R4
 Version 1.5R5
 	Se agrego el reseteo por software del modulo RN-171. Si la cantidad de reintentos es mayor a 3 realiza el reseteo por 
 	hardware.
+=======
+Version 1.5R1
+	Agregado del sensor de presion ID 0x80 al 0x88, se agrego la lectura de los datos de proceso y los comandos de modificacion de los parametros
+	Funciones de redeteccion de los sensores y carga de las alarmas.
+
+	AdqLIN1/2:		Lectura de la medicion del proceso del sensor.
+	Comandos:		Agregado del sensor de presion en los comandos de cambio de ID.
+					Funcion de configuracion de los parametros del sensor de presion.
+					Seteo del baudrate igual para los dos puertos de comunicacion.
+	Comunicacion:	Agregado de la trasmicion de las mediciones y del estado de los sensores de presion.
+					Agregado de los sensores de presion en las funciones que arman los datos a trasnmitir.
+					Agregado del sensor de presion en el envio de sensor conectado al momento de hacer un cambio de ID.
+	Constantes:		Agregado de las constantes maximas de sensores de presion y tolva.
+					Modificacion del valor de checkeo de la memoria.
+	Eeprom_Address:	Agregado de la memoria para el guardado de datos de sensores de presion conectados, habilitados, y el bus donde estan conectados.
+	Eeprom_I2C:		Modificacion de la funcion de inicio de la memoria, si el valor de control es distinto borra los parametros, pero resguarda la velocidad
+					de transmicion de la uart.
+	ES_Conf:		Remapeo del puerto UART2 en el conector frontal de la placa.
+	ExeTask:		Agregado del incremento de los temporizadores para sensores de presion.
+	Main:			Llamado a funciones de inicio de los sensores de presion.
+					Habilitacion de envio de datos a la terminal.
+	RPM_ROT:			Funcion de redeteccion y lectura de parametros de los senrosres de presion.
+					Funcion de lectura de los parametros de los sensores de presion.
+					Funcion de escritura de los prarametros de los sensores de presion.
+					Funcion de control de los valores de alarma de los sensores de presion.
+	Sensores:		Agregado de los datos de los sensores de presion para  el guardado en la memoria.
+					Agregado de los datos de los sensores de presion para la lectura desde la memoria.
+					Funcion de carga de datos leidos de los sensores al los datos para transmitir por los puertos serie.
+					Modificacion de la funcion de cambio de ID para agregado del sensor de presion. Espera 5 lecturas con sensor desconectado antes de informar que no hay sensores conectados en el bus 1.
+	StartUp:			Agregado del sensor de presion en la funcion de redeteccion.
+	UART:			Se movieron todos los buffer de transmicion y los indices a la parte alta de la memoria porque se generaba un error al momento de la compilacion.
+	VarGlob:		Agregado de variables para los sensores de presion.
+	VarType:		Agregado de flags en la estructura de estado de la ECU.						
+
+Version 1.5R2
+	Correccion de funciones para el sensor de presion.
+	
+	Comandos:		Agregado del sensor de presion en la habilitacion de sensores.
+	Sensores:		Correccion de la lectura de los datos guardados de los sensores de presion.
+
+Version 1.5R3
+	Correccion comando lectura y escritura de parametros
+	
+	Comandos: 		Correccion comando lectura y escritura de parametros maximos y minimos en el sensor.	
+
+Version 1.5R4
+	Correccion activacion de alarmas sensores de presion.
+	
+	Constantes:		Constante de cantidad de ciclos antes de activar o desactivar una alarma en los sensores de turbina y presion
+	ExeTask:		Se saco la funcion de activancion de alarma de turbina.
+	RPM_Rot:		Correccion en la activacion de la alarma minima turbina.
+					En la escritura de alarmas, se escribe el tiempo de espera segun el valor definido en la constante.
+					Correccion en la activacion de la alarma minima de presion.
+
+Version 1.5R5
+	Eliminacion borrado de memoria, porque se genera una falla al realizar el borrado.
+						
+	Eeprom_I2C:		Eliminacion del borrado de memoria, porque causa un desbordamiento que borra todo.
+	
+Version 1.5R6
+	Correccion en el cambio de ID para los sensores de tolva turbina y rotacion. Cuando se ingresa ID = 0 cargaba el valor de sensor 
+	virgen, para los senroes de turbina y presion podia cargar cualquier numero (pero el periferico bloquea los ID fuera de rango)
+	
+	Sensores:		Carga de valor en el registro de IDvirgen para los sensores de turbina y presion.
+
+Version 1.5R7
+	Carga de datos en el StartUp en los sensores de turbina y presion
+	
+	RPM_Rot:		Modificacion de las funciones de starup de los sensores de turbina y de presion para cargar los niveles de alarmas maximo minimo y los tiempo de espera.
+
+Version 1.5R8
+	Correccion en el envio de datos de los sensores de turbina
+	
+	Comunicacion:	Correccion del envio de datos de los sensores de turbina.
+>>>>>>> SenPresion
