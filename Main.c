@@ -123,7 +123,7 @@ int main (void)
 	UART1Init();	//GPS
 	UART2Init();	//Puerto 232
 	UART3Init();	//WiFi
-//	UART4Init();	//WiFi
+	UART4Init();	//WiFi
 	
 	RSFIFOInitRX();		//Inicialización del buffer de recepcion RS-232
 	WifiFIFOInitRX ();	//Inicialización del buffer de recepcion Wifi

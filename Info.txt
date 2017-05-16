@@ -346,3 +346,5 @@ Version 1.5R13
      combinación de newVersion 1.5R5(santucho)+Version 1.5R8
 Version 1.6R0
      version de producción de Version 1.5R13
+Version 1.6R1
+	Mapeo del puerto rs232 - 4 para transmitir por el conector blanco los datos que llegan desde el modulo rn-171 se puedan leer

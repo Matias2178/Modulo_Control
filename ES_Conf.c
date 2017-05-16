@@ -54,9 +54,9 @@ void Config_ES()
        //     RPOR1bits.RP3R = U3RTS_IO;   
        
          //Uart4 Pin 42 RP2
-	//		RPINR27bits.U4RXR = RP24;
+			RPINR27bits.U4RXR = RP24;
  		//Uart 4 Pin 43 RP4
-    //        RPOR6bits.RP12R = U4TX_IO;  
+            RPOR6bits.RP12R = U4TX_IO;  
 //-----------------------------------------------------------------------------
 //Mapeo de las entradas de interrupciones para la comunicacion LIN
 	

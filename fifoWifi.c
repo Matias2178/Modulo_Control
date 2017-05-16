@@ -101,17 +101,19 @@ void FIFOInit (void) {
 }
 
 int FIFOISR(void){
-
+char valor;
     if (cursor == pos){
         if (!flags.bits.empty){
             char dummy;
             dummy = INPUT_REG;
+            U4TXREG = dummy;
             flags.bits.overflow = 1;
             return 1;
         }
     }
-
-    buffer[cursor++] = INPUT_REG;
+    valor =INPUT_REG;
+    buffer[cursor++] = valor;
+    U4TXREG = valor;
     flags.bits.empty = 0;
 
     if (cursor == BUFFER_SIZE)
