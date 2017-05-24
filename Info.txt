@@ -348,3 +348,6 @@ Version 1.6R0
      version de producción de Version 1.5R13
 Version 1.6R1
 	Mapeo del puerto rs232 - 4 para transmitir por el conector blanco los datos que llegan desde el modulo rn-171 se puedan leer
+
+Version 1.6R2
+	Eliminacion de envio de tramas innecesarias (TLIN - GPSTMR). Se extendio el tiempo de espera del KAV a 6,6 segundos.

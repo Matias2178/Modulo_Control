@@ -529,13 +529,13 @@ void ExeTask(void)
 					Dest_WF.Sec = 0xAAAA;
 					Wifi.B.fKAV = false;
 				}
-				if((!Proceso.B.fWifiConf)&&(Sts_Tmr.CntWifi > 33))
+				if((!Proceso.B.fWifiConf)&&(Sts_Tmr.CntWifi > 66))//6
 				{
 //-----------------------------------------------------------------------------
 //Apagado del modulo si en 3,3 seg con el puerto abierto no recibio datos
 					//Activo el reinicio por software
 					Proceso.B.fRN_SoftRst = true;				
-					Sts_Tmr.CntWifi = 33;	//para que no halla desbordamiento mientras hago el reset
+					Sts_Tmr.CntWifi = 66;	//para que no halla desbordamiento mientras hago el reset
 					if (Sts_Tmr.CntWifiRst >= 3)
 					{
 						Sts_Tmr.CntWifiRst = 0;

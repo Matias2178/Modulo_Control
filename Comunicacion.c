@@ -205,10 +205,10 @@ void DtoTerminal(void)
 				Sensores.Secuencia = 1;
 				GPSDatos("<GPSDT>",ComBuf);
 				Proceso.B.fRePuto = true;
-			}
-			else
-			{	
-				GPSTMR("<GPSTMR>",ComBuf);
+//			}
+//			else
+//			{	
+//				GPSTMR("<GPSTMR>",ComBuf);
 				Proceso.B.Puto = false;
 				Proceso.B.fGPSDtOk = false;
 				Proceso.B.fRePuto = false;
@@ -364,14 +364,14 @@ void DtoTerminal(void)
 		//		Sensores.STS.B.TX_SF2 = true;
 //		//		Sensores.STS.B.TX_SF2 = false;
 //				Sensores.STS.B.SSF_Ax = true;
-			break;
-//--------------------------------------------------------------------------------------
-			case 8:
-				TmrBusLin("<TLIN1>",TLin1,ComBuf);
-				Com_DtsTask_Sen010++;	
-			break;		
-			case 9:
-				TmrBusLin("<TLIN2>",TLin2,ComBuf);
+//			break;
+////--------------------------------------------------------------------------------------
+//			case 8:
+//				TmrBusLin("<TLIN1>",TLin1,ComBuf);
+//				Com_DtsTask_Sen010++;	
+//			break;		
+//			case 9:
+//				TmrBusLin("<TLIN2>",TLin2,ComBuf);
 				Com_DtsTask_Sen010 = 0;	
 				Sensores.Secuencia = 0;	
 				Sensores.STS.B.TX_SF1 = false;
